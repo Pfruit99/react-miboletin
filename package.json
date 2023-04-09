@@ -3,6 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@fontsource/roboto": "^4.5.8",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.11.16",
+    "@react-icons/all-files": "^4.1.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -12,9 +22,13 @@
     "@types/react-dom": "^18.0.11",
     "axios": "^0.26.1",
     "bootstrap": "^5.3.0-alpha1",
+    "mui-datatables": "^4.3.0",
     "node-sass": "^8.0.0",
     "react": "^17.0.2",
+    "react-bootstrap": "^2.7.2",
+    "react-data-table-component": "^7.5.3",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.8.0",
     "react-router-dom": "^6.4.4",
     "react-scripts": "^5.0.1",
     "redux": "^4.1.2",
@@ -48,5 +62,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/mui-datatables": "^4.3.4"
   }
 }

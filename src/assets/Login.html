@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <!-- font raleway -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100&display=swap" rel="stylesheet">
+
+
+    <title>Login</title>
+    <style>
+        :root {
+            --white: #FFFFFF;
+            --black: #000000;
+            --very-light-pink: #C7C7C7;
+            --text-input-field: #F7F7F7;
+            --hospital-green: #ACD9B2;
+
+            /* CSS HEX */
+            --jet: #484349ff;
+            --snow: #f7f0f0ff;
+            --electric-blue: #8af3ffff;
+            --persian-green: #18a999ff;
+            --shamrock-green: #109648ff;
+
+            --sm: 14px;
+            --md: 16px;
+            --lg: 18px;
+
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .login {
+            width: 100%;
+            height: 100vh;
+            display: grid;
+            place-items: center;
+        }
+
+        .form-container {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            width: 300px;
+        }
+
+        .logo {
+            width: 150px;
+            margin-bottom: 48px;
+            justify-self: center;
+            display: none;
+        }
+
+        .title {
+            font-size: var(--lg);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: var(--jet);
+            font-size: var(--md);
+            font-weight: 300;
+            margin-top: 0;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .label {
+            font-size: var(--sm);
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .input {
+            background-color: var(--text-input-field);
+            border: 2px solid var(--persian-green);
+            border-radius: 8px;
+            height: 30px;
+            font-size: var(--md);
+            padding: 6px;
+            margin-bottom: 12px;
+        }
+
+        .primary-button {
+            background-color: var(--persian-green);
+            border-radius: 8px;
+            border: none;
+            color: var(--white);
+            width: 100%;
+            cursor: pointer;
+            font-size: var(--md);
+            font-weight: bold;
+            height: 50px;
+        }
+
+        .login-button {
+            margin-top: 14px;
+            margin-bottom: 30px;
+        }
+
+
+        .spaces a {
+            padding: 6px;
+        }
+
+
+
+        @media (max-width: 640px) {
+            .logo {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login">
+        <div class="form-container">
+            <img src="./logos/logo_yard_sale.svg" alt="logo" class="logo">
+
+            <h1 class="title">inicio de sesion</h1>
+            <p class="subtitle">Inicia sesion con tu cuenta</p>
+
+            <form action="/" class="form">
+                <label for="" class="label">Usuario</label>
+                <input type="text" id="text" placeholder="ejemplo: user1" class="input">
+
+                <label for="new-password" class="label">Contraseña</label>
+                <input type="password" id="password" class="input input-password">
+
+                <input type="submit" value="Inicia Sesion" class="primary-button login-button">
+
+            </form>
+            <div class="spaces">
+                <a href="#forgotpassword">olvidastes la contraseña?</a>
+                <a href="#registro">Registrate</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

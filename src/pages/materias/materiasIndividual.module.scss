@@ -1,0 +1,42 @@
+root {
+  --white: #ffffff;
+  --black: #000000;
+
+  /*exportado de colors.io*/
+
+  /* CSS HEX */
+  --jet: #484349ff;
+  --snow: #f7f0f0ff;
+  --electric-blue: #8af3ffff;
+  --persian-green: #18a999ff;
+  --shamrock-green: #109648ff;
+  --sm: 14px;
+  --md: 16px;
+  --lg: 18px;
+}
+
+header {
+  background: #faea0ebd;
+}
+
+.div {
+  margin-right: 2%;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.div p {
+  height: 44px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.div img {
+  width: 255px;
+  height: 300px;
+}
+
+
+.div a {
+  text-decoration: none;
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- rale way font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../bootstrap-5.3.0/css/bootstrap.min.css">
+
+
+
+    <!-- datatables basic-->
+    <link rel="stylesheet" type="text/css" href="../datatable/DataTables-1.13.4/css/dataTables.bootstrap5.min.css">
+
+    <!-- datatables basic style bootstrap 5.3 alpha css -->
+    <link rel="stylesheet" type="text/css" href="../datatable/DataTables-1.13.4/css/dataTables.dataTables.min.css">
+
+    <title>Crud Rol</title>
+
+    <!-- mi css para separar luego -->
+    <style>
+        :root {
+            --white: #FFFFFF;
+            --black: #000000;
+
+            /*exportado de colors.io*/
+
+            /* CSS HEX */
+            --jet: #484349ff;
+            --snow: #f7f0f0ff;
+            --electric-blue: #8af3ffff;
+            --persian-green: #18a999ff;
+            --shamrock-green: #109648ff;
+
+            --sm: 14px;
+            --md: 16px;
+            --lg: 18px;
+        }
+
+        header {
+            background: #faea0ebd;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 class="text-center text-light">Crud</h1>
+        <h2 class="text-center text-light">Crud con datatables (Rol)</h2>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <button id="btnNuevo" type="button" class="btn btn-success" data-toggle="modal">nuevo</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table id="tablaEstudiante" class="table table-striped table-bordered table-condensed"
+                        style="width: 100%;">
+                        <thead class="text-center thead-dark">
+
+                            <tr>
+                                <th>Id Rol</th>
+                                <th>Estado</th>
+                                <th>Observaciones</th>
+                                <th>Descripcion</th>
+                                <th>acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div class="text-center">
+                                        <div class="btn-group">
+                                            <button class="btn btn-primary btnEditar">editar</button>
+                                            <button class="btn btn-danger btnBorrar">borrar</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Button trigger modal
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Launch static backdrop modal
+    </button> -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalCRUD" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="Modallabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="Modallabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formrol">
+
+                        <div class="form-group">
+                            <label for="" class="col-form-label">Id rol:</label>
+                            <input type="number" class="form-control" id="IdRol">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="col-form-label">Estado:</label>
+                            <input type="text" class="form-control" id="EstadoRol">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="col-form-label">Observaciones</label>
+                            <input type="datetime" class="form-control" id="ObservacionesRol">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="col-form-label">Descripcion</label>
+                            <input type="datetime" class="form-control" id="DescripcionRol">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Jquery, popper.js, bootstrap js -->
+    <script src="/src/assets/jquery/jquery.js"></script>
+
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> -->
+    <script src="/src/assets/popper/popper.min.js"></script>
+    <script src="/src/assets/bootstrap-5.3.0/js/bootstrap.min.js"></script>
+
+    <!-- datatable js -->
+    <script type="text/javascript" src="/src/assets/datatable/DataTables-1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <!-- my jscript -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -4,6 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+// import '../node_modules/bootstrap/dist/css/bootstrap.css';
+
 
 ReactDOM.render(
   <React.StrictMode>
@@ -12,6 +14,10 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+
+
+
+// export const Admin = () => (Private, Permission: 'admin',)
 
 // to import
 // {
