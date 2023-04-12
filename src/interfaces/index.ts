@@ -1,0 +1,1 @@
+export {DocenteInterface} from './docentes.interface';

@@ -13,10 +13,11 @@ import Login from './pages/Login';
 import Notes from './pages/Note_tracking'
 import Rol from './pages/Rol';
 import Register from './pages/Register';
+import Docente from './pages/Docentes/Docente';
 
 //pages still in working
 
-import Asignatura from './pages/Asignaturas/Asignatura';
+
 
 
 function App() {
@@ -24,14 +25,16 @@ function App() {
     <div className="App">
       <BrowserRouter>
       <Routes>
-        <Route index element={<Login/>}/>
+        {/* <Route index element={<Login/>}/> */}
         <Route path='/Home' element={<Home />}/>
         <Route path='/Login' element={<Login />}/>
         <Route path='*' element={<NotFound />}/>
         <Route path='/Notes' element={<Notes/>}/>
         <Route path='/Rol' element={<Rol/>}/>
         <Route path='/Register' element={<Register/>}/>
-        <Route path='/Asignatura' element={<Asignatura/>}/>
+        <Route path='/docente' element={<Docente />} />
+
+
 
       </Routes>
       </BrowserRouter>
