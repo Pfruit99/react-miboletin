@@ -1,4 +1,4 @@
-export interface materia{
+export interface materiaInterface{
     Id:number;
     Nombre:string;
     DocenteId:string;

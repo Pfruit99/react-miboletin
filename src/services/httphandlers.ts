@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { DocenteInterface } from '../interfaces';
+// import { DocenteInterface } from '../interfaces';
 export class Http {
 
     async get<T>(url: string): Promise<T>{

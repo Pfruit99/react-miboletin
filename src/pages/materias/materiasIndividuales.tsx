@@ -1,5 +1,5 @@
 import React from "react";
-import { materia } from "./materias.model.d";
+// import { materia } from "./materias.model.d";
 
 
 export default function materiasIndividual(props: materiasIndividualProps) {
@@ -102,5 +102,5 @@ export default function materiasIndividual(props: materiasIndividualProps) {
 }
 
 interface materiasIndividualProps{
-    materias: materia;
+    // materias: materia;
 }

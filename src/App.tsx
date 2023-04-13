@@ -14,6 +14,8 @@ import Notes from './pages/Note_tracking'
 import Rol from './pages/Rol';
 import Register from './pages/Register';
 import Docente from './pages/Docentes/Docente';
+import Rector from './pages/Rector/Rector';
+
 
 //pages still in working
 
@@ -33,6 +35,7 @@ function App() {
         <Route path='/Rol' element={<Rol/>}/>
         <Route path='/Register' element={<Register/>}/>
         <Route path='/docente' element={<Docente />} />
+        <Route path='/rector' element={<Rector />} />
 
 
 
