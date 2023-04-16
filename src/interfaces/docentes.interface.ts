@@ -1,24 +1,12 @@
 export interface DocenteInterface {
-    apellido: string;
-    correo: string;
-    direccion:string;
+    apellido: String;
+    correo: String;
+    direccion:String;
     id: number;
-    id_usuario
-    : 
-    null
-    identificacion
-    : 
-    "12364623"
-    nit
-    : 
-    "255hga571"
-    nombre
-    : 
-    "Maria"
-    telefono
-    : 
-    "3175431672"
-    tipoIdentificacion
-    : 
-    "cc"
+    id_usuario?: number;
+    identificacion: String;
+    nit: String;
+    nombre: String;
+    telefono: String;
+    tipoIdentificacion: String;
 }

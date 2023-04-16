@@ -1,0 +1,21 @@
+
+.form {
+  display: flex;
+  gap: 10px;
+  gap: 10px 20px; /* row-gap column gap */
+  row-gap: 10px;
+  column-gap: 20px;
+}
+
+.submit{
+  margin-top: 20px;
+  width: 20%;
+}
+
+.label{
+  font-weight: bold;
+}
+
+.validation-error-message {
+  color: red;
+}

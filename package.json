@@ -20,6 +20,7 @@
     "@types/react-dom": "^18.0.11",
     "axios": "^0.26.1",
     "bootstrap": "^5.3.0-alpha1",
+    "formik": "^2.2.9",
     "material-table": "^2.0.3",
     "mui-datatables": "^4.3.0",
     "node-sass": "^8.0.0",
@@ -28,6 +29,7 @@
     "react-data-table-component": "^7.5.3",
     "react-dom": "^17.0.2",
     "react-icons": "^4.8.0",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.4.4",
     "react-scripts": "^5.0.1",
     "react-table": "^7.8.0",
@@ -37,7 +39,8 @@
     "style-loader": "^3.3.1",
     "typescript": "^4.9.5",
     "uglifyjs-webpack-plugin": "^2.2.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -65,6 +68,7 @@
   },
   "devDependencies": {
     "@types/mui-datatables": "^4.3.4",
+    "@types/react-modal": "^3.13.1",
     "@types/react-table": "^7.7.14"
   }
 }
