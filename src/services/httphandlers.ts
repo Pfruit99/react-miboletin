@@ -11,4 +11,9 @@ export class Http {
         const response = await axios.post<T>(url,body);
         return response.data;
     }
+
+    async put<T>(url: string, body: T): Promise<T>{
+        const response = await axios.put<T>(url,body);
+        return response.data;
+    }
 }

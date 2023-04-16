@@ -1,6 +1,7 @@
 //@ts-nocheck
 import React from "react";
 import { useTable, usePagination } from "react-table";
+import '../assets/styles/datatable.scss';
 
 interface Props {
     data: any;
@@ -40,7 +41,7 @@ const DataTable: React.FC<Props> = (props:any) => {
   //change
   return (
     <>
-      <table {...getTableProps()}>
+      <table className="tableWrapper" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
