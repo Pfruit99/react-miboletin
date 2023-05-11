@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useEffect, useState } from 'react';
 // import axios from 'axios';
 import '../../assets/styles/docente/docentes_page.scss';

@@ -1,48 +1,64 @@
 import React from 'react';
-
 import './App.css';
+import Sidebar from  './components/Sidebar'
 
+
+
+// import "antd-desing/icons"
 
 // importacion de rutas con react dom 6.3
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+// import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+
+// import { useState } from 'react';
+
+
 
 //pages
-import Home from './pages/Home';
-import NotFound from './pages/Notfound';
-import Login from './pages/Login';
-import Notes from './pages/Note_tracking'
-import Rol from './pages/Rol';
-import Register from './pages/Register';
-import Docente from './pages/Docentes/Docente';
-import Rector from './pages/Rector/Rector';
-
-
-//pages still in working
+// import  Dashboardpage  from './pages/dashboardpage';
 
 
 
 
-function App() {
+
+//components
+
+      // <BrowserRouter>
+      // <Routes>
+      //   {/* <Route index element={<Login/>}/> */}
+      //   {/* <Route path='/Home' element={<Home />}/> */}
+      // </Routes>
+       // </BrowserRouter>
+
+
+
+function App () {
   return (
-    <div className="App">
-      <BrowserRouter>
-      <Routes>
-        {/* <Route index element={<Login/>}/> */}
-        <Route path='/Home' element={<Home />}/>
-        <Route path='/Login' element={<Login />}/>
-        <Route path='*' element={<NotFound />}/>
-        <Route path='/Notes' element={<Notes/>}/>
-        <Route path='/Rol' element={<Rol/>}/>
-        <Route path='/Register' element={<Register/>}/>
-        <Route path='/docente' element={<Docente />} />
-        <Route path='/rector' element={<Rector />} />
+
+<div className='d-flex'>
+<div className='col-auto'>
+
+    <Sidebar />
+
+</div>
+<div>
+
+</div>
+</div>
 
 
 
-      </Routes>
-      </BrowserRouter>
-    </div>
-  );
+
+
+
+
+
+
+  )
 }
+
+
+
+
+
 
 export default App;

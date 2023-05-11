@@ -4,5 +4,5 @@ export interface UsuariosInterface{
          sexo : string;
          usuario : string;
          clave : string;
-         fecha_Actualizacion : Date;
+         fecha_Actualizacion : string;
 }
