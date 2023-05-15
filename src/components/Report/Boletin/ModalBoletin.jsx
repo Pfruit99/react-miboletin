@@ -35,6 +35,7 @@ const ModalBoletin = ({
     loading,
     user
 }) => {
+    console.log('user', user)
     const [loadingBoletinData, setLoadingBoletinData] = useState(false)
     const [selectedBoletin, setSelectedBoletin] = useState(null);
     const [selectedUsers, setSelectedUsers] = useState([]);
@@ -101,7 +102,7 @@ const ModalBoletin = ({
                 enableReinitialize={true}
                 initialValues={{
                     id:  selectedBoletin?.id || "",
-                    estudianteId:  selectedBoletin?.estudianteId || "",
+                    estudianteId:  user.roles?.some(r => r.includes('estudiante')) ? user.id : "",
                     institucionId:  selectedBoletin?.institucionId || "",
                     cursoId:  selectedBoletin?.cursoId || "",
 
@@ -155,8 +156,9 @@ const ModalBoletin = ({
                         </Row>
                     }
                     {/* curso, estudiante */}
+
                     <Row>
-                        <Col lg={6}>
+                        <Col lg={!user.roles?.some(r => r.includes('estudiante')) ? 12:6}>
                             <div className="mb-3">
                                 <Label className="form-label">{"Curso"}</Label>
                                 <Field
@@ -186,35 +188,38 @@ const ModalBoletin = ({
                                 />
                             </div>
                         </Col>
-                        <Col lg={6}>
-                            <div className="mb-3">
-                                <Label className="form-label">{"Estudiante"}</Label>
-                                <Field
-                                    name="estudianteId"
-                                    as="select"
-                                    onChange={(e)=>{
-                                        setFieldValue('estudianteId', e.target.value);
-                                        setSelectedBoletin(null)
-                                    }}
-                                    className={
-                                        "form-control" +
-                                        (errors.estudianteId && touched.estudianteId
-                                            ? " is-invalid"
-                                            : "")
-                                }>
-                                    <option value="0">Seleccione una Opcion</option>
-                                    {estudiantes.map(doc => (
-                                        <option value={doc.value} key={doc.value}>{doc.label}</option>
-                                    ))}
+                        {
+                            !user.roles?.some(r => r.includes('estudiante')) &&
+                            <Col lg={6}>
+                                <div className="mb-3">
+                                    <Label className="form-label">{"Estudiante"}</Label>
+                                    <Field
+                                        name="estudianteId"
+                                        as="select"
+                                        onChange={(e)=>{
+                                            setFieldValue('estudianteId', e.target.value);
+                                            setSelectedBoletin(null)
+                                        }}
+                                        className={
+                                            "form-control" +
+                                            (errors.estudianteId && touched.estudianteId
+                                                ? " is-invalid"
+                                                : "")
+                                    }>
+                                        <option value="0">Seleccione una Opcion</option>
+                                        {estudiantes.map(doc => (
+                                            <option value={doc.value} key={doc.value}>{doc.label}</option>
+                                        ))}
 
-                                </Field>
-                                <ErrorMessage
-                                    name="estudianteId"
-                                    component="div"
-                                    className="invalid-feedback"
-                                />
-                            </div>
-                        </Col>
+                                    </Field>
+                                    <ErrorMessage
+                                        name="estudianteId"
+                                        component="div"
+                                        className="invalid-feedback"
+                                    />
+                                </div>
+                            </Col>
+                        }
                         {/* {
                             selectedBoletin &&
                             <Row>
