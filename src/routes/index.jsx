@@ -24,11 +24,11 @@ import School from "../pages/Admin/School"
 
 // Other
 import NotFound from "../pages/NotFound"
-import ConsumptionEmployee from "../pages/Consumption/ConsumptionEmployee";
 import Contract from "../pages/Admin/Contract"
 import Course from "../pages/Admin/Course"
 import Subject from "../pages/Admin/Subject"
 import Qualification from "../pages/Process/Qualification"
+import Boletin from "../pages/Reports/Boletin"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -50,7 +50,7 @@ const authProtectedRoutes = [
   { path: "/process/qualification", component: Qualification, actionsRoute:["usuario", "administrador", "docente"] },
 
   // Report
-  { path: "/report/reportCard", component: Subject, actionsRoute:["usuario","administrador", "docente",  "estudiante", "rector"] },
+  { path: "/report/reportCard", component: Boletin, actionsRoute:["usuario","administrador", "docente",  "estudiante", "rector"] },
 
 
   // this route should be at the end of all other routes
@@ -60,11 +60,10 @@ const authProtectedRoutes = [
 ]
 
 const publicRoutes = [
-  { path: "/consumption/employee", exact: true,  component: ConsumptionEmployee},
   { path: "/logout", component: Logout },
   { path: "/login", component: Login },
-  { path: "/forgot-password", component: ForgetPwd },
-  { path: "/register", component: Register },
+  // { path: "/forgot-password", component: ForgetPwd },
+  // { path: "/register", component: Register },
   { path: "/not-found", component: NotFound },
 ]
 

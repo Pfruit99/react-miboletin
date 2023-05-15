@@ -95,7 +95,6 @@ const ModalNota = ({
     const onChange = (e) => {
         setSelectedCursos(e)
     }
-    console.log('selectedNota', selectedNota)
   return (
     <Modal
         backdrop="static"

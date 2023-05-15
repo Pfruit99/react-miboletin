@@ -32,7 +32,6 @@ const ModalAsignatura = ({
     const {asignatura, loading:loadingAsignatura, cursos } = useLoadAsignatura(id, asignaturaData);
     const { instituciones } = useLoadInstituciones();
     const { docentes } = useLoadDocentes()
-    console.log('asignatura', asignatura)
     useEffect(()=>{
         if(asignatura){
             setSelectedAsignatura({...asignatura, docenteId: asignatura?.docente?.id, institucionId: asignatura?.institucion?.id})

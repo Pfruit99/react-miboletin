@@ -27,7 +27,6 @@ const ModalRector = ({
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const {rector, loading:loadingRector, userAvailable} = useLoadRector(id, rectorData);
-    console.log('userAvailable', userAvailable)
     useEffect(()=>{
         if(rector){
             setSelectedEmployee({...rector})

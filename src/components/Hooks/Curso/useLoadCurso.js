@@ -29,7 +29,6 @@ const useLoadCurso = (id, cursoData) => {
             try {
                 setLoading(true);
                 const result = await get(`${import.meta.env.VITE_APP_BACKEND_URL}/estudiantes`);
-                console.log('result', result);
                 setEstudiantes(result.map(estudiante => ({
                     label: `${estudiante.usuario.nombre} ${estudiante.usuario.apellido} - ${estudiante.usuario.identificacion}`,
                     value: estudiante.id

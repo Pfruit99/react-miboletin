@@ -155,7 +155,6 @@ class UserProfile extends Component {
                             .max(15, 'Maximo 15 digitos'),
                       })}
                       onSubmit={values => {
-                        console.log('values', values)
                         this.props.editProfile({
                           telefono: `${values.mobile}`,
                           direccion: values.address,

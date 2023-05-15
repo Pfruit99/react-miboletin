@@ -63,7 +63,6 @@ class DatatableTables extends Component {
     if(!searchText) searchText = '';
     try {
       const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/cursos/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : ''}`)
-      console.log('result.data', result.data)
       this.setState({
         data: result.data,
         totalSize: result.totalItem,

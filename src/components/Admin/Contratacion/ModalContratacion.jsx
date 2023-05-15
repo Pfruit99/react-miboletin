@@ -34,7 +34,6 @@ const ModalContratacion = ({
     const { docentes, loading: loadingDocentes } = useLoadDocentes();
     useEffect(()=>{
         if(contratacion){
-            console.log('contratacion', contratacion)
             setSelectedContratacion({
                 ...contratacion,
                 docenteId: contratacion.docente.id,

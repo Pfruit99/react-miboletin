@@ -27,7 +27,6 @@ const ModalDocente = ({
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const {docente, loading:loadingDocente, userAvailable} = useLoadDocente(id, docenteData);
-    console.log('userAvailable', userAvailable)
     useEffect(()=>{
         if(docente){
             setSelectedEmployee({...docente})

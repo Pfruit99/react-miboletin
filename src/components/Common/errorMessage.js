@@ -157,4 +157,14 @@ export const getErrorMessageNota = (type, t) => {
     }
 }
 
+// boletin
+export const getErrorMessageBoletin = (type, t) => {
+    switch (type) {
+        case 'unique violation':
+            return "Usuario duplicado";
+        default:
+            return "Hubo un error al procesar esta petición";
+    }
+}
+
 

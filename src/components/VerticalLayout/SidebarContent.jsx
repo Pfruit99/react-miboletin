@@ -259,28 +259,19 @@ class SidebarContent extends Component {
                       </ul> */}
                   </li>
               }
-              {/* {
+              {
                 (roles.some(r => ["usuario"].includes(r))) &&
                   <li className="menu-title">{this.props.t("Report")}</li>
               }
               {
                 roles.find(r => r === "usuario") &&
                   <li>
-                    <Link to="/report/reserve">
+                    <Link to="/report/reportCard">
                       <i className="bx bxs-report" />
-                      <span>{this.props.t("Reserves")}</span>
+                      <span>{this.props.t("Boletin")}</span>
                     </Link>
                   </li>
               }
-              {
-                roles.find(r => r === "usuario") &&
-                  <li>
-                    <Link to="/report/consumption">
-                      <i className="bx bxs-pie-chart" />
-                      <span>{this.props.t("Consumptions")}</span>
-                    </Link>
-                  </li>
-              } */}
             </ul>
           </div>
         </SimpleBar>

@@ -200,12 +200,12 @@ class DatatableTables extends Component {
         dataField: "identificacion",
         text:this.props.t("Profile document"),
         sort: true,
-        formatter: (cell, row) => row.usuario.identificacion || this.props.t("Estudiante does not has email"),
+        formatter: (cell, row) => row.usuario.identificacion || this.props.t("Estudiante no tiene identificacion"),
       },
       {
         dataField: "correo",
         text: this.props.t("Login email"),
-        formatter: (cell, row) => row.usuario.correo || this.props.t("Estudiante does not has email"),
+        formatter: (cell, row) => row.usuario.correo || this.props.t("Estudiante no tiene correo"),
         sort: true,
       },
       {

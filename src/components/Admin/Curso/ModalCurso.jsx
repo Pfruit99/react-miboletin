@@ -30,7 +30,6 @@ const ModalCurso = ({
     const [selectedEstudiantes, setSelectedEstudiantes] = useState([]);
     const {curso, loading:loadingCurso, estudiantes } = useLoadCurso(id, cursoData);
     const { instituciones } = useLoadInstituciones()
-    console.log('curso', curso)
     useEffect(()=>{
         if(curso){
             setSelectedCurso({...curso})

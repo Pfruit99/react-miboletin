@@ -63,7 +63,6 @@ const TimePickerComponent = ({errors, touched, setFieldValue, ...props}) => {
 						  value={value}
 						  label={props.label || "Tiempo"}
 						  onChange={(newValue) => {
-							  console.log('props.name: ', props.name);
 							  setFieldValue(props.name, newValue.format('HH:mm:ss'))
 							  if(aux === 0) setAux(1)
 							  setValue(newValue)
