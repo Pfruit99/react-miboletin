@@ -28,7 +28,6 @@ function* loginUser({ payload: { user, history } }) {
         nombreUsuario: user.nombreUsuario,
         clave: user.clave,
       })
-      console.log('response', response)
       localStorage.setItem("authUser", JSON.stringify(response))
       yield put(loginSuccess(response))
     } else if (import.meta.env.VITE_APP_DEFAULTAUTH === "fake") {

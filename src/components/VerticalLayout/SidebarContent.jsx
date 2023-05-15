@@ -115,53 +115,73 @@ class SidebarContent extends Component {
                     <li className="menu-title">{this.props.t("Administrator")}</li>
 
               }
-              {/* {
+              {
                 (roles.some(r => ["usuario"].includes(r))) &&
                   <li>
                     <Link to="/#">
                       <i className="mdi mdi-food-fork-drink" />
-                      <span>{this.props.t("Casino")}</span>
+                      <span>{this.props.t("Escuela")}</span>
                     </Link>
                     <ul className="sub-menu" aria-expanded="false">
                       {
                         roles.find(r => r === "usuario") &&
                           <li>
-                            <Link to="/administration/foodType">{this.props.t("FoodTypes")}</Link>
+                            <Link to="/administration/rector">
+                              <span>{"Rector"}</span>
+                            </Link>
                           </li>
                       }
                       {
                         roles.find(r => r === "usuario") &&
                           <li>
-                            <Link to="/administration/casino">{this.props.t("Casinos")}</Link>
+                            <Link to="/administration/teacher">
+                              <span>{"Profesor"}</span>
+                            </Link>
                           </li>
                       }
                       {
                         roles.find(r => r === "usuario") &&
                           <li>
-                            <Link to="/administration/foodComponent">{this.props.t("FoodComponents")}</Link>
+                            <Link to="/administration/student">
+                              <span>{"Estudiante"}</span>
+                            </Link>
                           </li>
                       }
                       {
                         roles.find(r => r === "usuario") &&
                           <li>
-                            <Link to="/administration/Menu">{this.props.t("Menus")}</Link>
+                            <Link to="/administration/school">
+                              <span>{"Institución"}</span>
+                            </Link>
                           </li>
                       }
                       {
                         roles.find(r => r === "usuario") &&
-                        <li>
-                          <Link to="/administration/weeklyMenu">{this.props.t("Weakly Menu")}</Link>
-                        </li>
+                          <li>
+                            <Link to="/administration/contracts">
+                              <span>{"Contratacion"}</span>
+                            </Link>
+                          </li>
                       }
                       {
                         roles.find(r => r === "usuario") &&
-                        <li>
-                          <Link to="/administration/printer">{"Impresoras"}</Link>
-                        </li>
+                          <li>
+                            <Link to="/administration/course">
+                              <span>{"Curso"}</span>
+                            </Link>
+                          </li>
+                      }
+                      {
+                        roles.find(r => r === "usuario") &&
+                          <li>
+                            <Link to="/administration/subject">
+                              <span>{"Asignatura"}</span>
+                            </Link>
+                          </li>
                       }
                     </ul>
                   </li>
-              } */}
+              }
               {
                 roles.find(r => r === "usuario") &&
                   <li>
@@ -171,16 +191,15 @@ class SidebarContent extends Component {
                     </Link>
                   </li>
               }
-              {
+              {/* {
                 roles.find(r => r === "usuario") &&
                   <li>
                     <Link to="/administration/rector">
-                      <i className="fas fa-chalkboard-teacher" />
                       <span>{"Rector"}</span>
                     </Link>
                   </li>
-              }
-              {
+              } */}
+              {/* {
                 roles.find(r => r === "usuario") &&
                   <li>
                     <Link to="/administration/teacher">
@@ -188,8 +207,8 @@ class SidebarContent extends Component {
                       <span>{"Profesor"}</span>
                     </Link>
                   </li>
-              }
-              {
+              } */}
+              {/* {
                 roles.find(r => r === "usuario") &&
                   <li>
                     <Link to="/administration/student">
@@ -197,7 +216,16 @@ class SidebarContent extends Component {
                       <span>{"Estudiante"}</span>
                     </Link>
                   </li>
-              }
+              } */}
+              {/* {
+                roles.find(r => r === "usuario") &&
+                  <li>
+                    <Link to="/administration/school">
+                      <i className="bx bxs-school" />
+                      <span>{"Institución"}</span>
+                    </Link>
+                  </li>
+              } */}
               {
                   (roles.some(r => ["usuario"].includes(r))) &&
                     <li className="menu-title">{this.props.t("Process")}</li>
@@ -205,11 +233,11 @@ class SidebarContent extends Component {
               {
                 (roles.some(r => ["usuario"].includes(r))) &&
                   <li>
-                      <Link to="/#">
-                        <i className="mdi mdi-food-fork-drink" />
-                        <span>{this.props.t("Casino")}</span>
+                      <Link to="/process/qualification">
+                        <i className="bx bx-spreadsheet" />
+                        <span>{this.props.t("Valoraciones")}</span>
                       </Link>
-                      <ul className="sub-menu" aria-expanded="false">
+                      {/* <ul className="sub-menu" aria-expanded="false">
                         {
                           roles.find(r => r === "usuario") &&
                             <li>
@@ -228,10 +256,10 @@ class SidebarContent extends Component {
                               <Link to="/process/request">{this.props.t("Requests")}</Link>
                             </li>
                         }
-                      </ul>
-            </li>
+                      </ul> */}
+                  </li>
               }
-              {
+              {/* {
                 (roles.some(r => ["usuario"].includes(r))) &&
                   <li className="menu-title">{this.props.t("Report")}</li>
               }
@@ -252,7 +280,7 @@ class SidebarContent extends Component {
                       <span>{this.props.t("Consumptions")}</span>
                     </Link>
                   </li>
-              }
+              } */}
             </ul>
           </div>
         </SimpleBar>

@@ -58,7 +58,6 @@ class Header extends Component {
   }
 
   render() {
-    console.log('this.state.hasOpent', this.state.hasOpenToggle);
     return (
       <React.Fragment>
         <header id="page-topbar">

@@ -102,7 +102,6 @@ class Login extends Component {
                           ),
                         })}
                         onSubmit={values => {
-                          console.log(values)
                           this.props.loginUser({
                             nombreUsuario: values.email,
                             clave: values.password

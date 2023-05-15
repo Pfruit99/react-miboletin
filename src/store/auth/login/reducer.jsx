@@ -24,7 +24,6 @@ const login = (state = initialState, action) => {
       }
       break
     case LOGIN_SUCCESS:
-      console.log('action.payload', action.payload)
       state = {
         ...state,
         user: {

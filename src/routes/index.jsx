@@ -17,6 +17,7 @@ import User from "../pages/Admin/User"
 import Rector from "../pages/Admin/Rector"
 import Teacher from "../pages/Admin/Teacher"
 import Student from "../pages/Admin/Student"
+import School from "../pages/Admin/School"
 
 // Process
 
@@ -24,6 +25,9 @@ import Student from "../pages/Admin/Student"
 // Other
 import NotFound from "../pages/NotFound"
 import ConsumptionEmployee from "../pages/Consumption/ConsumptionEmployee";
+import Contract from "../pages/Admin/Contract"
+import Course from "../pages/Admin/Course"
+import Subject from "../pages/Admin/Subject"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -36,6 +40,10 @@ const authProtectedRoutes = [
   { path: "/administration/rector", component: Rector, actionsRoute:["usuario"] },
   { path: "/administration/teacher", component: Teacher, actionsRoute:["usuario"] },
   { path: "/administration/student", component: Student, actionsRoute:["usuario"] },
+  { path: "/administration/school", component: School, actionsRoute:["usuario"] },
+  { path: "/administration/contracts", component: Contract, actionsRoute:["usuario"] },
+  { path: "/administration/course", component: Course, actionsRoute:["usuario"] },
+  { path: "/administration/subject", component: Subject, actionsRoute:["usuario"] },
 
   // Processes
 

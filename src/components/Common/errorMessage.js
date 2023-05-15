@@ -107,4 +107,44 @@ export const getErrorMessageEstudiante = (type, t) => {
     }
 }
 
+// Institucion
+export const getErrorMessageInstitucion = (type, t) => {
+    switch (type) {
+        case 'unique violation':
+            return "Usuario duplicado";
+        default:
+            return "Hubo un error al procesar esta petición";
+    }
+}
+
+// contratacion
+export const getErrorMessageContratacion = (type, t) => {
+    switch (type) {
+        case 'unique violation':
+            return "Usuario duplicado";
+        default:
+            return "Hubo un error al procesar esta petición";
+    }
+}
+
+// curso
+export const getErrorMessageCurso = (type, t) => {
+    switch (type) {
+        case 'unique violation':
+            return "Usuario duplicado";
+        default:
+            return "Hubo un error al procesar esta petición";
+    }
+}
+
+// asignatura
+export const getErrorMessageAsignatura = (type, t) => {
+    switch (type) {
+        case 'unique violation':
+            return "Usuario duplicado";
+        default:
+            return "Hubo un error al procesar esta petición";
+    }
+}
+
 
