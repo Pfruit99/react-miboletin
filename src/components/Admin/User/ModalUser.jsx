@@ -107,6 +107,7 @@ const ModalUser = ({
                 onSubmit={values => {
                     if(selectedRoles.length === 0) return showToast({toastType:'error',title:"Error",message:"Por favor seleccione al menos 1 rol"})
                     const roles = selectedRoles
+                    if(id) delete values.clave;
                     handleSubmit({...values, roles},id)
                     setSelectedEmployee(null)
                     setSelectedRoles([])
