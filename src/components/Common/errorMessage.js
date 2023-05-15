@@ -147,4 +147,14 @@ export const getErrorMessageAsignatura = (type, t) => {
     }
 }
 
+// nota
+export const getErrorMessageNota = (type, t) => {
+    switch (type) {
+        case 'unique violation':
+            return "Usuario duplicado";
+        default:
+            return "Hubo un error al procesar esta petición";
+    }
+}
+
 

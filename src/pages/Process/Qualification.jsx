@@ -20,13 +20,13 @@ import "../../helpers/Styles/datatables.scss";
 
 // Translation
 import { withTranslation } from "react-i18next";
-import ModalAsignatura from "../../components/Admin/Asignatura/ModalAsignatura";
+import ModalNota from "../../components/Process/Nota/ModalNota";
 
 // Notification
 import { showToast } from "../../components/Common/notifications";
-import { getErrorMessageAsignatura } from "../../components/Common/errorMessage";
-import FormatterColumn from "../../components/Admin/Asignatura/FormatterColumn";
-import ActionColumn from "../../components/Admin/Asignatura/ActionColumn";
+import { getErrorMessageNota } from "../../components/Common/errorMessage";
+import FormatterColumn from "../../components/Process/Nota/FormatterColumn";
+import ActionColumn from "../../components/Process/Nota/ActionColumn";
 import { connect } from "react-redux";
 
 class DatatableTables extends Component {
@@ -42,7 +42,7 @@ class DatatableTables extends Component {
       modal_activate: false,
       loadingForm: false,
       loadTable: false,
-      asignatura:{
+      nota:{
         id: undefined,
       }
     };
@@ -51,8 +51,8 @@ class DatatableTables extends Component {
     this.handleClickClose = this.handleClickClose.bind(this)
     this.handleClickCloseActivate = this.handleClickCloseActivate.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.createAsignatura = this.createAsignatura.bind(this)
-    this.createAsignatura = this.createAsignatura.bind(this)
+    this.createNota = this.createNota.bind(this)
+    this.createNota = this.createNota.bind(this)
     this.handleOpenEditDialog = this.handleOpenEditDialog.bind(this)
     this.handleOpenEditDialogActivate = this.handleOpenEditDialogActivate.bind(this)
   }
@@ -62,8 +62,7 @@ class DatatableTables extends Component {
     let { sizePerPage, page, sortField, searchText, sortOrder } = state;
     if(!searchText) searchText = '';
     try {
-      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/asignaturas/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : ''}`)
-      console.log('result.data', result.data)
+      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/notas/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : ''}`)
       this.setState({
         data: result.data,
         totalSize: result.totalItem,
@@ -76,35 +75,35 @@ class DatatableTables extends Component {
       this.setState({loadTable: false})
     }
   }
-  async createAsignatura (values) {
+  async createNota (values) {
     try {
       delete values.id;
       this.setState({loadingForm:true});
-      await helpAPI.post(`${import.meta.env.VITE_APP_BACKEND_URL}/asignaturas`, {...values })
+      await helpAPI.post(`${import.meta.env.VITE_APP_BACKEND_URL}/notas`, {...values })
       console.log("creado correctamente");
-      showToast({message:this.props.t("Asignatura creada correctamente")});
+      showToast({message:this.props.t("Nota creada correctamente")});
       this.tog_xlarge();
       const state = this.tableRef.current.getNewestState();
       this.loadData(state)
     } catch (error) {
       console.log('error', error.response.data.error)
-      showToast({toastType:'error',title:"Error",message:getErrorMessageAsignatura(error?.response?.data.error, this.props.t)})
+      showToast({toastType:'error',title:"Error",message:getErrorMessageNota(error?.response?.data.error, this.props.t)})
     } finally {
       this.setState({loadingForm:false});
     }
   }
-  async updateAsignatura (values, id){
+  async updateNota (values, id){
     try {
       delete values.id;
-      await helpAPI.put(`${import.meta.env.VITE_APP_BACKEND_URL}/asignaturas/${id}`, { ...values })
+      await helpAPI.put(`${import.meta.env.VITE_APP_BACKEND_URL}/notas/${id}`, { ...values })
       this.setState({loadingForm:true});
-      showToast({message:this.props.t("Asignatura actualizada correctamente")});
+      showToast({message:this.props.t("Nota actualizada correctamente")});
       this.tog_xlarge();
       const state = this.tableRef.current.getNewestState();
       this.loadData(state)
     } catch (error) {
       console.log('error', error.response.data.error)
-      showToast({toastType:'error',title:"Error",message:getErrorMessageAsignatura(error?.response?.data.error, this.props.t)})
+      showToast({toastType:'error',title:"Error",message:getErrorMessageNota(error?.response?.data.error, this.props.t)})
     } finally{
       this.setState({loadingForm:false});
     }
@@ -124,7 +123,7 @@ class DatatableTables extends Component {
   tog_xlarge() {
     this.setState(prevState => ({
       modal_xlarge: !prevState.modal_xlarge,
-      asignatura: !prevState.modal_xlarge ? prevState.asignatura : {id:null}
+      nota: !prevState.modal_xlarge ? prevState.nota : {id:null}
     }))
     this.removeBodyCss()
   }
@@ -132,22 +131,22 @@ class DatatableTables extends Component {
   tog_activate() {
     this.setState(prevState => ({
       modal_activate: !prevState.modal_activate,
-      asignatura: !prevState.modal_activate ? prevState.asignatura : {id:null}
+      nota: !prevState.modal_activate ? prevState.nota : {id:null}
     }))
     this.removeBodyCss()
   }
 
   handleClickClose(){
-    this.setState({ modal_xlarge: false, asignatura : {id:null} })
+    this.setState({ modal_xlarge: false, nota : {id:null} })
   }
   handleClickCloseActivate(){
-    this.setState({ modal_activate: false, asignatura : {id:null} })
+    this.setState({ modal_activate: false, nota : {id:null} })
   }
 
   handleOpenEditDialog(id){
     this.setState({
-      asignatura:{
-        ...this.state.asignatura,
+      nota:{
+        ...this.state.nota,
         id
       }
     })
@@ -155,8 +154,8 @@ class DatatableTables extends Component {
   }
   handleOpenEditDialogActivate(id){
     this.setState({
-      asignatura:{
-        ...this.state.asignatura,
+      nota:{
+        ...this.state.nota,
         id
       }
     })
@@ -164,8 +163,8 @@ class DatatableTables extends Component {
   }
 
   handleSubmit(value, id){
-    if(!id) return this.createAsignatura(value)
-    return this.updateAsignatura(value,id)
+    if(!id) return this.createNota(value)
+    return this.updateNota(value,id)
   }
 
 
@@ -177,54 +176,35 @@ class DatatableTables extends Component {
         sort: true,
       },
       {
-        dataField: "nombre",
-        text: this.props.t("Nombre"),
+        dataField: "estudiante.usuario.nombre",
+        text: this.props.t("Estudiante"),
+        sort: true,
+        formatter: (_, row) => row.estudiante ? `${row.estudiante?.usuario?.nombre} ${row.estudiante?.usuario?.apellido}` : 'Sin estudiante'
+      },
+      {
+        dataField: "asignatura.nombre",
+        text: this.props.t("Asignatura"),
         sort: true,
       },
       {
-        dataField: "periodo",
-        text:this.props.t("Periodo"),
+        dataField: "notaAsistencia",
+        text: this.props.t("Nota Asistencia"),
         sort: true,
       },
       {
-        dataField: "area",
-        text: this.props.t("Area"),
+        dataField: "notaParcial",
+        text:this.props.t("Nota Parcial"),
         sort: true,
       },
       {
-        dataField: "horaAsignatura",
-        text: this.props.t("Horas"),
+        dataField: "notaClase",
+        text: this.props.t("Nota Clase"),
         sort: true,
       },
       {
-        dataField: "docente.usuario.nombre",
-        text: this.props.t("Docente"),
+        dataField: "notaDefinitiva",
+        text: this.props.t("Definitiva"),
         sort: true,
-        formatter: (_, row) => row.docente ? `${row.docente?.usuario?.nombre} ${row.docente?.usuario?.apellido}` : 'Sin profesor'
-      },
-      {
-        dataField: "institucion",
-        text: this.props.t("Institucion"),
-        sort: true,
-        formatter: (cell, row) => row.institucion ? row.institucion.nombre: "No Institucion",
-      },
-      {
-        dataField: "porcentajeAsistencia",
-        text: this.props.t("% Asistencia"),
-        sort: true,
-        formatter: (cell) => `${cell}%`
-      },
-      {
-        dataField: "porcentajeParcial",
-        text: this.props.t("% Parcial"),
-        sort: true,
-        formatter: (cell) => `${cell}%`
-      },
-      {
-        dataField: "porcentajeClase",
-        text: this.props.t("% Clase"),
-        sort: true,
-        formatter: (cell) => `${cell}%`
       },
       {
         dataField: "actions",
@@ -276,7 +256,7 @@ class DatatableTables extends Component {
         <React.Fragment>
           <div className="page-content">
             <div className="container-fluid">
-              <Breadcrumbs title={this.props.t("Administrator")} breadcrumbItem={this.props.t("Asignaturas")} />
+              <Breadcrumbs title={this.props.t("Process")} breadcrumbItem={this.props.t("Notas")} />
 
               <Row>
                 <Col className="col-12">
@@ -327,7 +307,7 @@ class DatatableTables extends Component {
                                               data-toggle="modal"
                                               data-target=".bs-example-modal-xl"
                                           >
-                                            {"Nuevo Asignatura"}
+                                            {"Nuevo Nota"}
                                           </button>
                                         </div>
                                       </Col>
@@ -391,14 +371,14 @@ class DatatableTables extends Component {
               </Row>
             </div>
           </div>
-          <ModalAsignatura
-              asignaturaData={this.state.data}
+          <ModalNota
+              notaData={this.state.data}
               isOpen={this.state.modal_xlarge}
               handleClickClose={this.handleClickClose}
               togModal={this.tog_xlarge}
               handleSubmit={this.handleSubmit}
               loading={this.state.loadingForm}
-              id={this.state.asignatura.id}
+              id={this.state.nota.id}
           />
         </React.Fragment>
     );

@@ -90,6 +90,10 @@ const ModalAsignatura = ({
                     horaAsignatura:  selectedAsignatura?.horaAsignatura || "",
                     docenteId:  selectedAsignatura?.docenteId || "0",
                     institucionId: selectedAsignatura?.institucionId || "0",
+                    porcentajeAsistencia: +selectedAsignatura?.porcentajeAsistencia || 0,
+                    porcentajeParcial: +selectedAsignatura?.porcentajeParcial || 0,
+                    porcentajeClase: +selectedAsignatura?.porcentajeClase || 0,
+
                 }}
                 validationSchema={Yup.object().shape({
                 nombre: Yup.string()
@@ -104,6 +108,12 @@ const ModalAsignatura = ({
                 docenteId: Yup.string()
                     .required(t("Value required"))
                     .oneOf(docentes.map(i => `${i.value}`)),
+                porcentajeAsistencia: Yup.number()
+                    .required(t("Value required")),
+                porcentajeParcial: Yup.number()
+                    .required(t("Value required")),
+                porcentajeClase: Yup.number()
+                    .required(t("Value required")),
 
 
                 })}
@@ -257,6 +267,66 @@ const ModalAsignatura = ({
                                 </Field>
                                 <ErrorMessage
                                     name="docenteId"
+                                    component="div"
+                                    className="invalid-feedback"
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+                    {/* Porjectajes */}
+                    <Row>
+                        <Col lg={4}>
+                            <div className="mb-3">
+                                <Label className="form-label">{"% Asistencia"}</Label>
+                                <Field
+                                    name="porcentajeAsistencia"
+                                    type="number"
+                                    className={
+                                        "form-control" +
+                                        (errors.porcentajeAsistencia && touched.porcentajeAsistencia
+                                            ? " is-invalid"
+                                            : "")
+                                } />
+                                <ErrorMessage
+                                    name="porcentajeAsistencia"
+                                    component="div"
+                                    className="invalid-feedback"
+                                />
+                            </div>
+                        </Col>
+                        <Col lg={4}>
+                            <div className="mb-3">
+                                <Label className="form-label">{"% Parcial"}</Label>
+                                <Field
+                                    name="porcentajeParcial"
+                                    type="number"
+                                    className={
+                                        "form-control" +
+                                        (errors.porcentajeParcial && touched.porcentajeParcial
+                                            ? " is-invalid"
+                                            : "")
+                                } />
+                                <ErrorMessage
+                                    name="porcentajeParcial"
+                                    component="div"
+                                    className="invalid-feedback"
+                                />
+                            </div>
+                        </Col>
+                        <Col lg={4}>
+                            <div className="mb-3">
+                                <Label className="form-label">{"% Clase"}</Label>
+                                <Field
+                                    name="porcentajeClase"
+                                    type="number"
+                                    className={
+                                        "form-control" +
+                                        (errors.porcentajeClase && touched.porcentajeClase
+                                            ? " is-invalid"
+                                            : "")
+                                }/>
+                                <ErrorMessage
+                                    name="porcentajeClase"
                                     component="div"
                                     className="invalid-feedback"
                                 />

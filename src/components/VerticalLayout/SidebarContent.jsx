@@ -111,7 +111,7 @@ class SidebarContent extends Component {
           <div id="sidebar-menu">
             <ul className="metismenu list-unstyled" id="side-menu">
               {
-                (roles.some(r => ["usuario"].includes(r)))  &&
+                (roles.some(r => ["usuario", "administrador"].includes(r)))  &&
                     <li className="menu-title">{this.props.t("Administrator")}</li>
 
               }
