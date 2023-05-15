@@ -82,7 +82,7 @@ function GeneratedBoletin({
             th
             col={['20%', '60%', '20%']}
             childrentag={[
-              ["Asignatura", "Valoración", 'Observación'],
+              ["Asignatura", "Valoración Definitiva", 'Observación'],
               ...[...dataProp?.notas?.map(nota => [
                 nota.asignatura.nombre,
                 nota.notaDefinitiva,
