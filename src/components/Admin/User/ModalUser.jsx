@@ -84,7 +84,6 @@ const ModalUser = ({
                     nombreUsuario:  selectedEmployee?.nombreUsuario || "",
                     identificacion:  selectedEmployee?.identificacion || "",
                     tipoIdentificacion:  selectedEmployee?.tipoIdentificacion || "",
-                    clave: "",
                 }}
                 validationSchema={Yup.object().shape({
                 correo: Yup.string()
@@ -107,7 +106,6 @@ const ModalUser = ({
                 onSubmit={values => {
                     if(selectedRoles.length === 0) return showToast({toastType:'error',title:"Error",message:"Por favor seleccione al menos 1 rol"})
                     const roles = selectedRoles
-                    if(id) delete values.clave;
                     handleSubmit({...values, roles},id)
                     setSelectedEmployee(null)
                     setSelectedRoles([])
@@ -253,32 +251,6 @@ const ModalUser = ({
                             </div>
                         </Col>
                     </Row>
-                    {/* clave */}
-                    {
-                        !id &&
-                        <Row>
-                            <Col lg={12}>
-                                <div className="mb-3">
-                                    <Label className="form-label">{"Clave"}</Label>
-                                    <Field
-                                        name="clave"
-                                        type="password"
-                                        className={
-                                            "form-control" +
-                                            (errors.clave && touched.clave
-                                                ? " is-invalid"
-                                                : "")
-                                        }
-                                    />
-                                    <ErrorMessage
-                                        name="clave"
-                                        component="div"
-                                        className="invalid-feedback"
-                                    />
-                                </div>
-                            </Col>
-                        </Row>
-                    }
                     {/* Roles */}
                     <Row>
                         <Col lg="12">
