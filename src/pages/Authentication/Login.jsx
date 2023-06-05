@@ -169,7 +169,7 @@ class Login extends Component {
                               </div>
                             </div>
 
-                            <div className="form-check">
+                            {/* <div className="form-check">
                               <input
                                 type="checkbox"
                                 className="form-check-input"
@@ -181,7 +181,7 @@ class Login extends Component {
                               >
                                 {this.props.t("Login rememberMe")}
                               </label>
-                            </div>
+                            </div> */}
 
                             <div className="mt-3 d-grid">
                               <CustomButton
@@ -194,14 +194,14 @@ class Login extends Component {
                                 {this.props.t("Login")}
                               </CustomButton>
                             </div>
-                            <div className="mt-4 text-center">
+                            {/* <div className="mt-4 text-center">
                               <Link
                                 to="/forgot-password"
                                 className="text-muted"
                               >
                                 <i className="mdi mdi-lock me-1" /> {this.props.t("Login forgotPass")}
                               </Link>
-                            </div>
+                            </div> */}
                           </Form>
                         )}
                       </Formik>
