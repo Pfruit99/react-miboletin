@@ -346,5 +346,9 @@
   "Role whish activate": "¿Desea activar este rol?",
   "Role whish inactivate": "¿Desea inactivar este rol?",
   "Role does not has email": "Sin Email",
-  "Role does not has company": "Sin Empresa"
+  "Role does not has company": "Sin Empresa",
+
+  "Subject whish activate": "¿Desea activar esta asignatura?",
+  "Subject whish inactivate": "¿Desea inactivar esta asignatura?"
+
 }

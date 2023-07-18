@@ -79,11 +79,11 @@ class ForgetPasswordPage extends Component {
                       <Formik
                         enableReinitialize={true}
                         initialValues={{
-                          email:
-                            (this.state && this.state.email) || "",
+                          correo:
+                            (this.state && this.state.correo) || "",
                         }}
                         validationSchema={Yup.object().shape({
-                          email: Yup.string().required(
+                          correo: Yup.string().required(
                             "Por favor ingrese su correo"
                           ),
                         })}
@@ -94,21 +94,21 @@ class ForgetPasswordPage extends Component {
                         {({ errors, status, touched }) => (
                           <Form className="form-horizontal">
                             <div className="mb-3">
-                              <Label for="email" className="form-label">
-                                Email
+                              <Label for="correo" className="form-label">
+                                Correo
                               </Label>
                               <Field
-                                name="email"
+                                name="correo"
                                 type="text"
                                 className={
                                   "form-control" +
-                                  (errors.email && touched.email
+                                  (errors.correo && touched.correo
                                     ? " is-invalid"
                                     : "")
                                 }
                               />
                               <ErrorMessage
-                                name="email"
+                                name="correo"
                                 component="div"
                                 className="invalid-feedback"
                               />

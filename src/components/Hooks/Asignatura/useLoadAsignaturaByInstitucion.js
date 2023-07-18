@@ -11,6 +11,7 @@ const useLoadAsignaturas = (institucionId) => {
                 setLoading(true);
                 const result = await post(`${import.meta.env.VITE_APP_BACKEND_URL}/asignaturas/findByWhere`,{
                   ['institucion.id']: institucionId,
+                  esActivo: true,
                 });
                 setAsignaturas(result.map(a => ({
                   label: a.nombre,

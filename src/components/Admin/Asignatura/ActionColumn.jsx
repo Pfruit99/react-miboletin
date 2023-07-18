@@ -10,17 +10,17 @@ const ActionColumn = ({ row, t, openEditDialog, openEditDialogActivate }) => {
                     {t("View detail")}
                 </button>
             </div>
-            {/* <div className=''>
-                <button className={`btn btn-outline-${+row.isActive === 1 ? 'danger':'success'}`} onClick={() => openEditDialogActivate(row.id)}>
+            <div className=''>
+                <button className={`btn btn-outline-${+row.esActivo === 1 ? 'danger':'success'}`} onClick={() => openEditDialogActivate(row.id)}>
                     {
-                        +row.isActive === 1 ? <i className="bx bx-user-x font-size-16 align-middle me-2"></i>:
+                        +row.esActivo === 1 ? <i className="bx bx-user-x font-size-16 align-middle me-2"></i>:
                         <i className="bx bx-user font-size-16 align-middle me-2"></i>
                     }
                     {
-                        +row.isActive === 1 ? t("To inactive") : t("To active")
+                        +row.esActivo === 1 ? t("To inactive") : t("To active")
                     }
                 </button>
-            </div> */}
+            </div>
         </div>
     )
 }

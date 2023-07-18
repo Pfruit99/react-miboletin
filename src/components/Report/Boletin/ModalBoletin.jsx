@@ -35,7 +35,6 @@ const ModalBoletin = ({
     loading,
     user
 }) => {
-    console.log('user', user)
     const [loadingBoletinData, setLoadingBoletinData] = useState(false)
     const [selectedBoletin, setSelectedBoletin] = useState(null);
     const [selectedUsers, setSelectedUsers] = useState([]);
@@ -102,7 +101,7 @@ const ModalBoletin = ({
                 enableReinitialize={true}
                 initialValues={{
                     id:  selectedBoletin?.id || "",
-                    estudianteId:  user.roles?.some(r => r.includes('estudiante')) ? user.id : "",
+                    estudianteId:  user.roles?.some(r => r.includes('estudiante')) ? user.estudiante[0].id : "",
                     institucionId:  selectedBoletin?.institucionId || "",
                     cursoId:  selectedBoletin?.cursoId || "",
 

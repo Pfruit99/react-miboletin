@@ -346,5 +346,9 @@
   "Role whish activate": "Do you wish to activate this employee?",
   "Role whish inactivate": "Do you wish to inactivate this employee?",
   "Role does not has email": "No Email",
-  "Role does not has company": "No Company"
+  "Role does not has company": "No Company",
+
+  "Subject whish activate": "Do you wish to activate this subject?",
+  "Subject whish inactivate": "Do you wish to inactivate this subject?"
+
 }

@@ -62,7 +62,8 @@ class DatatableTables extends Component {
     let { sizePerPage, page, sortField, searchText, sortOrder } = state;
     if(!searchText) searchText = '';
     try {
-      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/boletines/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : ''}`)
+      const estudianteId = this.props.user.roles?.some(r => r.includes('estudiante')) ? this.props.user.estudiante[0].id : undefined;
+      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/boletines/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : ''}${estudianteId ? '&estudianteId='+estudianteId : ''}`)
       this.setState({
         data: result.data,
         totalSize: result.totalItem,

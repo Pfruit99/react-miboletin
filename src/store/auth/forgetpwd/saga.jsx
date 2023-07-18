@@ -16,36 +16,23 @@ const fireBaseBackend = getFirebaseBackend();
 //If user is send successfully send mail link then dispatch redux action's are directly from here.
 function* forgetUser({ payload: { user, history } }) {
   try {
-    if (import.meta.env.VITE_APP_DEFAULTAUTH === "firebase") {
-      const response = yield call(fireBaseBackend.forgetPassword, user.email);
-      if (response) {
-        yield put(
-          userForgetPasswordSuccess(
-            "Se ha generado una nueva contraseña y se ha enviado a la dirección de correo electrónico suministrada, (Puede que llegue como correo no deseado)"
-          )
-        );
-      }
-    } else if (import.meta.env.VITE_APP_DEFAULTAUTH === "jwt") {
-      const response = yield call(postJwtForgetPwd, { email: user.email });
-      if (response) {
-        yield put(
-          userForgetPasswordSuccess(
-            "Se ha generado una nueva contraseña y se ha enviado a la dirección de correo electrónico suministrada, (Puede que llegue como correo no deseado)"
-          )
-        );
-      }
-    } else {
-      const response = yield call(postFakeForgetPwd, { email: user.email });
-      if (response) {
-        yield put(
-          userForgetPasswordSuccess(
-            "Se ha generado una nueva contraseña y se ha enviado a la dirección de correo electrónico suministrada, (Puede que llegue como correo no deseado)"
-          )
-        );
-      }
+    const response = yield call(postJwtForgetPwd, { correo: user.correo });
+    console.log('response',response)
+    if (response) {
+      yield put(
+        userForgetPasswordSuccess(
+          "Se ha generado una nueva contraseña y se ha enviado a la dirección de correo electrónico suministrada, (Puede que llegue como correo no deseado)"
+        )
+      );
     }
   } catch (error) {
-    yield put(userForgetPasswordError(error));
+    if(error.response.status === 404) return yield put(userForgetPasswordError('Hubo un error al procesar esta petición (404)'))
+    let errorMsg = error?.response?.data?.message || "Hubo un error al iniciar sesion";
+    if(Array.isArray(errorMsg)){
+      if(errorMsg.length === 0) return
+      errorMsg = errorMsg.join('\n')
+    }
+    yield put(userForgetPasswordError(errorMsg));
   }
 }
 

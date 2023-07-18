@@ -92,9 +92,13 @@ const ModalNota = ({
             setNotasEstudiante(nota.observacionNota ? JSON.parse(nota.observacionNota) : data)
         }
     }, [nota])
+    useEffect(()=> {
+        if(!id) setNotasEstudiante(data);
+    },[id])
     const onChange = (e) => {
         setSelectedCursos(e)
     }
+
   return (
     <Modal
         backdrop="static"

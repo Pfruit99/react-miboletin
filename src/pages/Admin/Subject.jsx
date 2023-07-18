@@ -28,6 +28,7 @@ import { getErrorMessageAsignatura } from "../../components/Common/errorMessage"
 import FormatterColumn from "../../components/Admin/Asignatura/FormatterColumn";
 import ActionColumn from "../../components/Admin/Asignatura/ActionColumn";
 import { connect } from "react-redux";
+import ModalActivateAsignatura from "../../components/Admin/Asignatura/ModalActivateAsignatura";
 
 class DatatableTables extends Component {
   constructor(props) {
@@ -55,6 +56,7 @@ class DatatableTables extends Component {
     this.createAsignatura = this.createAsignatura.bind(this)
     this.handleOpenEditDialog = this.handleOpenEditDialog.bind(this)
     this.handleOpenEditDialogActivate = this.handleOpenEditDialogActivate.bind(this)
+    this.updateStatus= this.updateStatus.bind(this)
   }
   // fetch Api
   async loadData (state) {
@@ -104,6 +106,21 @@ class DatatableTables extends Component {
     } catch (error) {
       console.log('error', error.response.data.error)
       showToast({toastType:'error',title:"Error",message:getErrorMessageAsignatura(error?.response?.data.error, this.props.t)})
+    } finally{
+      this.setState({loadingForm:false});
+    }
+  }
+
+  async updateStatus (id,data) {
+    try {
+      this.setState({loadingForm:true});
+      await helpAPI.put(`${import.meta.env.VITE_APP_BACKEND_URL}/asignaturas/${id}`, data)
+      showToast({message:this.props.t("Asignatura actualizada correctamente")});
+      this.tog_activate();
+      const state = this.tableRef.current.getNewestState();
+      this.loadData(state)
+    } catch (error) {
+      console.log('error', error)
     } finally{
       this.setState({loadingForm:false});
     }
@@ -224,6 +241,15 @@ class DatatableTables extends Component {
         text: this.props.t("% Clase"),
         sort: true,
         formatter: (cell) => `${cell}%`
+      },
+      {
+        dataField: "esActivo",
+        text: this.props.t("Status"),
+        sort: true,
+        formatter: (cell, row, rowIndex) => {
+          return (
+              <FormatterColumn cell={cell} t={this.props.t}  />
+          )}
       },
       {
         dataField: "actions",
@@ -396,6 +422,14 @@ class DatatableTables extends Component {
               handleClickClose={this.handleClickClose}
               togModal={this.tog_xlarge}
               handleSubmit={this.handleSubmit}
+              loading={this.state.loadingForm}
+              id={this.state.asignatura.id}
+          />
+          <ModalActivateAsignatura
+              isOpen={this.state.modal_activate}
+              handleClickClose={this.handleClickCloseActivate}
+              togModal={this.tog_activate}
+              handleSubmit={this.updateStatus}
               loading={this.state.loadingForm}
               id={this.state.asignatura.id}
           />
