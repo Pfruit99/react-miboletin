@@ -21,6 +21,7 @@ const ModalUser = ({
     togModal,
     handleClickClose,
     handleSubmit,
+    sendPassword,
     id,
     loading,
 }) => {
@@ -36,6 +37,7 @@ const ModalUser = ({
     const onChange = (e) => {
         setSelectedRoles(e)
     }
+    console.log('user', user);
   return (
     <Modal
         backdrop="static"
@@ -284,6 +286,13 @@ const ModalUser = ({
                         }} disabled={loadingUser || loading}>
                             {t("Cancel")}
                         </CustomButton>
+                        {
+                            !user?.hasPass &&
+                            <CustomButton type="button" color="warning" loading={loading} disabled={loadingUser || loading}
+                            onClick={() => sendPassword(user.id)}>
+                                {'Enviar contraseña'}
+                            </CustomButton>
+                        }
                     </div>
                 </Form>
                 )}
@@ -300,6 +309,7 @@ ModalUser.propTypes = {
     togModal: PropTypes.func,
     handleClickClose: PropTypes.func,
     handleSubmit: PropTypes.func,
+    sendPassword: PropTypes.func,
     id: PropTypes.number,
     loading: PropTypes.bool,
 }

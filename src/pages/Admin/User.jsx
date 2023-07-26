@@ -57,6 +57,7 @@ class DatatableTables extends Component {
     this.handleOpenEditDialog = this.handleOpenEditDialog.bind(this)
     this.handleOpenEditDialogActivate = this.handleOpenEditDialogActivate.bind(this)
     this.updateStatus = this.updateStatus.bind(this)
+    this.sendPassword = this.sendPassword.bind(this)
   }
   // fetch Api
   async loadData (state) {
@@ -75,6 +76,22 @@ class DatatableTables extends Component {
       console.log('error', error)
     } finally {
       this.setState({loadTable: false})
+    }
+  }
+  async sendPassword(id) {
+    try {
+      this.setState({loadingForm:true});
+      await helpAPI.put(`${import.meta.env.VITE_APP_BACKEND_URL}/auth/sendPassword/${id}`)
+      console.log("enviado correctamente");
+      showToast({message:'Contraseña enviada correctamente'});
+      this.tog_xlarge();
+      const state = this.tableRef.current.getNewestState();
+      this.loadData(state)
+    } catch (error) {
+      console.log('error', error.response.data.error)
+      showToast({toastType:'error',title:"Error",message:getErrorMessageUser(error?.response?.data.error, this.props.t)})
+    } finally {
+      this.setState({loadingForm:false});
     }
   }
   async createUser (values) {
@@ -220,7 +237,7 @@ class DatatableTables extends Component {
         sort: true,
         formatter: (cell, row, rowIndex) => {
           return (
-              <FormatterColumn cell={cell} t={this.props.t}  />
+              <FormatterColumn cell={cell} row={row} t={this.props.t}  />
           )}
       },
       {
@@ -395,6 +412,7 @@ class DatatableTables extends Component {
               togModal={this.tog_xlarge}
               handleSubmit={this.handleSubmit}
               loading={this.state.loadingForm}
+              sendPassword={this.sendPassword}
               id={this.state.user.id}
           />
           <ModalActivateUser

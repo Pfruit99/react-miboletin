@@ -208,11 +208,15 @@ class Login extends Component {
                     </div>
                   </CardBody>
                 </Card>
-                {/*<div className="mt-5 text-center">*/}
-                {/*  <p>*/}
-                {/*    © {new Date().getFullYear()} BRAIN.*/}
-                {/*  </p>*/}
-                {/*</div>*/}
+                <div className="mt-5 text-center">
+                  <p>
+                    ¿No se encuentra registrado?{" "}
+                    <Link to="/register" className="fw-medium text-primary">
+                      {" "}
+                      Registrarse
+                    </Link>{" "}
+                  </p>
+                </div>
               </Col>
             </Row>
           </Container>

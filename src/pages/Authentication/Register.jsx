@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Alert, Card, CardBody, Col, Container, Row, Label } from "reactstrap";
-
+import * as helpAPI from '../../helpers/api_helper';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import {showToast} from "../../components/Common/notifications";
 
 // action
 import {
@@ -14,16 +15,23 @@ import {
 
 // Redux
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 // import images
+import profile from "../../assets/images/myboletin.png";
 import profileImg from "../../assets/images/profile-img.png";
 import logoImg from "../../assets/images/logo.svg";
+import { backgroundColor } from "../../helpers/Styles/backgroundColor";
+import { withTranslation } from "react-i18next";
+import { getErrorMessageUser } from "../../components/Common/errorMessage";
 
 class Register extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loadingForm: false,
+    };
+    this.registerUser = this.registerUser.bind(this);
   }
 
   componentDidMount() {
@@ -31,7 +39,23 @@ class Register extends Component {
     this.props.registerUserFailed("");
   }
 
+  async registerUser (values) {
+    try {
+      this.setState({loadingForm:true});
+      await helpAPI.post(`${import.meta.env.VITE_APP_BACKEND_URL}/auth/register/platform`, {...values })
+      console.log("registrado correctamente");
+      showToast({message:this.props.t("User created successfully")});
+      this.props.history.push('/login');
+    } catch (error) {
+      console.log('error', error)
+      showToast({toastType:'error',title:"Error",message:getErrorMessageUser(error?.response?.data.error, this.props.t)})
+    } finally {
+      this.setState({loadingForm:false});
+    }
+  }
+
   render() {
+    const t = this.props.t;
     return (
       <React.Fragment>
         <div className="home-btn d-none d-sm-block">
@@ -42,18 +66,15 @@ class Register extends Component {
         <div className="account-pages my-5 pt-sm-5">
           <Container>
             <Row className="justify-content-center">
-              <Col md={8} lg={6} xl={5}>
+              <Col md={10} lg={8} xl={6}>
                 <Card className="overflow-hidden">
-                  <div className="bg-primary bg-soft">
+                <div className="bg-soft" style={{...backgroundColor('gray')}}>
                     <Row>
                       <Col className="col-7">
-                        <div className="text-primary p-4">
-                          <h5 className="text-primary">Free Register</h5>
-                          <p>Get your free Skote account now.</p>
-                        </div>
+
                       </Col>
-                      <Col className="col-5 align-self-end">
-                        <img src={profileImg} alt="" className="img-fluid" />
+                      <Col className="col-5 align-self-end py-4">
+                        <img fill="white" src={profile} alt="" className="img-fluid" />
                       </Col>
                     </Row>
                   </div>
@@ -76,88 +97,176 @@ class Register extends Component {
                       <Formik
                         enableReinitialize={true}
                         initialValues={{
-                          email: (this.state && this.state.email) || "",
-                          password: (this.state && this.state.password) || "",
-                          username: (this.state && this.state.username) || "",
+                          correo:  this.state?.correo || "",
+                          nombre:  this.state?.nombre || "",
+                          apellido:  this.state?.apellido || "",
+                          nombreUsuario:  this.state?.nombreUsuario || "",
+                          identificacion:  this.state?.identificacion || "",
+                          tipoIdentificacion:  this.state?.tipoIdentificacion || "",
                         }}
                         validationSchema={Yup.object().shape({
-                          email: Yup.string().required(
-                            "Please Enter Your Email"
-                          ),
-                          password: Yup.string().required(
-                            "Please Enter Valid Password"
-                          ),
-                          username: Yup.string().required(
-                            "Please Enter Valid Username"
-                          ),
+                          correo: Yup.string()
+                              .email("Debe ser un email valido")
+                              .max(200)
+                              .required(t("Value required")),
+                          nombre: Yup.string()
+                              .required(t("Value required")),
+                          apellido: Yup.string()
+                              .required(t("Value required")),
+                          nombreUsuario: Yup.string()
+                              .required(t("Value required")),
+                          identificacion: Yup.string()
+                              .required(t("Value required")),
+                          tipoIdentificacion: Yup.string()
+                              .required(t("Value required"))
+                              .oneOf(["cc", "ti", "ce"]),
                         })}
                         onSubmit={values => {
-                          this.props.registerUser(values);
+                          this.registerUser(values);
                         }}
                       >
                         {({ errors, status, touched }) => (
                           <Form className="form-horizontal">
+                            {/* nombre, apellido */}
+                    <Row>
+                        <Col lg={6}>
                             <div className="mb-3">
-                              <Label for="email" className="form-label">
-                                Email
-                              </Label>
-                              <Field
-                                name="email"
-                                type="email"
-                                className={
-                                  "form-control" +
-                                  (errors.email && touched.email
-                                    ? " is-invalid"
-                                    : "")
-                                }
-                              />
-                              <ErrorMessage
-                                name="email"
-                                component="div"
-                                className="invalid-feedback"
-                              />
+                                <Label className="form-label">{"Nombre"}</Label>
+                                <Field
+                                    name="nombre"
+                                    type="text"
+                                    placeholder="john"
+                                    className={
+                                        "form-control" +
+                                        (errors.nombre && touched.nombre
+                                            ? " is-invalid"
+                                            : "")
+                                    }
+                                />
+                                <ErrorMessage
+                                    name="nombre"
+                                    component="div"
+                                    className="invalid-feedback"
+                                />
                             </div>
+                        </Col>
+                        <Col lg={6}>
                             <div className="mb-3">
-                              <Label for="password" className="form-label">
-                                Password
-                              </Label>
-                              <Field
-                                name="password"
-                                autoComplete="true"
-                                type="password"
-                                className={
-                                  "form-control" +
-                                  (errors.password && touched.password
-                                    ? " is-invalid"
-                                    : "")
-                                }
-                              />
-                              <ErrorMessage
-                                name="password"
-                                component="div"
-                                className="invalid-feedback"
-                              />
+                                <Label className="form-label">{"Apellido"}</Label>
+                                <Field
+                                    name="apellido"
+                                    type="text"
+                                    placeholder="Doe"
+                                    className={
+                                        "form-control" +
+                                        (errors.apellido && touched.apellido
+                                            ? " is-invalid"
+                                            : "")
+                                    }
+                                />
+                                <ErrorMessage
+                                    name="apellido"
+                                    component="div"
+                                    className="invalid-feedback"
+                                />
                             </div>
-                            <div className="mb-3">
-                              <Label for="username" className="form-label">
-                                Username
-                              </Label>
-                              <Field
-                                name="username"
-                                type="text"
-                                className={
-                                  "form-control" +
-                                  (errors.username && touched.username
-                                    ? " is-invalid"
-                                    : "")
-                                }
-                              />
-                              <ErrorMessage
-                                name="username"
-                                component="div"
-                                className="invalid-feedback"
-                              />
-                            </div>
+                        </Col>
+                    </Row>
+                    {/* usuario correo */}
+                            <Row>
+                                <Col lg={6}>
+                                    <div className="mb-3">
+                                        <Label className="form-label">{"Usuario"}</Label>
+                                        <Field
+                                            name="nombreUsuario"
+                                            type="text"
+                                            placeholder="usuario"
+                                            className={
+                                                "form-control" +
+                                                (errors.nombreUsuario && touched.nombreUsuario
+                                                    ? " is-invalid"
+                                                    : "")
+                                            }
+                                        />
+                                        <ErrorMessage
+                                            name="nombreUsuario"
+                                            component="div"
+                                            className="invalid-feedback"
+                                        />
+                                    </div>
+                                </Col>
+                                <Col lg={6}>
+                                    <div className="mb-3">
+                                        <Label className="form-label">{"Correo electronico"}</Label>
+                                        <Field
+                                            name="correo"
+                                            type="text"
+                                            placeholder="ejemplo@ejemplo.com"
+                                            className={
+                                                "form-control" +
+                                                (errors.correo && touched.correo
+                                                    ? " is-invalid"
+                                                    : "")
+                                            }
+                                        />
+                                        <ErrorMessage
+                                            name="correo"
+                                            component="div"
+                                            className="invalid-feedback"
+                                        />
+                                    </div>
+                                </Col>
+                            </Row>
+                            {/* identificacion */}
+                            <Row>
+                                <Col lg={6}>
+                                    <div className="mb-3">
+                                        <Label className="form-label">{"Tipo Identificacion"}</Label>
+                                        <Field
+                                            name="tipoIdentificacion"
+                                            as="select"
+                                            className={
+                                                "form-control" +
+                                                (errors.tipoIdentificacion && touched.tipoIdentificacion
+                                                    ? " is-invalid"
+                                                    : "")
+                                        }>
+                                            <option value="0">Seleccione una Opcion</option>
+                                            <option value="cc">CC</option>
+                                            <option value="ti">TI</option>
+                                            <option value="ce">Cedula Extranjeria</option>
+
+                                        </Field>
+                                        <ErrorMessage
+                                            name="tipoIdentificacion"
+                                            component="div"
+                                            className="invalid-feedback"
+                                        />
+                                    </div>
+                                </Col>
+                                <Col lg={6}>
+                                    <div className="mb-3">
+                                        <Label className="form-label">{"Identificación"}</Label>
+                                        <Field
+                                            name="identificacion"
+                                            type="text"
+                                            className={
+                                                "form-control" +
+                                                (errors.identificacion && touched.identificacion
+                                                    ? " is-invalid"
+                                                    : "")
+                                            }
+                                        />
+                                        <ErrorMessage
+                                            name="identificacion"
+                                            component="div"
+                                            className="invalid-feedback"
+                                        />
+                                    </div>
+                                </Col>
+                            </Row>
+
+
 
                             <div className="mt-4 d-grid">
                               <button
@@ -168,14 +277,14 @@ class Register extends Component {
                               </button>
                             </div>
 
-                            <div className="mt-4 text-center">
+                            {/* <div className="mt-4 text-center">
                               <p className="mb-0">
                                 By registering you agree to the Skote{" "}
                                 <Link to="#" className="text-primary">
                                   Terms of Use
                                 </Link>
                               </p>
-                            </div>
+                            </div> */}
                           </Form>
                         )}
                       </Formik>
@@ -190,10 +299,10 @@ class Register extends Component {
                       Login
                     </Link>{" "}
                   </p>
-                  <p>
+                  {/* <p>
                     © {new Date().getFullYear()} Skote. Crafted with{" "}
                     <i className="mdi mdi-heart text-danger" /> by Themesbrand
-                  </p>
+                  </p> */}
                 </div>
               </Col>
             </Row>
@@ -210,6 +319,8 @@ Register.propTypes = {
   registerUserFailed: PropTypes.any,
   registrationError: PropTypes.any,
   user: PropTypes.object,
+  history: PropTypes.any,
+  t: PropTypes.any,
 };
 
 const mapStateToProps = state => {
@@ -217,8 +328,10 @@ const mapStateToProps = state => {
   return { user, registrationError, loading };
 };
 
-export default connect(mapStateToProps, {
+export default withRouter(
+withTranslation()(connect(mapStateToProps, {
   registerUser,
   apiError,
   registerUserFailed,
-})(Register);
+})(Register))
+);

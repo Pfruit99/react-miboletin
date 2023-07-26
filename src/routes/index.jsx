@@ -63,7 +63,7 @@ const publicRoutes = [
   { path: "/logout", component: Logout },
   { path: "/login", component: Login },
   { path: "/forgot-password", component: ForgetPwd },
-  // { path: "/register", component: Register },
+  { path: "/register", component: Register },
   { path: "/not-found", component: NotFound },
 ]
 
