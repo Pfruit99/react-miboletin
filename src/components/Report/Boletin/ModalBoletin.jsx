@@ -42,9 +42,11 @@ const ModalBoletin = ({
     const [selectedCurso, setSelectedCurso] = useState(0)
     const {boletin, loading:loadingBoletin, userAvailable} = useLoadBoletin(id, boletinData);
     const { instituciones } = useLoadInstituciones();
-    const { asignaturas } = useLoadAsignaturaByInstitucion(selectedInstitu);
     const {cursos} = useLoadCursoByInstitucion(selectedInstitu);
     const {estudiantes} = useLoadEstudianteByCurso(selectedCurso);
+    useEffect(() => {
+        if(instituciones.length > 0) setSelectedInstitu(instituciones[0].value)
+    },[instituciones])
     const loadDataFromBoletin = useCallback(async ({institucionId, cursoId, estudianteId})=>{
         try {
             setLoadingBoletinData(true);
@@ -102,7 +104,7 @@ const ModalBoletin = ({
                 initialValues={{
                     id:  selectedBoletin?.id || "",
                     estudianteId:  user.roles?.some(r => r.includes('estudiante')) ? user.estudiante[0].id : "",
-                    institucionId:  selectedBoletin?.institucionId || "",
+                    institucionId: selectedInstitu || selectedBoletin?.institucionId || "",
                     cursoId:  selectedBoletin?.cursoId || "",
 
                 }}
@@ -129,6 +131,7 @@ const ModalBoletin = ({
                                     <Field
                                         name="institucionId"
                                         as="select"
+                                        disabled={true}
                                         onChange={(e)=>{
                                             setFieldValue('institucionId', e.target.value);
                                             setSelectedInstitu(+e.target.value);

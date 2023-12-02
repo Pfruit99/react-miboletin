@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {get, post} from "../../../helpers/api_helper";
 
-const useLoadAsignaturas = (institucionId) => {
+const useLoadAsignaturas = (institucionId, cursoId) => {
     const [asignaturas, setAsignaturas] = useState([]);
     const [porcentajesNota, setPorcentajesNota] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -10,9 +10,14 @@ const useLoadAsignaturas = (institucionId) => {
             try {
                 setLoading(true);
                 const result = await post(`${import.meta.env.VITE_APP_BACKEND_URL}/asignaturas/findByWhere`,{
-                  ['institucion.id']: institucionId,
-                  esActivo: true,
-                });
+                    institucion: {
+                      id: institucionId,
+                    },
+                    cursos: {
+                      id: cursoId,
+                    },
+                    esActivo: true,
+                  });
                 setAsignaturas(result.map(a => ({
                   label: a.nombre,
                   value: a.id
@@ -35,7 +40,7 @@ const useLoadAsignaturas = (institucionId) => {
             setAsignaturas([])
             setPorcentajesNota([])
         }
-    },[institucionId])
+    },[institucionId, cursoId])
 
     return {
         asignaturas,

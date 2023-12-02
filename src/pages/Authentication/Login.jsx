@@ -208,7 +208,8 @@ class Login extends Component {
                     </div>
                   </CardBody>
                 </Card>
-                <div className="mt-5 text-center">
+
+                {/* <div className="mt-5 text-center">
                   <p>
                     ¿No se encuentra registrado?{" "}
                     <Link to="/register" className="fw-medium text-primary">
@@ -216,7 +217,7 @@ class Login extends Component {
                       Registrarse
                     </Link>{" "}
                   </p>
-                </div>
+                </div> */}
               </Col>
             </Row>
           </Container>

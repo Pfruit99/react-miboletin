@@ -27,6 +27,7 @@ const ModalCurso = ({
     loading,
 }) => {
     const [selectedCurso, setSelectedCurso] = useState(null);
+    const [institucionId, setInstitucionId] = useState(null);
     const [selectedEstudiantes, setSelectedEstudiantes] = useState([]);
     const {curso, loading:loadingCurso, estudiantes } = useLoadCurso(id, cursoData);
     const { instituciones } = useLoadInstituciones()
@@ -36,6 +37,11 @@ const ModalCurso = ({
             setSelectedEstudiantes(curso.estudiantes.map(es => es.id))
         }
     }, [curso])
+    useEffect(()=>{
+        if(instituciones.length > 0){
+            setInstitucionId(instituciones[0].value)
+        }
+    },[instituciones])
     const onChange = (e) => {
         setSelectedEstudiantes(e)
     }
@@ -84,7 +90,7 @@ const ModalCurso = ({
                     grado:  selectedCurso?.grado || "",
                     fechaInicio:  selectedCurso?.fechaInicio || "",
                     fechaFin:  selectedCurso?.fechaFin || "",
-                    institucionId: selectedCurso?.institucion.id || "0"
+                    institucionId: institucionId || selectedCurso?.institucion.id || "0"
 
                 }}
                 validationSchema={Yup.object().shape({
@@ -143,6 +149,7 @@ const ModalCurso = ({
                                 <Field
                                     name="institucionId"
                                     as="select"
+                                    disabled={true}
                                     className={
                                         "form-control" +
                                         (errors.institucionId && touched.institucionId

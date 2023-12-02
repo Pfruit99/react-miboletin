@@ -87,8 +87,8 @@ class DatatableTables extends Component {
       const state = this.tableRef.current.getNewestState();
       this.loadData(state)
     } catch (error) {
-      console.log('error', error.response.data.error)
-      showToast({toastType:'error',title:"Error",message:getErrorMessageRector(error?.response?.data.error, this.props.t)})
+      console.log('error', error.response)
+      showToast({toastType:'error',title:"Error",message:error?.response?.data.message ? error?.response?.data.message:getErrorMessageRector(error?.response?.data.error, this.props.t)})
     } finally {
       this.setState({loadingForm:false});
     }
@@ -103,8 +103,8 @@ class DatatableTables extends Component {
       const state = this.tableRef.current.getNewestState();
       this.loadData(state)
     } catch (error) {
-      console.log('error', error.response.data.error)
-      showToast({toastType:'error',title:"Error",message:getErrorMessageRector(error?.response?.data.error, this.props.t)})
+      console.log('error', error.response)
+      showToast({toastType:'error',title:"Error",message:error?.response?.data.message ? error?.response?.data.message:getErrorMessageRector(error?.response?.data.error, this.props.t)})
     } finally{
       this.setState({loadingForm:false});
     }

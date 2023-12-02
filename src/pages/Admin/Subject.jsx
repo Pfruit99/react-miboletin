@@ -219,10 +219,11 @@ class DatatableTables extends Component {
         formatter: (_, row) => row.docente ? `${row.docente?.usuario?.nombre} ${row.docente?.usuario?.apellido}` : 'Sin profesor'
       },
       {
-        dataField: "institucion",
-        text: this.props.t("Institucion"),
+        dataField: "cursos",
+        text: this.props.t("Cursos"),
         sort: true,
-        formatter: (cell, row) => row.institucion ? row.institucion.nombre: "No Institucion",
+        formatter: (cell, row) =>
+          row.cursos.length > 0 ? row.cursos.map(c => c.grado).join(','): "No cursos",
       },
       {
         dataField: "porcentajeAsistencia",

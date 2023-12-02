@@ -30,6 +30,7 @@ const ModalAsignatura = ({
     const [selectedAsignatura, setSelectedAsignatura] = useState(null);
     const [selectedCursos, setSelectedCursos] = useState([]);
     const {asignatura, loading:loadingAsignatura, cursos } = useLoadAsignatura(id, asignaturaData);
+    const [institucionId, setInstitucionId] = useState(null);
     const { instituciones } = useLoadInstituciones();
     const { docentes } = useLoadDocentes()
     useEffect(()=>{
@@ -38,9 +39,16 @@ const ModalAsignatura = ({
             setSelectedCursos(asignatura.cursos.map(c => c.id))
         }
     }, [asignatura])
+    useEffect(()=>{
+        if(instituciones.length > 0){
+            setInstitucionId(instituciones[0].value)
+        }
+    },[])
     const onChange = (e) => {
+        if(e.length > 1) return showToast({toastType:'error',title:"Error",message:"Por favor seleccione solo 1 curso"})
         setSelectedCursos(e)
     }
+
   return (
     <Modal
         backdrop="static"
@@ -88,7 +96,7 @@ const ModalAsignatura = ({
                     area:  selectedAsignatura?.area || "",
                     horaAsignatura:  selectedAsignatura?.horaAsignatura || "",
                     docenteId:  selectedAsignatura?.docenteId || "0",
-                    institucionId: selectedAsignatura?.institucionId || "0",
+                    institucionId: institucionId || selectedAsignatura?.institucionId || "0",
                     porcentajeAsistencia: +selectedAsignatura?.porcentajeAsistencia || 0,
                     porcentajeParcial: +selectedAsignatura?.porcentajeParcial || 0,
                     porcentajeClase: +selectedAsignatura?.porcentajeClase || 0,
@@ -227,6 +235,7 @@ const ModalAsignatura = ({
                                 <Field
                                     name="institucionId"
                                     as="select"
+                                    disabled={true}
                                     className={
                                         "form-control" +
                                         (errors.institucionId && touched.institucionId

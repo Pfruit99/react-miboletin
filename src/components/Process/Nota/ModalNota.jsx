@@ -72,12 +72,19 @@ const ModalNota = ({
     const [selectedCursos, setSelectedCursos] = useState([]);
     const [selectedInstitu, setSelectedInstitu] = useState(0)
     const [selectedCurso, setSelectedCurso] = useState(0)
+    const [institucionId, setInstitucionId] = useState(null);
     const {nota, loading:loadingNota } = useLoadNota(id, notaData);
     const { instituciones } = useLoadInstituciones();
     const { docentes } = useLoadDocentes();
-    const {asignaturas, porcentajesNota} = useLoadAsignaturaByInstitucion(selectedInstitu);
+    const {asignaturas, porcentajesNota} = useLoadAsignaturaByInstitucion(selectedInstitu, selectedCurso);
     const {cursos} = useLoadCursoByInstitucion(selectedInstitu);
     const {estudiantes} = useLoadEstudianteByCurso(selectedCurso);
+    useEffect(()=>{
+        if(instituciones.length > 0){
+            setInstitucionId(instituciones[0].value)
+            setSelectedInstitu(instituciones[0].value)
+        }
+    },[instituciones])
     useEffect(()=>{
         if(nota){
             setSelectedNota({
@@ -143,7 +150,7 @@ const ModalNota = ({
                     id:  selectedNota?.id || "",
                     asignaturaId:  selectedNota?.asignaturaId || "",
                     estudianteId:  selectedNota?.estudianteId || "",
-                    institucionId:  selectedNota?.institucionId || "",
+                    institucionId: institucionId || selectedNota?.institucionId || "",
                     cursoId:  selectedNota?.cursoId || "",
                     observaciones:  selectedNota?.observaciones || "",
 
@@ -191,6 +198,7 @@ const ModalNota = ({
                                     <Field
                                         name="institucionId"
                                         as="select"
+                                        disabled={true}
                                         onChange={(e)=>{
                                             setFieldValue('institucionId', e.target.value);
                                             setSelectedInstitu(+e.target.value);

@@ -86,8 +86,9 @@ class DatatableTables extends Component {
       const state = this.tableRef.current.getNewestState();
       this.loadData(state)
     } catch (error) {
-      console.log('error', error.response.data.error)
-      showToast({toastType:'error',title:"Error",message:getErrorMessageInstitucion(error?.response?.data.error, this.props.t)})
+      console.log('error', error.response)
+      console.log('error', error.response.data.message)
+      showToast({toastType:'error',title:"Error",message:error.response?.data?.message})
     } finally {
       this.setState({loadingForm:false});
     }
