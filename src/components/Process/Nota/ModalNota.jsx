@@ -125,7 +125,7 @@ const ModalNota = ({
                 {
                     (loadingNota || loading) ?
                         <i className="ms-2 fa-xl fas fa-spinner fa-pulse"></i> :
-                        id && nota?.id ? `${t("Actualizar nota")} - ${nota.estudiante.usuario.nombre} / ${nota.asignatura.nombre}` :
+                        id && nota?.id ? `${t("Actualizar nota")} - ${nota.estudiante.usuario.nombre} / ${nota.asignatura.nombre.nombre}` :
                         t("Nueva Nota")
                 }
             </h5>
