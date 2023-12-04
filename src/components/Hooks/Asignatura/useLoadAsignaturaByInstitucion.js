@@ -19,7 +19,7 @@ const useLoadAsignaturas = (institucionId, cursoId) => {
                     esActivo: true,
                   });
                 setAsignaturas(result.map(a => ({
-                  label: a.nombre,
+                  label: a.nombre.nombre,
                   value: a.id
                 })))
                 setPorcentajesNota(result.map(a => ({

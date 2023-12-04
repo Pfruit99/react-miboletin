@@ -7,16 +7,23 @@ import {
   PDFViewer,
   Svg,
   Line,
+  Image,
 } from "@react-pdf/renderer";
 import React from "react";
 import PropTypes from 'prop-types';
 import Table from "../../Common/PDF/Table";
+import logo from '../../../assets/images/logo/helena1.jpeg'
+import { rgbToHex } from "@mui/material";
 // Create styles
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
     padding: 40,
     fontSize: 12
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    paddingBottom: 20
   },
   section: {
     paddingBottom: 20
@@ -25,7 +32,7 @@ const styles = StyleSheet.create({
     paddingBottom: 3
   },
   headText: {
-    color: "blue",
+    color: rgbToHex('rgb(46,135,58)'),
     fontWeight: 300,
     paddingBottom: 3,
     fontSize: 40
@@ -66,6 +73,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 5,
     marginBottom: 30
+  },
+  logoImage: {
+    width: 75,
+    height: 75
   }
 });
 
@@ -75,19 +86,23 @@ function GeneratedBoletin({
 }) {
   const generateData = (nota)=>{
     const observacionNota = JSON.parse(nota.observacionNota)
+    console.log('nota', nota)
     return [
-      observacionNota[0].definitiva,
-      observacionNota[1].definitiva,
-      observacionNota[2].definitiva,
-      observacionNota[3].definitiva,
-      nota.notaDefinitiva
+      ['Periodo', 'Valoración'],
+      ['P1',observacionNota[0].definitiva],
+      ['P2',observacionNota[1].definitiva],
+      ['P3',observacionNota[2].definitiva],
+      ['P4',observacionNota[3].definitiva],
+      ['Total',nota.notaDefinitiva]
     ]
   }
+  console.log('dataProp', dataProp)
   return (
       <Document>
         {/*render a single page*/}
-        <Page size="A4" style={styles.page}>
-          <View style={styles.section}>
+        <Page size="A4" style={styles.page} wrap={true}>
+          <View style={styles.rowContainer}>
+            <Image style={styles.logoImage} src={logo} />
             <Text style={styles.headText}>
               Informe Academico
             </Text>
@@ -111,7 +126,7 @@ function GeneratedBoletin({
             <>
               <View style={styles.sectionQA}>
                 <Text style={styles.primaryText}>
-                  Asignatura: {nota.asignatura.nombre}
+                  Asignatura: {nota.asignatura.nombre.nombre}
                 </Text>
                 <Text style={styles.secondaryText}>
                   Profesor: {`${nota.asignatura.docente.usuario.nombre} ${nota.asignatura.docente.usuario.apellido}`}
@@ -120,11 +135,8 @@ function GeneratedBoletin({
 
               <Table
                 th
-                col={['20%', '20%', '20%', '20%', '20%']}
-                childrentag={[
-                  ["P1", "P2", "P3", "P4", "Total"],
-                  ...[generateData(nota)]
-                ]}
+                col={['50%', '50%']}
+                childrentag={generateData(nota)}
               />
               <View style={styles.sectionQA}>
                 <Text style={styles.thirdText}>

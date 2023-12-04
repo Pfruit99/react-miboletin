@@ -196,16 +196,20 @@ class DatatableTables extends Component {
         dataField: "nombre",
         text: this.props.t("Nombre"),
         sort: true,
+        formatter: (_, row) => row.nombre ? `${row.nombre.nombre}` : 'Sin nombre'
       },
       {
         dataField: "periodo",
         text:this.props.t("Periodo"),
         sort: true,
+        formatter: (_, row) => row.periodo ? `${row.periodo.nombre}` : 'Sin Periodo'
       },
       {
         dataField: "area",
         text: this.props.t("Area"),
         sort: true,
+        formatter: (_, row) => row.area ? `${row.area.nombre}` : 'Sin area'
+
       },
       {
         dataField: "horaAsignatura",
@@ -217,13 +221,6 @@ class DatatableTables extends Component {
         text: this.props.t("Docente"),
         sort: true,
         formatter: (_, row) => row.docente ? `${row.docente?.usuario?.nombre} ${row.docente?.usuario?.apellido}` : 'Sin profesor'
-      },
-      {
-        dataField: "cursos",
-        text: this.props.t("Cursos"),
-        sort: true,
-        formatter: (cell, row) =>
-          row.cursos.length > 0 ? row.cursos.map(c => c.grado).join(','): "No cursos",
       },
       {
         dataField: "porcentajeAsistencia",

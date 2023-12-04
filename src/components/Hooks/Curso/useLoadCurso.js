@@ -5,6 +5,7 @@ const useLoadCurso = (id, cursoData) => {
     const [curso, setCurso] = useState(null);
     const [loading, setLoading] = useState(false);
     const [estudiantes, setEstudiantes] = useState([]);
+    const [asignaturas, setAsignaturas] = useState([]);
     useEffect(()=>{
         const useLoadCurso = async () => {
             try {
@@ -42,9 +43,28 @@ const useLoadCurso = (id, cursoData) => {
         loadEstudiantes()
     }, [])
 
+    useEffect(()=> {
+        const loadEstudiantes = async () => {
+            try {
+                setLoading(true);
+                const result = await get(`${import.meta.env.VITE_APP_BACKEND_URL}/asignaturas`);
+                setAsignaturas(result.map(asignatura => ({
+                    label: asignatura.nombre.nombre,
+                    value: asignatura.id
+                })))
+            } catch (error) {
+                console.log('error', error)
+            }finally{
+                setLoading(false);
+            }
+        }
+        loadEstudiantes()
+    }, [])
+
     return {
         curso,
         estudiantes,
+        asignaturas,
         loading,
     }
 }

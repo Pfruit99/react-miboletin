@@ -13,6 +13,7 @@ import Select from "react-select";
 import TransferList from "../../Common/TransferList";
 import {showToast} from "../../Common/notifications";
 import {getErrorMessageEstudiante} from "../../Common/errorMessage";
+import useLoadCursos from '../../Hooks/Curso/useLoadAllCursos';
 
 const ModalEstudiante = ({
     t, // from withTranslation
@@ -27,6 +28,7 @@ const ModalEstudiante = ({
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const {estudiante, loading:loadingEstudiante, userAvailable} = useLoadEstudiante(id, estudianteData);
+    const { cursos } = useLoadCursos()
     useEffect(()=>{
         if(estudiante){
             setSelectedEmployee({...estudiante})
@@ -80,17 +82,21 @@ const ModalEstudiante = ({
                 initialValues={{
                     id:  selectedEmployee?.id || "",
                     codEstudiante:  selectedEmployee?.codEstudiante || "",
+                    curso: selectedEmployee?.curso?.id || 0,
 
                 }}
                 validationSchema={Yup.object().shape({
                 codEstudiante: Yup.string()
                     .max(5, 'Maximo 5 caracteres')
                     .required(t("Value required")),
+                codEstudiante: Yup.string()
+                    .required(t("Value required")),
 
                 })}
                 onSubmit={values => {
                     if(selectedUsers.length === 0 && !id) return showToast({toastType:'error',title:"Error",message:"Por favor seleccione al menos 1 usuario"})
                     const usuarioId = selectedUsers[0];
+                    values.curso = +values.curso
                     handleSubmit({...values, usuarioId},id)
                     setSelectedEmployee(null)
                     setSelectedUsers([])
@@ -100,7 +106,7 @@ const ModalEstudiante = ({
                 <Form className="needs-validation">
                     {/* cod estudiante */}
                     <Row>
-                        <Col lg={12}>
+                        <Col lg={6}>
                             <div className="mb-3">
                                 <Label className="form-label">{"Codigo Estudiante"}</Label>
                                 <Field
@@ -116,6 +122,31 @@ const ModalEstudiante = ({
                                 />
                                 <ErrorMessage
                                     name="codEstudiante"
+                                    component="div"
+                                    className="invalid-feedback"
+                                />
+                            </div>
+                        </Col>
+                        <Col lg={6}>
+                            <div className="mb-3">
+                                <Label className="form-label">{"Curso"}</Label>
+                                <Field
+                                    name="curso"
+                                    as="select"
+                                    className={
+                                        "form-control" +
+                                        (errors.curso && touched.curso
+                                            ? " is-invalid"
+                                            : "")
+                                }>
+                                    <option value="0">Seleccione una Opcion</option>
+                                    {cursos.map(doc => (
+                                        <option value={doc.value} key={doc.value}>{doc.label}</option>
+                                    ))}
+
+                                </Field>
+                                <ErrorMessage
+                                    name="curso"
                                     component="div"
                                     className="invalid-feedback"
                                 />
@@ -146,6 +177,7 @@ const ModalEstudiante = ({
                                 </Col>
                             </Row>
                     }
+
 
                     <div className="d-flex flex-wrap gap-2 mt-4">
                         <CustomButton type="submit" color="primary" loading={loading} disabled={loadingEstudiante || loading}>

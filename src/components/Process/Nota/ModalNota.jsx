@@ -173,7 +173,7 @@ const ModalNota = ({
                     return showToast({toastType:'error',title:"Error",message:"Por favor ingrese al menos 1 nota"})
                     delete values.periodo;
                     delete values.institucionId;
-                    delete values.cursoId;
+                    values.cursoId = +values.cursoId;
                     values.asignaturaId = +values.asignaturaId;
                     values.estudianteId = +values.estudianteId;
                     values.observacionNota = JSON.stringify(notasEstudiante);

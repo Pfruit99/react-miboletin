@@ -80,7 +80,6 @@ class DatatableTables extends Component {
       delete values.id;
       this.setState({loadingForm:true});
       await helpAPI.post(`${import.meta.env.VITE_APP_BACKEND_URL}/contratacion`, {...values })
-      console.log("creado correctamente");
       showToast({message:this.props.t("Contratacion creada correctamente")});
       this.tog_xlarge();
       const state = this.tableRef.current.getNewestState();

@@ -292,7 +292,7 @@ class DatatableTables extends Component {
                               {toolkitProps => (
                                   <React.Fragment>
                                     <Row className="mb-2">
-                                      <Col md="4">
+                                      {/* <Col md="4">
                                         <div className="search-box me-2 mb-2 d-inline-block">
                                           <div className="position-relative">
                                             <SearchBar
@@ -302,8 +302,8 @@ class DatatableTables extends Component {
                                             <i className="bx bx-search-alt search-icon" />
                                           </div>
                                         </div>
-                                      </Col>
-                                      <Col md="4">
+                                      </Col> */}
+                                      <Col md="8">
                                         <MyExportCSV {...toolkitProps.csvProps} />
                                       </Col>
                                       <Col md="4">

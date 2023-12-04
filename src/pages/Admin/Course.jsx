@@ -197,6 +197,13 @@ class DatatableTables extends Component {
         formatter: (cell, row) => row.institucion ? row.institucion.nombre: "No Institucion",
       },
       {
+        dataField: "Asignaturas",
+        text: this.props.t("Asignaturas"),
+        sort: true,
+        formatter: (cell, row) =>
+          row.asignaturas?.length > 0 ? row.asignaturas.map(c => c.nombre.nombre).join(','): "No asignaturas",
+      },
+      {
         dataField: "actions",
         text: this.props.t("Actions"),
         sort: false,

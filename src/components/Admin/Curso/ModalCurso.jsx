@@ -16,6 +16,8 @@ import {getErrorMessageCurso} from "../../Common/errorMessage";
 import moment from 'moment';
 import useLoadInstituciones from '../../Hooks/Institucion/useLoadInstituciones';
 
+const grados = ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto", "Sexto", "Septimo", "Octavo", "Noveno", "Decimo", "Once"].map(grado => ({label: grado, value: grado}));
+
 const ModalCurso = ({
     t, // from withTranslation
     isOpen,
@@ -28,13 +30,13 @@ const ModalCurso = ({
 }) => {
     const [selectedCurso, setSelectedCurso] = useState(null);
     const [institucionId, setInstitucionId] = useState(null);
-    const [selectedEstudiantes, setSelectedEstudiantes] = useState([]);
-    const {curso, loading:loadingCurso, estudiantes } = useLoadCurso(id, cursoData);
+    const [selectedAsignaturas, setSelectedAsignaturas] = useState([]);
+    const {curso, loading:loadingCurso, asignaturas } = useLoadCurso(id, cursoData);
     const { instituciones } = useLoadInstituciones()
     useEffect(()=>{
         if(curso){
             setSelectedCurso({...curso})
-            setSelectedEstudiantes(curso.estudiantes.map(es => es.id))
+            setSelectedAsignaturas(curso.asignaturas.map(as => as.id))
         }
     }, [curso])
     useEffect(()=>{
@@ -43,7 +45,7 @@ const ModalCurso = ({
         }
     },[instituciones])
     const onChange = (e) => {
-        setSelectedEstudiantes(e)
+        setSelectedAsignaturas(e)
     }
   return (
     <Modal
@@ -52,7 +54,7 @@ const ModalCurso = ({
         isOpen={isOpen}
         toggle={() => {
             setSelectedCurso(null)
-            setSelectedEstudiantes([])
+            setSelectedAsignaturas([])
             togModal()
         }}
     >
@@ -65,13 +67,13 @@ const ModalCurso = ({
                     (loadingCurso || loading) ?
                         <i className="ms-2 fa-xl fas fa-spinner fa-pulse"></i> :
                         id && curso?.id ? `${t("Actualizar curso")} - ${curso.grado}` :
-                        t("Nueva Institución")
+                        t("Nuevo Curso")
                 }
             </h5>
             <button
                 onClick={() => {
                     setSelectedCurso(null)
-                    setSelectedEstudiantes([])
+                    setSelectedAsignaturas([])
                     handleClickClose()
                 }}
                 type="button"
@@ -111,11 +113,11 @@ const ModalCurso = ({
 
                 })}
                 onSubmit={values => {
-                    if(selectedEstudiantes.length === 0) return showToast({toastType:'error',title:"Error",message:"Por favor seleccione al menos 1 estudiante"})
+                    if(selectedAsignaturas.length === 0) return showToast({toastType:'error',title:"Error",message:"Por favor seleccione al menos una asignatura"})
                     values.institucionId = +values.institucionId
-                    handleSubmit({...values, estudiantesId: selectedEstudiantes },id)
+                    handleSubmit({...values, asignaturasId: selectedAsignaturas },id)
                     setSelectedCurso(null)
-                    setSelectedEstudiantes([])
+                    setSelectedAsignaturas([])
                 }}
             >
                 {({ errors, status, touched, setFieldValue }) => (
@@ -127,15 +129,19 @@ const ModalCurso = ({
                                 <Label className="form-label">{"Grado"}</Label>
                                 <Field
                                     name="grado"
-                                    type="text"
-                                    placeholder=""
+                                    as="select"
                                     className={
                                         "form-control" +
                                         (errors.grado && touched.grado
                                             ? " is-invalid"
                                             : "")
-                                    }
-                                />
+                                }>
+                                    <option value="0">Seleccione una Opcion</option>
+                                    {grados.map(grado => (
+                                        <option value={grado.value} key={grado.value}>{grado.label}</option>
+                                    ))}
+
+                                </Field>
                                 <ErrorMessage
                                     name="grado"
                                     component="div"
@@ -215,11 +221,11 @@ const ModalCurso = ({
                             </div>
                         </Col>
                     </Row>
-                    {/* estudiantes */}
+                    {/* Asignaturas */}
                     <Row>
                         <Col lg={12}>
                             <div className="mb-3">
-                                <Label className="form-label">{"Estudiantes "}</Label>
+                                <Label className="form-label">{"Asignaturas"}</Label>
                                 <TransferList
                                     canFilter
                                     filterCallback={(Optgroup, filterInput) => {
@@ -229,8 +235,8 @@ const ModalCurso = ({
                                         return (new RegExp(filterInput, 'i')).test(Optgroup.label);
                                     }}
                                     filterPlaceholder={`${t("Search")}...`}
-                                    options={estudiantes}
-                                    selected={selectedEstudiantes}
+                                    options={asignaturas}
+                                    selected={selectedAsignaturas}
                                     onChange={onChange}
                                 />
                             </div>
@@ -243,7 +249,7 @@ const ModalCurso = ({
                         </CustomButton>{" "}
                         <CustomButton type="reset" color="secondary" onClick={() => {
                             setSelectedCurso(null)
-                            setSelectedEstudiantes([])
+                            setSelectedAsignaturas([])
                             handleClickClose()
                         }} disabled={loadingCurso || loading}>
                             {t("Cancel")}

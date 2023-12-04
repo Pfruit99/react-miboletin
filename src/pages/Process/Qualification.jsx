@@ -182,7 +182,12 @@ class DatatableTables extends Component {
         formatter: (_, row) => row.estudiante ? `${row.estudiante?.usuario?.nombre} ${row.estudiante?.usuario?.apellido}` : 'Sin estudiante'
       },
       {
-        dataField: "asignatura.nombre",
+        dataField: "curso.grado",
+        text: this.props.t("Asignatura"),
+        sort: true,
+      },
+      {
+        dataField: "asignatura.nombre.nombre",
         text: this.props.t("Asignatura"),
         sort: true,
       },

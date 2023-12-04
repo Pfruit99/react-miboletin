@@ -258,7 +258,7 @@ const ModalBoletin = ({
                         </CustomButton>
                         {
                             selectedBoletin &&
-                            <PDFDownloadLink document={<GeneratedBoletin dataProp={selectedBoletin} />} fileName={`boletin-${selectedBoletin.estudiante.codEstudiante}${moment().format('YYYY')}.pdf`}>
+                            <PDFDownloadLink document={<GeneratedBoletin dataProp={selectedBoletin} />} fileName={`boletin-${selectedBoletin.estudiante.codEstudiante}${moment().format('YYYY-MM-DD_HH:mm:ss')}.pdf`}>
                                 {({ blob, url, loading, error }) => (<CustomButton type='button'  onClick={()=>handleSubmit({
                                     cursoId: +values.cursoId,
                                     institucionId: +values.institucionId,

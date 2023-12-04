@@ -9,9 +9,9 @@ const useLoadEstudianteByCurso = (cursoId) => {
             try {
                 setLoading(true);
                 const result = await post(`${import.meta.env.VITE_APP_BACKEND_URL}/estudiantes/findByWhere`,{
-                    relations: ['cursos'],
+                    relations: ['curso'],
                     where: {
-                        cursos: {
+                        curso: {
                             id: cursoId
                         }
                     },

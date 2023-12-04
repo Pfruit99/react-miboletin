@@ -283,7 +283,7 @@ class DatatableTables extends Component {
                                       <Col md="4">
                                         <MyExportCSV {...toolkitProps.csvProps} />
                                       </Col>
-                                      <Col md="4">
+                                      {/* <Col md="4">
                                         <div className="d-flex justify-content-end">
                                           <button
                                               type="button"
@@ -295,7 +295,7 @@ class DatatableTables extends Component {
                                             {"Nuevo Institucion"}
                                           </button>
                                         </div>
-                                      </Col>
+                                      </Col> */}
                                     </Row>
 
 

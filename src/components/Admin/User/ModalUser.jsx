@@ -37,7 +37,6 @@ const ModalUser = ({
     const onChange = (e) => {
         setSelectedRoles(e)
     }
-    console.log('user', user);
   return (
     <Modal
         backdrop="static"
