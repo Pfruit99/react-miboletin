@@ -19,6 +19,7 @@ const ModalActivateUser = ({
     id
 }) => {
     const {user, loading:loadingUser} = useLoadUser(id);
+    console.log('user', user);
   return (
     <Modal
         backdrop="static"
@@ -32,7 +33,7 @@ const ModalActivateUser = ({
                 id="myExtraLargeModalLabel"
             >
                 {
-                    (loading || loadingUser) ? <i className="ms-2 fa-xl fas fa-spinner fa-pulse"></i> : `${+user?.isActive === 1 ? t("To inactive"):t("To active")} - ${user?.username}`
+                    (loading || loadingUser) ? <i className="ms-2 fa-xl fas fa-spinner fa-pulse"></i> : `${+user?.isActive === 1 ? t("To inactive"):t("To active")} - ${user?.nombreUsuario}`
                 }
             </h5>
             <button

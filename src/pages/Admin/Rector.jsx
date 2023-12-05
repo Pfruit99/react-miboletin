@@ -303,10 +303,10 @@ class DatatableTables extends Component {
                                           </div>
                                         </div>
                                       </Col> */}
-                                      <Col md="8">
+                                      {/* <Col md="8">
                                         <MyExportCSV {...toolkitProps.csvProps} />
-                                      </Col>
-                                      <Col md="4">
+                                      </Col> */}
+                                      <Col md="12">
                                         <div className="d-flex justify-content-end">
                                           <button
                                               type="button"

@@ -170,6 +170,7 @@ class DatatableTables extends Component {
         dataField: "curso.grado",
         text:this.props.t("Curso"),
         sort: true,
+        formatter: (cell, row) => row.curso?.grado ? `${row.curso.grado} ${row.curso.nombre || ''}` : `Sin Curso`,
       },
       {
         dataField: "estudiante.usuario.id",
@@ -268,7 +269,7 @@ class DatatableTables extends Component {
                               {toolkitProps => (
                                   <React.Fragment>
                                     <Row className="mb-2">
-                                      <Col md="4">
+                                      <Col md="8">
                                         <div className="search-box me-2 mb-2 d-inline-block">
                                           <div className="position-relative">
                                             <SearchBar
@@ -279,9 +280,9 @@ class DatatableTables extends Component {
                                           </div>
                                         </div>
                                       </Col>
-                                      <Col md="4">
+                                      {/* <Col md="4">
                                         <MyExportCSV {...toolkitProps.csvProps} />
-                                      </Col>
+                                      </Col> */}
                                       <Col md="4">
                                         <div className="d-flex justify-content-end">
                                           <button

@@ -20,7 +20,7 @@ import useLoadNombreAsignaturas from '../../Hooks/NombreAsignaturas/useLoadNombr
 import useLoadPeriodos from '../../Hooks/Periodos/useLoadPeriodos';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/moment';
-import { TimePicker } from 'formik-material-ui-pickers';
+import { DatePicker, TimePicker } from 'formik-material-ui-pickers';
 
 const ModalAsignatura = ({
     t, // from withTranslation
@@ -118,7 +118,9 @@ const ModalAsignatura = ({
                     nombre:  selectedAsignatura?.nombre?.id || "0",
                     periodo:  selectedAsignatura?.periodo?.id || "0",
                     area:  selectedAsignatura?.area?.id ? selectedAsignatura?.area?.id : 0,
-                    horaAsignatura:  moment(selectedAsignatura?.horaAsignatura, 'HH:mm A') || "",
+                    horaInicio:  moment(selectedAsignatura?.horaInicio, 'HH:mm A') || "",
+                    horaFin:  moment(selectedAsignatura?.horaFin, 'HH:mm A') || "",
+                    year:  moment(selectedAsignatura?.year, 'YYYY') || "",
                     docenteId:  selectedAsignatura?.docenteId || "0",
                     institucionId: institucionId || selectedAsignatura?.institucionId || "0",
                     porcentajeAsistencia: +selectedAsignatura?.porcentajeAsistencia || 0,
@@ -155,7 +157,10 @@ const ModalAsignatura = ({
                     values.periodo = +values.periodo;
                     values.area = +selectedArea;
                     values.nombre = +values.nombre;
-                    values.horaAsignatura = moment(values.horaAsignatura).format('HH:mm A')
+                    values.horaInicio = moment(values.horaInicio).format('HH:mm A')
+                    values.horaFin = moment(values.horaFin).format('HH:mm A')
+                    console.log('values.year', values.year)
+                    values.year = moment(values.year).format('YYYY') === 'Invalid date' ?  moment().format('YYYY') : moment(values.year).format('YYYY');
                     handleSubmit({...values },id)
                     setSelectedAsignatura(null)
                     setSelectedCursos([])
@@ -164,11 +169,11 @@ const ModalAsignatura = ({
                 {({ errors, status, touched, setFieldValue, values }) => (
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <Form className="needs-validation">
-                        {/* Area y Nombre */}
+                        {/* Area, Nombre y año */}
                         <Row>
-                            <Col lg={6}>
+                            <Col lg={4}>
                                 <div className="mb-3">
-                                    <Label className="form-label">{"Area"}</Label>
+                                    <Label className="form-label">{"Área"}</Label>
                                     <Field
                                         name="area"
                                         as="select"
@@ -182,7 +187,7 @@ const ModalAsignatura = ({
                                                 ? " is-invalid"
                                                 : "")
                                     }>
-                                        <option value="0">Seleccione una Opcion</option>
+                                        <option value="0">Seleccione una Opción</option>
                                         {areas.map(area => (
                                             <option value={area.value} key={area.value}>{area.label}</option>
                                         ))}
@@ -195,7 +200,7 @@ const ModalAsignatura = ({
                                     />
                                 </div>
                             </Col>
-                            <Col lg={6}>
+                            <Col lg={4}>
                                 <div className="mb-3">
                                     <Label className="form-label">{"Nombre"}</Label>
                                     <Field
@@ -207,7 +212,7 @@ const ModalAsignatura = ({
                                                 ? " is-invalid"
                                                 : "")
                                     }>
-                                        <option value="0">Seleccione una Opcion</option>
+                                        <option value="0">Seleccione una Opción</option>
                                         {nombreAsignaturas.map(name => (
                                             <option value={name.value} key={name.value}>{name.label}</option>
                                         ))}
@@ -220,60 +225,78 @@ const ModalAsignatura = ({
                                     />
                                 </div>
                             </Col>
-                        </Row>
-                        {/* periodo y Hora asignatura */}
-                        <Row>
-                            <Col lg={6}>
+                            <Col lg={4}>
                                 <div className="mb-3">
-                                    <Label className="form-label">{"Periodo"}</Label>
+                                    <Label className="form-label">{"Año"}</Label>
                                     <Field
-                                        name="periodo"
-                                        as="select"
+                                        component={DatePicker}
+                                        name="year"
+                                        views={["year"]}
+                                        format="YYYY"
                                         className={
                                             "form-control" +
-                                            (errors.periodo && touched.periodo
-                                                ? " is-invalid"
-                                                : "")
-                                    }>
-                                        <option value="0">Seleccione una Opcion</option>
-                                        {periodos.map(doc => (
-                                            <option value={doc.value} key={doc.value}>{doc.label}</option>
-                                        ))}
-
-                                    </Field>
-                                    <ErrorMessage
-                                        name="periodo"
-                                        component="div"
-                                        className="invalid-feedback"
-                                    />
-                                </div>
-                            </Col>
-                            <Col lg={6}>
-                                <div className="mb-3">
-                                    <Label className="form-label">{"Hora asignatura"}</Label>
-                                    <Field
-                                        component={TimePicker}
-                                        name="horaAsignatura"
-                                        className={
-                                            "form-control" +
-                                            (errors.institucionId && touched.institucionId
+                                            (errors.year && touched.year
                                                 ? " is-invalid"
                                                 : "")
                                         }
                                     />
                                     <ErrorMessage
-                                        name="horaAsignatura"
+                                        name="year"
                                         component="div"
                                         className="invalid-feedback"
                                     />
                                 </div>
                             </Col>
                         </Row>
-                        {/* institucion y docente */}
+                        {/* Hora Inicio y finn */}
                         <Row>
+
                             <Col lg={6}>
                                 <div className="mb-3">
-                                    <Label className="form-label">{"Institucion"}</Label>
+                                    <Label className="form-label">{"Hora Inicio"}</Label>
+                                    <Field
+                                        component={TimePicker}
+                                        name="horaInicio"
+                                        className={
+                                            "form-control" +
+                                            (errors.horaInicio && touched.horaInicio
+                                                ? " is-invalid"
+                                                : "")
+                                        }
+                                    />
+                                    <ErrorMessage
+                                        name="horaInicio"
+                                        component="div"
+                                        className="invalid-feedback"
+                                    />
+                                </div>
+                            </Col>
+                            <Col lg={6}>
+                                <div className="mb-3">
+                                    <Label className="form-label">{"Hora Fin"}</Label>
+                                    <Field
+                                        component={TimePicker}
+                                        name="horaFin"
+                                        className={
+                                            "form-control" +
+                                            (errors.horaFin && touched.horaFin
+                                                ? " is-invalid"
+                                                : "")
+                                        }
+                                    />
+                                    <ErrorMessage
+                                        name="horaFin"
+                                        component="div"
+                                        className="invalid-feedback"
+                                    />
+                                </div>
+                            </Col>
+                        </Row>
+                        {/* institucion, Periodo y docente */}
+                        <Row>
+                            <Col lg={4}>
+                                <div className="mb-3">
+                                    <Label className="form-label">{"Institución"}</Label>
                                     <Field
                                         name="institucionId"
                                         as="select"
@@ -284,7 +307,7 @@ const ModalAsignatura = ({
                                                 ? " is-invalid"
                                                 : "")
                                     }>
-                                        <option value="0">Seleccione una Opcion</option>
+                                        <option value="0">Seleccione una Opción</option>
                                         {instituciones.map(inst => (
                                             <option value={inst.value} key={inst.value}>{inst.label}</option>
                                         ))}
@@ -297,7 +320,32 @@ const ModalAsignatura = ({
                                     />
                                 </div>
                             </Col>
-                            <Col lg={6}>
+                            <Col lg={4}>
+                                <div className="mb-3">
+                                    <Label className="form-label">{"Período"}</Label>
+                                    <Field
+                                        name="periodo"
+                                        as="select"
+                                        className={
+                                            "form-control" +
+                                            (errors.periodo && touched.periodo
+                                                ? " is-invalid"
+                                                : "")
+                                    }>
+                                        <option value="0">Seleccione una Opción</option>
+                                        {periodos.map(doc => (
+                                            <option value={doc.value} key={doc.value}>{doc.label}</option>
+                                        ))}
+
+                                    </Field>
+                                    <ErrorMessage
+                                        name="periodo"
+                                        component="div"
+                                        className="invalid-feedback"
+                                    />
+                                </div>
+                            </Col>
+                            <Col lg={4}>
                                 <div className="mb-3">
                                     <Label className="form-label">{"Docente"}</Label>
                                     <Field
@@ -309,7 +357,7 @@ const ModalAsignatura = ({
                                                 ? " is-invalid"
                                                 : "")
                                     }>
-                                        <option value="0">Seleccione una Opcion</option>
+                                        <option value="0">Seleccione una Opción</option>
                                         {docentes.map(doc => (
                                             <option value={doc.value} key={doc.value}>{doc.label}</option>
                                         ))}
@@ -327,7 +375,7 @@ const ModalAsignatura = ({
                         <Row>
                             <Col lg={4}>
                                 <div className="mb-3">
-                                    <Label className="form-label">{"% Asistencia"}</Label>
+                                    <Label className="form-label">{"% Actitudinal"}</Label>
                                     <Field
                                         name="porcentajeAsistencia"
                                         type="number"
@@ -346,7 +394,7 @@ const ModalAsignatura = ({
                             </Col>
                             <Col lg={4}>
                                 <div className="mb-3">
-                                    <Label className="form-label">{"% Parcial"}</Label>
+                                    <Label className="form-label">{"% Procedimental"}</Label>
                                     <Field
                                         name="porcentajeParcial"
                                         type="number"
@@ -365,7 +413,7 @@ const ModalAsignatura = ({
                             </Col>
                             <Col lg={4}>
                                 <div className="mb-3">
-                                    <Label className="form-label">{"% Clase"}</Label>
+                                    <Label className="form-label">{"% Cognitivo"}</Label>
                                     <Field
                                         name="porcentajeClase"
                                         type="number"

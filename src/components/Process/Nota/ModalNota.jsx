@@ -114,6 +114,7 @@ const ModalNota = ({
         toggle={() => {
             setSelectedNota(null)
             setSelectedCursos([])
+            setSelectedCurso(0)
             togModal()
         }}
     >
@@ -125,14 +126,16 @@ const ModalNota = ({
                 {
                     (loadingNota || loading) ?
                         <i className="ms-2 fa-xl fas fa-spinner fa-pulse"></i> :
-                        id && nota?.id ? `${t("Actualizar nota")} - ${nota.estudiante.usuario.nombre} / ${nota.asignatura.nombre.nombre}` :
-                        t("Nueva Nota")
+                        id && nota?.id ? `${t("Actualizar Valoración")} - ${nota.estudiante.usuario.nombre} / ${nota.asignatura.nombre.nombre}` :
+                        t("Nueva Valoración")
                 }
             </h5>
             <button
                 onClick={() => {
                     setSelectedNota(null)
                     setSelectedCursos([])
+                    setSelectedInstitu(0)
+                    setSelectedCurso(0)
                     handleClickClose()
                 }}
                 type="button"
@@ -184,6 +187,7 @@ const ModalNota = ({
                     handleSubmit({...values },id)
                     setSelectedNota(null)
                     setSelectedCursos([])
+                    setSelectedCurso(0)
                 }}
             >
                 {({ errors, status, touched, setFieldValue, values }) => (
@@ -354,6 +358,7 @@ const ModalNota = ({
                         <CustomButton type="reset" color="secondary" onClick={() => {
                             setSelectedNota(null)
                             setSelectedCursos([])
+                            setSelectedCurso(0)
                             handleClickClose()
                         }} disabled={loadingNota || loading}>
                             {t("Cancel")}

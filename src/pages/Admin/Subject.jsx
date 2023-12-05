@@ -212,9 +212,22 @@ class DatatableTables extends Component {
 
       },
       {
-        dataField: "horaAsignatura",
-        text: this.props.t("Horas"),
+        dataField: "year",
+        text: this.props.t("Año"),
         sort: true,
+        formatter: (_, row) => row.year && row.year !== 'Invalid date' ? `${row.year}` : 'Sin año'
+      },
+      {
+        dataField: "horaInicio",
+        text: this.props.t("Hora Inicio"),
+        sort: true,
+        formatter: (_, row) => row.horaInicio && row.horaInicio !== 'Invalid date' ? `${row.horaInicio}` : 'Sin hora inicio'
+      },
+      {
+        dataField: "horaFin",
+        text: this.props.t("Hora Fin"),
+        sort: true,
+        formatter: (_, row) => row.horaFin && row.horaFin !== 'Invalid date' ? `${row.horaFin}` : 'Sin hora fin'
       },
       {
         dataField: "docente.usuario.nombre",
@@ -327,7 +340,7 @@ class DatatableTables extends Component {
                               {toolkitProps => (
                                   <React.Fragment>
                                     <Row className="mb-2">
-                                      <Col md="4">
+                                      <Col md="8">
                                         <div className="search-box me-2 mb-2 d-inline-block">
                                           <div className="position-relative">
                                             <SearchBar
@@ -338,9 +351,9 @@ class DatatableTables extends Component {
                                           </div>
                                         </div>
                                       </Col>
-                                      <Col md="4">
+                                      {/* <Col md="4">
                                         <MyExportCSV {...toolkitProps.csvProps} />
-                                      </Col>
+                                      </Col> */}
                                       <Col md="4">
                                         <div className="d-flex justify-content-end">
                                           <button

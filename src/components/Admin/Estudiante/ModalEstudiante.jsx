@@ -58,8 +58,8 @@ const ModalEstudiante = ({
                 {
                     (loadingEstudiante || loading) ?
                         <i className="ms-2 fa-xl fas fa-spinner fa-pulse"></i> :
-                        id && estudiante?.id ? `${t("Estudiante update")} - ${estudiante.codEstudiante}` :
-                        t("Estudiante create")
+                        id && estudiante?.id ? `${t("Actualizar Estudiante")} - ${estudiante.codEstudiante}` :
+                        t("Nuevo Estudiante")
                 }
             </h5>
             <button

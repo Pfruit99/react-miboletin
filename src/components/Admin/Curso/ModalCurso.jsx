@@ -92,7 +92,8 @@ const ModalCurso = ({
                     grado:  selectedCurso?.grado || "",
                     fechaInicio:  selectedCurso?.fechaInicio || "",
                     fechaFin:  selectedCurso?.fechaFin || "",
-                    institucionId: institucionId || selectedCurso?.institucion.id || "0"
+                    institucionId: institucionId || selectedCurso?.institucion.id || "0",
+                    nombre: selectedCurso?.nombre || "",
 
                 }}
                 validationSchema={Yup.object().shape({
@@ -124,7 +125,32 @@ const ModalCurso = ({
                 <Form className="needs-validation">
                     {/* grado y fechas */}
                     <Row>
-                        <Col lg={6}>
+                        <Col lg={4}>
+                            <div className="mb-3">
+                                <Label className="form-label">{"Institucion"}</Label>
+                                <Field
+                                    name="institucionId"
+                                    as="select"
+                                    disabled={true}
+                                    className={
+                                        "form-control" +
+                                        (errors.institucionId && touched.institucionId
+                                            ? " is-invalid"
+                                            : "")
+                                }>
+                                    <option value="0">Seleccione una Opcion</option>
+                                    {instituciones.map(institucion => (
+                                        <option key={institucion.value} value={`${institucion.value}`}>{institucion.label}-{institucion.value}</option>
+                                    ))}
+                                </Field>
+                                <ErrorMessage
+                                    name="institucionId"
+                                    component="div"
+                                    className="invalid-feedback"
+                                />
+                            </div>
+                        </Col>
+                        <Col lg={4}>
                             <div className="mb-3">
                                 <Label className="form-label">{"Grado"}</Label>
                                 <Field
@@ -149,26 +175,23 @@ const ModalCurso = ({
                                 />
                             </div>
                         </Col>
-                        <Col lg={6}>
+
+                        <Col lg={4}>
                             <div className="mb-3">
-                                <Label className="form-label">{"Institucion"}</Label>
+                                <Label className="form-label">{"Nombre"}</Label>
                                 <Field
-                                    name="institucionId"
-                                    as="select"
-                                    disabled={true}
+                                    name="nombre"
+                                    type="text"
+                                    placeholder=""
                                     className={
                                         "form-control" +
-                                        (errors.institucionId && touched.institucionId
+                                        (errors.nombre && touched.nombre
                                             ? " is-invalid"
                                             : "")
-                                }>
-                                    <option value="0">Seleccione una Opcion</option>
-                                    {instituciones.map(institucion => (
-                                        <option key={institucion.value} value={`${institucion.value}`}>{institucion.label}-{institucion.value}</option>
-                                    ))}
-                                </Field>
+                                    }
+                                />
                                 <ErrorMessage
-                                    name="institucionId"
+                                    name="nombre"
                                     component="div"
                                     className="invalid-feedback"
                                 />

@@ -10,7 +10,7 @@ const useLoadCursos = () => {
                 setLoading(true);
                 const result = await get(`${import.meta.env.VITE_APP_BACKEND_URL}/cursos/findComplete`);
                 setCursos(result.map(c => ({
-                    label: c.grado,
+                    label: `${c.grado} ${c.nombre || ''}`,
                     value: c.id
                 })))
             } catch (error) {

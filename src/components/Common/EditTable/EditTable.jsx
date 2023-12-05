@@ -37,9 +37,9 @@ const EditableTable = ({
         <thead>
           <tr>
             <th className={"header"}>Periodo</th>
-            <th className={"header"}>Nota Asistencia {porcentajeNota && `${porcentajeNota.porcentajeAsistencia}%`}</th>
-            <th className={"header"}>Nota Parcial {porcentajeNota && `${porcentajeNota.porcentajeParcial}%`}</th>
-            <th className={"header"}>Nota Clase {porcentajeNota && `${porcentajeNota.porcentajeClase}%`}</th>
+            <th className={"header"}>Nota Actitudinal {porcentajeNota && `${porcentajeNota.porcentajeAsistencia}%`}</th>
+            <th className={"header"}>Nota Procedimental {porcentajeNota && `${porcentajeNota.porcentajeParcial}%`}</th>
+            <th className={"header"}>Nota Cognitiva {porcentajeNota && `${porcentajeNota.porcentajeClase}%`}</th>
             <th className={"header"}>Definitiva</th>
           </tr>
         </thead>

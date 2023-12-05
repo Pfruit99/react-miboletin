@@ -88,12 +88,12 @@ function GeneratedBoletin({
     const observacionNota = JSON.parse(nota.observacionNota)
     console.log('nota', nota)
     return [
-      ['Periodo', 'Valoración'],
-      ['P1',observacionNota[0].definitiva],
-      ['P2',observacionNota[1].definitiva],
-      ['P3',observacionNota[2].definitiva],
-      ['P4',observacionNota[3].definitiva],
-      ['Total',nota.notaDefinitiva]
+      nota.asignatura.nombre.nombre,
+      observacionNota[0].definitiva,
+      observacionNota[1].definitiva,
+      observacionNota[2].definitiva,
+      observacionNota[3].definitiva,
+      nota.notaDefinitiva,
     ]
   }
   console.log('dataProp', dataProp)
@@ -112,7 +112,7 @@ function GeneratedBoletin({
               Nombre Estudiante: {dataProp?.estudiante ? `${dataProp.estudiante.usuario.nombre} ${dataProp.estudiante.usuario.apellido}`: ''}
             </Text>
             <Text style={styles.secondaryText}>
-              Curso: {dataProp?.curso ? dataProp.curso.grado : ''}
+              Curso: {dataProp?.curso ? `${dataProp.curso.grado} ${dataProp.curso.nombre || ''}` : ''}
             </Text>
             <Text style={styles.secondaryText}>
               Nombre Institucion: { dataProp?.institucion ? dataProp.institucion.nombre : '' }
@@ -121,8 +121,23 @@ function GeneratedBoletin({
               Direccion Institucion: { dataProp?.institucion ? dataProp.institucion.direccion : '' }
             </Text>
           </View>
+          <Table
+            th
+            col={['15%', '17%', '17%', '17%', '17%', '17%']}
+            childrentag={[
+              ['Asignatura', 'Periodo 1', 'Periodo 2', 'Periodo 3', 'Periodo 4', 'Valoración final'],
+              ...[...dataProp?.notas?.map((nota, ind) => [
+                ...generateData(nota)
+              ])]
+            ]}
+          />
+          {/* <View style={styles.sectionQA}>
+            <Text style={styles.thirdText}>
+              Observaciones: {nota.observaciones}
+            </Text>
+          </View> */}
 
-          {dataProp?.notas?.map((nota, ind) => (
+          {/* {dataProp?.notas?.map((nota, ind) => (
             <>
               <View style={styles.sectionQA}>
                 <Text style={styles.primaryText}>
@@ -152,7 +167,7 @@ function GeneratedBoletin({
                   </View>
               }
             </>
-          ))}
+          ))} */}
 
 
         </Page>

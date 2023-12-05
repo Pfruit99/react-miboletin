@@ -181,6 +181,12 @@ class DatatableTables extends Component {
         sort: true,
       },
       {
+        dataField: "nombre",
+        text: this.props.t("Nombre"),
+        sort: true,
+        formatter: (cell, row) => row.nombre ? row.nombre: "Sin nombre",
+      },
+      {
         dataField: "fechaInicio",
         text:this.props.t("Fecha Inicio"),
         sort: true,
@@ -196,13 +202,13 @@ class DatatableTables extends Component {
         sort: true,
         formatter: (cell, row) => row.institucion ? row.institucion.nombre: "No Institucion",
       },
-      {
-        dataField: "Asignaturas",
-        text: this.props.t("Asignaturas"),
-        sort: true,
-        formatter: (cell, row) =>
-          row.asignaturas?.length > 0 ? row.asignaturas.map(c => c.nombre.nombre).join(','): "No asignaturas",
-      },
+      // {
+      //   dataField: "Asignaturas",
+      //   text: this.props.t("Asignaturas"),
+      //   sort: true,
+      //   formatter: (cell, row) =>
+      //     row.asignaturas?.length > 0 ? row.asignaturas.map(c => c.nombre.nombre).join(','): "No asignaturas",
+      // },
       {
         dataField: "actions",
         text: this.props.t("Actions"),
@@ -281,7 +287,7 @@ class DatatableTables extends Component {
                               {toolkitProps => (
                                   <React.Fragment>
                                     <Row className="mb-2">
-                                      <Col md="4">
+                                      <Col md="8">
                                         <div className="search-box me-2 mb-2 d-inline-block">
                                           <div className="position-relative">
                                             <SearchBar
@@ -292,9 +298,9 @@ class DatatableTables extends Component {
                                           </div>
                                         </div>
                                       </Col>
-                                      <Col md="4">
+                                      {/* <Col md="4">
                                         <MyExportCSV {...toolkitProps.csvProps} />
-                                      </Col>
+                                      </Col> */}
                                       <Col md="4">
                                         <div className="d-flex justify-content-end">
                                           <button

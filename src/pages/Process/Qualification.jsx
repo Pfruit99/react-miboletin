@@ -183,8 +183,9 @@ class DatatableTables extends Component {
       },
       {
         dataField: "curso.grado",
-        text: this.props.t("Asignatura"),
+        text: this.props.t("Curso"),
         sort: true,
+        formatter: (_, row) => row.curso ? `${row.curso?.grado} ${row.curso?.nombre || ''}` : 'Sin curso'
       },
       {
         dataField: "asignatura.nombre.nombre",
@@ -193,17 +194,17 @@ class DatatableTables extends Component {
       },
       {
         dataField: "notaAsistencia",
-        text: this.props.t("Nota Asistencia"),
+        text: this.props.t("Nota Actitudinal"),
         sort: true,
       },
       {
         dataField: "notaParcial",
-        text:this.props.t("Nota Parcial"),
+        text:this.props.t("Nota Procedimental"),
         sort: true,
       },
       {
         dataField: "notaClase",
-        text: this.props.t("Nota Clase"),
+        text: this.props.t("Nota Cognitiva"),
         sort: true,
       },
       {
@@ -289,7 +290,7 @@ class DatatableTables extends Component {
                               {toolkitProps => (
                                   <React.Fragment>
                                     <Row className="mb-2">
-                                      <Col md="4">
+                                      <Col md="8">
                                         <div className="search-box me-2 mb-2 d-inline-block">
                                           <div className="position-relative">
                                             <SearchBar
@@ -300,9 +301,9 @@ class DatatableTables extends Component {
                                           </div>
                                         </div>
                                       </Col>
-                                      <Col md="4">
+                                      {/* <Col md="4">
                                         <MyExportCSV {...toolkitProps.csvProps} />
-                                      </Col>
+                                      </Col> */}
                                       <Col md="4">
                                         <div className="d-flex justify-content-end">
                                           <button
@@ -312,7 +313,7 @@ class DatatableTables extends Component {
                                               data-toggle="modal"
                                               data-target=".bs-example-modal-xl"
                                           >
-                                            {"Nuevo Nota"}
+                                            {"Nueva Valoración"}
                                           </button>
                                         </div>
                                       </Col>

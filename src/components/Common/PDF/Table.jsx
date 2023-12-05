@@ -2,8 +2,12 @@ import React from "react"
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
 const styles = StyleSheet.create({
-  em:{
-  fontStyle: 'bold'
+em:{
+  fontStyle: 'bold',
+  fontSize: 10,
+},
+normal:{
+  fontSize: 10,
 },
 table: {
   width: '100%',
@@ -29,7 +33,7 @@ cell: {
  const Table = ({childrentag, col, th}) => (
       <View style={styles.table}>
           {childrentag.map((row, ind) =>
-              <View key={ind} style={[styles.tableRow, th && ind === 0 ? styles.em: {}]}>
+              <View key={ind} style={[styles.tableRow, th && ind === 0 ? styles.em: styles.normal]}>
                   {row.map((cell, j) =>
                       <View key={j} style={[styles.cell, {width:col[j], height: 40}]}>
                           {
