@@ -16,28 +16,18 @@ const fireBaseBackend = getFirebaseBackend()
 
 function* loginUser({ payload: { user, history } }) {
   try {
-    if (import.meta.env.VITE_APP_DEFAULTAUTH === "firebase") {
-      const response = yield call(
-        fireBaseBackend.loginUser,
-        user.email,
-        user.password
-      )
-      yield put(loginSuccess(response))
-    } else if (import.meta.env.VITE_APP_DEFAULTAUTH === "jwt") {
-      const response = yield call(postJwtLogin, {
-        nombreUsuario: user.nombreUsuario,
-        clave: user.clave,
-      })
-      localStorage.setItem("authUser", JSON.stringify(response))
-      yield put(loginSuccess(response))
-    } else if (import.meta.env.VITE_APP_DEFAULTAUTH === "fake") {
-      const response = yield call(postFakeLogin, {
-        email: user.email,
-        password: user.password,
-      })
-      localStorage.setItem("authUser", JSON.stringify(response))
-      yield put(loginSuccess(response))
-    }
+    const response = yield call(postJwtLogin, {
+      nombreUsuario: user.nombreUsuario,
+      clave: user.clave,
+    })
+    localStorage.setItem("authUser", JSON.stringify(response))
+    yield put(loginSuccess(response))
+    if(response.data.roles.some(r => ["rector", "administrador"].includes(r)))
+      return history.push("/administration/rector")
+    if(response.data.roles.some(r => ["docente"].includes(r)))
+      return history.push("/process/qualification")
+    if(response.data.roles.some(r => ["estudiante"].includes(r)))
+      return history.push("/report/reportCard")
     history.push("/dashboard")
   } catch (error) {
     let errorMsg = error?.response?.data?.message || "Hubo un error al iniciar sesion";
@@ -67,21 +57,10 @@ function* logoutUser({ payload: { history } }) {
 
 function* socialLogin({ payload: { data, history, type } }) {
   try {
-    if (import.meta.env.VITE_APP_DEFAULTAUTH === "firebase") {
-      const fireBaseBackend = getFirebaseBackend()
-      const response = yield call(
-        fireBaseBackend.socialLoginUser,
-        data,
-        type
-      )
-      localStorage.setItem("authUser", JSON.stringify(response))
-      yield put(loginSuccess(response))
-    } else {
       const response = yield call(postSocialLogin, data)
       localStorage.setItem("authUser", JSON.stringify(response))
       yield put(loginSuccess(response))
-    }
-    history.push("/dashboard")
+    history.push("/administration/rector")
   } catch (error) {
     yield put(apiError(error))
   }

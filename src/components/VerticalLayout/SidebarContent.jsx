@@ -111,12 +111,12 @@ class SidebarContent extends Component {
           <div id="sidebar-menu">
             <ul className="metismenu list-unstyled" id="side-menu">
               {
-                (roles.some(r => ["rector", "administrador", "docente"].includes(r)))  &&
+                (roles.some(r => ["rector", "administrador"].includes(r)))  &&
                     <li className="menu-title">{this.props.t("Administrator")}</li>
 
               }
               {
-                (roles.some(r => ["rector", "administrador", "docente"].includes(r))) &&
+                (roles.some(r => ["rector", "administrador"].includes(r))) &&
                   <li>
                     <Link to="/#">
                       <i className="mdi mdi-food-fork-drink" />
@@ -140,7 +140,7 @@ class SidebarContent extends Component {
                           </li>
                       }
                       {
-                        roles.some(r => ["administrador", "rector", "docente"].includes(r)) &&
+                        roles.some(r => ["administrador", "rector"].includes(r)) &&
                           <li>
                             <Link to="/administration/student">
                               <span>{"Estudiante"}</span>
@@ -164,7 +164,7 @@ class SidebarContent extends Component {
                           </li>
                       }
                       {
-                        roles.some(r => ["administrador", "rector", "docente"].includes(r))  &&
+                        roles.some(r => ["administrador", "rector"].includes(r))  &&
                           <li>
                             <Link to="/administration/course">
                               <span>{"Curso"}</span>
@@ -172,7 +172,7 @@ class SidebarContent extends Component {
                           </li>
                       }
                       {
-                        roles.some(r => ["administrador", "rector", "docente"].includes(r)) &&
+                        roles.some(r => ["administrador", "rector"].includes(r)) &&
                           <li>
                             <Link to="/administration/subject">
                               <span>{"Asignatura"}</span>

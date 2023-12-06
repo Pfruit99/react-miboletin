@@ -86,7 +86,6 @@ function GeneratedBoletin({
 }) {
   const generateData = (nota)=>{
     const observacionNota = JSON.parse(nota.observacionNota)
-    console.log('nota', nota)
     return [
       nota.asignatura.nombre.nombre,
       observacionNota[0].definitiva,
@@ -131,6 +130,15 @@ function GeneratedBoletin({
               ])]
             ]}
           />
+          {
+            dataProp.notas?.length === 0 && (
+              <View style={styles.section}>
+                <Text style={styles.secondaryText}>
+                  No se encontraron notas
+                </Text>
+              </View>
+            )
+          }
           {/* <View style={styles.sectionQA}>
             <Text style={styles.thirdText}>
               Observaciones: {nota.observaciones}

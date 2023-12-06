@@ -61,6 +61,11 @@ const ModalBoletin = ({
         }
     },[])
 
+    useEffect(()=>{
+        if(user.estudiante && user.estudiante.length > 0)
+            setSelectedCurso(user.estudiante[0].curso?.id)
+    },[user.estudiante])
+
   return (
     <Modal
         backdrop="static"
@@ -105,7 +110,7 @@ const ModalBoletin = ({
                     id:  selectedBoletin?.id || "",
                     estudianteId:  user.roles?.some(r => r.includes('estudiante')) ? user.estudiante[0].id : "",
                     institucionId: selectedInstitu || selectedBoletin?.institucionId || "",
-                    cursoId:  selectedBoletin?.cursoId || "",
+                    cursoId:  selectedCurso || selectedBoletin?.cursoId || "",
 
                 }}
                 validationSchema={Yup.object().shape({
@@ -160,12 +165,13 @@ const ModalBoletin = ({
                     {/* curso, estudiante */}
 
                     <Row>
-                        <Col lg={!user.roles?.some(r => r.includes('estudiante')) ? 12:6}>
+                        <Col lg={6}>
                             <div className="mb-3">
                                 <Label className="form-label">{"Curso"}</Label>
                                 <Field
                                     name="cursoId"
                                     as="select"
+                                    disabled={user.roles?.some(r => r.includes('estudiante'))}
                                     onChange={(e)=>{
                                         setFieldValue('cursoId', e.target.value);
                                         setSelectedCurso(+e.target.value);
@@ -190,14 +196,13 @@ const ModalBoletin = ({
                                 />
                             </div>
                         </Col>
-                        {
-                            !user.roles?.some(r => r.includes('estudiante')) &&
-                            <Col lg={6}>
+                        <Col lg={6}>
                                 <div className="mb-3">
                                     <Label className="form-label">{"Estudiante"}</Label>
                                     <Field
                                         name="estudianteId"
                                         as="select"
+                                        disabled={user.roles?.some(r => r.includes('estudiante'))}
                                         onChange={(e)=>{
                                             setFieldValue('estudianteId', e.target.value);
                                             setSelectedBoletin(null)
@@ -221,7 +226,10 @@ const ModalBoletin = ({
                                     />
                                 </div>
                             </Col>
-                        }
+                        {/* {
+                            !user.roles?.some(r => r.includes('estudiante')) &&
+
+                        } */}
                         {/* {
                             selectedBoletin &&
                             <Row>
