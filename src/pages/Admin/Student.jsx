@@ -28,6 +28,7 @@ import { getErrorMessageEstudiante } from "../../components/Common/errorMessage"
 import FormatterColumn from "../../components/Admin/Estudiante/FormatterColumn";
 import ActionColumn from "../../components/Admin/Estudiante/ActionColumn";
 import { connect } from "react-redux";
+import ModalDeleteEstudiante from "../../components/Admin/Estudiante/ModalDeleteEstudiante";
 
 class DatatableTables extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class DatatableTables extends Component {
       data: [],
       totalSize: 0,
       modal_xlarge: false,
-      modal_activate: false,
+      modal_delete: false,
       loadingForm: false,
       loadTable: false,
       estudiante:{
@@ -47,15 +48,16 @@ class DatatableTables extends Component {
       }
     };
     this.tog_xlarge = this.tog_xlarge.bind(this)
-    this.tog_activate = this.tog_activate.bind(this)
+    this.tog_delete = this.tog_delete.bind(this)
     this.handleClickClose = this.handleClickClose.bind(this)
-    this.handleClickCloseActivate = this.handleClickCloseActivate.bind(this)
+    this.handleClickCloseDelete = this.handleClickCloseDelete.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.createEstudiante = this.createEstudiante.bind(this)
     this.createEstudiante = this.createEstudiante.bind(this)
     this.handleOpenEditDialog = this.handleOpenEditDialog.bind(this)
-    this.handleOpenEditDialogActivate = this.handleOpenEditDialogActivate.bind(this)
+    this.handleOpenEditDialogDelete = this.handleOpenEditDialogDelete.bind(this)
     this.updateStatus = this.updateStatus.bind(this)
+    this.deleteEstudiante = this.deleteEstudiante.bind(this)
   }
   // fetch Api
   async loadData (state) {
@@ -109,12 +111,14 @@ class DatatableTables extends Component {
       this.setState({loadingForm:false});
     }
   }
-  async updateStatus (id,data) {
+  async updateStatus (id,data) {}
+
+  async deleteEstudiante (id) {
     try {
       this.setState({loadingForm:true});
-      await helpAPI.put(`${import.meta.env.VITE_APP_BACKEND_URL}/auth/updateEstudiante/${id}`, data)
-      showToast({message:this.props.t("Estudiante updated successfully")});
-      this.tog_activate();
+      await helpAPI.del(`${import.meta.env.VITE_APP_BACKEND_URL}/estudiantes/${id}`)
+      showToast({message:this.props.t("Estudiante eliminado correctamente")});
+      this.tog_delete();
       const state = this.tableRef.current.getNewestState();
       this.loadData(state)
     } catch (error) {
@@ -143,10 +147,10 @@ class DatatableTables extends Component {
     this.removeBodyCss()
   }
 
-  tog_activate() {
+  tog_delete() {
     this.setState(prevState => ({
-      modal_activate: !prevState.modal_activate,
-      estudiante: !prevState.modal_activate ? prevState.estudiante : {id:null}
+      modal_delete: !prevState.modal_delete,
+      estudiante: !prevState.modal_delete ? prevState.estudiante : {id:null}
     }))
     this.removeBodyCss()
   }
@@ -154,8 +158,8 @@ class DatatableTables extends Component {
   handleClickClose(){
     this.setState({ modal_xlarge: false, estudiante : {id:null} })
   }
-  handleClickCloseActivate(){
-    this.setState({ modal_activate: false, estudiante : {id:null} })
+  handleClickCloseDelete(){
+    this.setState({ modal_delete: false, estudiante : {id:null} })
   }
 
   handleOpenEditDialog(id){
@@ -167,14 +171,14 @@ class DatatableTables extends Component {
     })
     this.tog_xlarge();
   }
-  handleOpenEditDialogActivate(id){
+  handleOpenEditDialogDelete(id){
     this.setState({
       estudiante:{
         ...this.state.estudiante,
         id
       }
     })
-    this.tog_activate();
+    this.tog_delete();
   }
 
   handleSubmit(value, id){
@@ -200,7 +204,7 @@ class DatatableTables extends Component {
         dataField: "Curso",
         text: "Curso",
         sort: true,
-        formatter: (cell,row) => row.curso?.grado ? `${row.curso.grado} ${row.curso.nombre || ''}` : "Sin Curso"
+        formatter: (cell,row) => row.curso?.nombre ? row.curso.nombre : "Sin Curso"
       },
       {
         dataField: "identificacion",
@@ -226,7 +230,7 @@ class DatatableTables extends Component {
         sort: false,
         formatter: (cell, row, rowIndex) => {
           return (
-              <ActionColumn row={row} t={this.props.t} openEditDialog={this.handleOpenEditDialog} openEditDialogActivate={this.handleOpenEditDialogActivate} />
+              <ActionColumn row={row} t={this.props.t} openEditDialog={this.handleOpenEditDialog} openEditDialogDelete={this.handleOpenEditDialogDelete} />
           )}
       },
     ];
@@ -393,6 +397,14 @@ class DatatableTables extends Component {
               handleSubmit={this.handleSubmit}
               loading={this.state.loadingForm}
               id={this.state.estudiante.id}
+          />
+          <ModalDeleteEstudiante
+            isOpen={this.state.modal_delete}
+            handleClickClose={this.handleClickCloseDelete}
+            togModal={this.tog_delete}
+            handleSubmit={this.deleteEstudiante}
+            loading={this.state.loadingForm}
+            id={this.state.estudiante.id}
           />
         </React.Fragment>
     );

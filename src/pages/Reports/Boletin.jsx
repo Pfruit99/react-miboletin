@@ -167,10 +167,10 @@ class DatatableTables extends Component {
         sort: true,
       },
       {
-        dataField: "curso.grado",
+        dataField: "curso.nombre",
         text:this.props.t("Curso"),
         sort: true,
-        formatter: (cell, row) => row.curso?.grado ? `${row.curso.grado} ${row.curso.nombre || ''}` : `Sin Curso`,
+        formatter: (cell, row) => row.curso?.nombre ? row.curso.nombre : `Sin Curso`,
       },
       {
         dataField: "estudiante.usuario.id",

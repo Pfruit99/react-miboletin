@@ -66,7 +66,7 @@ const ModalCurso = ({
                 {
                     (loadingCurso || loading) ?
                         <i className="ms-2 fa-xl fas fa-spinner fa-pulse"></i> :
-                        id && curso?.id ? `${t("Actualizar curso")} - ${curso.grado}` :
+                        id && curso?.id ? `${t("Actualizar curso")} - ${curso.nombre}` :
                         t("Nuevo Curso")
                 }
             </h5>

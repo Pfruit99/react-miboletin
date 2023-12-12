@@ -29,6 +29,7 @@ import FormatterColumn from "../../components/Admin/Asignatura/FormatterColumn";
 import ActionColumn from "../../components/Admin/Asignatura/ActionColumn";
 import { connect } from "react-redux";
 import ModalActivateAsignatura from "../../components/Admin/Asignatura/ModalActivateAsignatura";
+import ModalDeleteAsignatura from "../../components/Admin/Asignatura/ModalDeleteAsignatura";
 
 class DatatableTables extends Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class DatatableTables extends Component {
       totalSize: 0,
       modal_xlarge: false,
       modal_activate: false,
+      modal_delete: false,
       loadingForm: false,
       loadTable: false,
       asignatura:{
@@ -49,14 +51,18 @@ class DatatableTables extends Component {
     };
     this.tog_xlarge = this.tog_xlarge.bind(this)
     this.tog_activate = this.tog_activate.bind(this)
+    this.tog_delete = this.tog_delete.bind(this)
     this.handleClickClose = this.handleClickClose.bind(this)
     this.handleClickCloseActivate = this.handleClickCloseActivate.bind(this)
+    this.handleClickCloseDelete = this.handleClickCloseDelete.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.createAsignatura = this.createAsignatura.bind(this)
     this.createAsignatura = this.createAsignatura.bind(this)
     this.handleOpenEditDialog = this.handleOpenEditDialog.bind(this)
     this.handleOpenEditDialogActivate = this.handleOpenEditDialogActivate.bind(this)
+    this.handleOpenDeleteDialog = this.handleOpenDeleteDialog.bind(this)
     this.updateStatus= this.updateStatus.bind(this)
+    this.deleteAsignatura = this.deleteAsignatura.bind(this)
   }
   // fetch Api
   async loadData (state) {
@@ -126,6 +132,21 @@ class DatatableTables extends Component {
     }
   }
 
+  async deleteAsignatura(id,data) {
+    try {
+      this.setState({loadingForm:true});
+      await helpAPI.del(`${import.meta.env.VITE_APP_BACKEND_URL}/asignaturas/${id}`)
+      showToast({message:this.props.t("Asignatura eliminada correctamente")});
+      this.tog_delete();
+      const state = this.tableRef.current.getNewestState();
+      this.loadData(state)
+    } catch (error) {
+      console.log('error', error)
+    } finally{
+      this.setState({loadingForm:false});
+    }
+  }
+
   // other
 
   onTableChange = (type, newState) => {
@@ -153,11 +174,23 @@ class DatatableTables extends Component {
     this.removeBodyCss()
   }
 
+  tog_delete() {
+    this.setState(prevState => ({
+      modal_delete: !prevState.modal_delete,
+      asignatura: !prevState.modal_delete ? prevState.asignatura : {id:null}
+    }))
+    this.removeBodyCss()
+  }
+
   handleClickClose(){
     this.setState({ modal_xlarge: false, asignatura : {id:null} })
   }
   handleClickCloseActivate(){
     this.setState({ modal_activate: false, asignatura : {id:null} })
+  }
+
+  handleClickCloseDelete(){
+    this.setState({ modal_delete: false, asignatura : {id:null} })
   }
 
   handleOpenEditDialog(id){
@@ -177,6 +210,16 @@ class DatatableTables extends Component {
       }
     })
     this.tog_activate();
+  }
+
+  handleOpenDeleteDialog(id){
+    this.setState({
+      asignatura:{
+        ...this.state.asignatura,
+        id
+      }
+    })
+    this.tog_delete();
   }
 
   handleSubmit(value, id){
@@ -268,7 +311,13 @@ class DatatableTables extends Component {
         sort: false,
         formatter: (cell, row, rowIndex) => {
           return (
-              <ActionColumn row={row} t={this.props.t} openEditDialog={this.handleOpenEditDialog} openEditDialogActivate={this.handleOpenEditDialogActivate} />
+              <ActionColumn
+                row={row}
+                t={this.props.t}
+                openEditDialog={this.handleOpenEditDialog}
+                openEditDialogActivate={this.handleOpenEditDialogActivate}
+                openDeleteDialog={this.handleOpenDeleteDialog}
+              />
           )}
       },
     ];
@@ -441,6 +490,14 @@ class DatatableTables extends Component {
               handleClickClose={this.handleClickCloseActivate}
               togModal={this.tog_activate}
               handleSubmit={this.updateStatus}
+              loading={this.state.loadingForm}
+              id={this.state.asignatura.id}
+          />
+          <ModalDeleteAsignatura
+              isOpen={this.state.modal_delete}
+              handleClickClose={this.handleClickCloseDelete}
+              togModal={this.tog_delete}
+              handleSubmit={this.deleteAsignatura}
               loading={this.state.loadingForm}
               id={this.state.asignatura.id}
           />

@@ -30,7 +30,7 @@ const useLoadAsignatura = (id, asignaturaData) => {
                 setLoading(true);
                 const result = await get(`${import.meta.env.VITE_APP_BACKEND_URL}/cursos`);
                 setCursos(result.map(curso => ({
-                    label: `${curso.grado}`,
+                    label: `${curso.nombre}`,
                     value: curso.id
                 })))
             } catch (error) {

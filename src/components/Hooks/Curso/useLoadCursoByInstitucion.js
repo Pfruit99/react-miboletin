@@ -12,7 +12,7 @@ const useLoadCursos = (institucionId) => {
                   ['institucion.id']: institucionId,
                 });
                 setCursos(result.map(c => ({
-                    label: `${c.grado} ${c.nombre || ''}`,
+                    label: `${c.nombre}`,
                     value: c.id
                 })))
             } catch (error) {

@@ -95,7 +95,6 @@ function GeneratedBoletin({
       nota.notaDefinitiva,
     ]
   }
-  console.log('dataProp', dataProp)
   return (
       <Document>
         {/*render a single page*/}
@@ -111,7 +110,7 @@ function GeneratedBoletin({
               Nombre Estudiante: {dataProp?.estudiante ? `${dataProp.estudiante.usuario.nombre} ${dataProp.estudiante.usuario.apellido}`: ''}
             </Text>
             <Text style={styles.secondaryText}>
-              Curso: {dataProp?.curso ? `${dataProp.curso.grado} ${dataProp.curso.nombre || ''}` : ''}
+              Curso: {dataProp?.curso ? `${dataProp.curso.nombre || 'Sin Nombre'}` : ''}
             </Text>
             <Text style={styles.secondaryText}>
               Nombre Institucion: { dataProp?.institucion ? dataProp.institucion.nombre : '' }

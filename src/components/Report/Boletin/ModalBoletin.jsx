@@ -108,7 +108,7 @@ const ModalBoletin = ({
                 enableReinitialize={true}
                 initialValues={{
                     id:  selectedBoletin?.id || "",
-                    estudianteId:  user.roles?.some(r => r.includes('estudiante')) ? user.estudiante[0].id : "",
+                    estudianteId:  user.roles?.some(r => r.includes('estudiante')) ? user.estudiante[0]?.id : "",
                     institucionId: selectedInstitu || selectedBoletin?.institucionId || "",
                     cursoId:  selectedCurso || selectedBoletin?.cursoId || "",
 

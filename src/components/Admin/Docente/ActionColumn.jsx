@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'reactstrap';
-const ActionColumn = ({ row, t, openEditDialog, openEditDialogActivate }) => {
+const ActionColumn = ({ row, t, openEditDialog, openEditDialogDelete }) => {
     return (
         <div className='d-flex justify-content-around'>
             <div className='me-2 me-lg-0'>
@@ -10,17 +10,11 @@ const ActionColumn = ({ row, t, openEditDialog, openEditDialogActivate }) => {
                     {t("View detail")}
                 </button>
             </div>
-            {/* <div className=''>
-                <button className={`btn btn-outline-${+row.isActive === 1 ? 'danger':'success'}`} onClick={() => openEditDialogActivate(row.id)}>
-                    {
-                        +row.isActive === 1 ? <i className="bx bx-user-x font-size-16 align-middle me-2"></i>:
-                        <i className="bx bx-user font-size-16 align-middle me-2"></i>
-                    }
-                    {
-                        +row.isActive === 1 ? t("To inactive") : t("To active")
-                    }
+            <div className=''>
+                <button className={`btn btn-outline-danger`} onClick={() => openEditDialogDelete(row.id)}>
+                    <i className="bx bx-trash font-size-16 align-middle me-2"></i> {t("Delete")}
                 </button>
-            </div> */}
+            </div>
         </div>
     )
 }
@@ -28,7 +22,7 @@ ActionColumn.propTypes = {
     row: PropTypes.any,
     t: PropTypes.any,
     openEditDialog: PropTypes.any,
-    openEditDialogActivate: PropTypes.any
+    openEditDialogDelete: PropTypes.any
 }
 
 export default ActionColumn;

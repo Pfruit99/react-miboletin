@@ -28,6 +28,7 @@ import { getErrorMessageContratacion } from "../../components/Common/errorMessag
 import FormatterColumn from "../../components/Admin/Contratacion/FormatterColumn";
 import ActionColumn from "../../components/Admin/Contratacion/ActionColumn";
 import { connect } from "react-redux";
+import ModalDeleteContratacion from "../../components/Admin/Contratacion/ModalDeleteContratacion";
 
 class DatatableTables extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class DatatableTables extends Component {
       data: [],
       totalSize: 0,
       modal_xlarge: false,
-      modal_activate: false,
+      modal_delete: false,
       loadingForm: false,
       loadTable: false,
       contratacion:{
@@ -47,14 +48,15 @@ class DatatableTables extends Component {
       }
     };
     this.tog_xlarge = this.tog_xlarge.bind(this)
-    this.tog_activate = this.tog_activate.bind(this)
+    this.tog_delete = this.tog_delete.bind(this)
     this.handleClickClose = this.handleClickClose.bind(this)
-    this.handleClickCloseActivate = this.handleClickCloseActivate.bind(this)
+    this.handleClickCloseDelete = this.handleClickCloseDelete.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.createContratacion = this.createContratacion.bind(this)
     this.createContratacion = this.createContratacion.bind(this)
     this.handleOpenEditDialog = this.handleOpenEditDialog.bind(this)
-    this.handleOpenEditDialogActivate = this.handleOpenEditDialogActivate.bind(this)
+    this.handleOpenEditDialogDelete = this.handleOpenEditDialogDelete.bind(this)
+    this.deleteContratacion = this.deleteContratacion.bind(this)
   }
   // fetch Api
   async loadData (state) {
@@ -107,6 +109,21 @@ class DatatableTables extends Component {
       this.setState({loadingForm:false});
     }
   }
+  async deleteContratacion (id){
+    try {
+      await helpAPI.del(`${import.meta.env.VITE_APP_BACKEND_URL}/contratacion/${id}`)
+      this.setState({loadingForm:true});
+      showToast({message:this.props.t("Contratacion actualizada correctamente")});
+      this.tog_delete();
+      const state = this.tableRef.current.getNewestState();
+      this.loadData(state)
+    } catch (error) {
+      console.log('error', error.response.data.error)
+      showToast({toastType:'error',title:"Error",message:getErrorMessageContratacion(error?.response?.data.error, this.props.t)})
+    } finally{
+      this.setState({loadingForm:false});
+    }
+  }
 
   // other
 
@@ -127,10 +144,10 @@ class DatatableTables extends Component {
     this.removeBodyCss()
   }
 
-  tog_activate() {
+  tog_delete() {
     this.setState(prevState => ({
-      modal_activate: !prevState.modal_activate,
-      contratacion: !prevState.modal_activate ? prevState.contratacion : {id:null}
+      modal_delete: !prevState.modal_delete,
+      contratacion: !prevState.modal_delete ? prevState.contratacion : {id:null}
     }))
     this.removeBodyCss()
   }
@@ -138,8 +155,8 @@ class DatatableTables extends Component {
   handleClickClose(){
     this.setState({ modal_xlarge: false, contratacion : {id:null} })
   }
-  handleClickCloseActivate(){
-    this.setState({ modal_activate: false, contratacion : {id:null} })
+  handleClickCloseDelete(){
+    this.setState({ modal_delete: false, contratacion : {id:null} })
   }
 
   handleOpenEditDialog(id){
@@ -151,14 +168,14 @@ class DatatableTables extends Component {
     })
     this.tog_xlarge();
   }
-  handleOpenEditDialogActivate(id){
+  handleOpenEditDialogDelete(id){
     this.setState({
       contratacion:{
         ...this.state.contratacion,
         id
       }
     })
-    this.tog_activate();
+    this.tog_delete();
   }
 
   handleSubmit(value, id){
@@ -213,7 +230,7 @@ class DatatableTables extends Component {
         sort: false,
         formatter: (cell, row, rowIndex) => {
           return (
-              <ActionColumn row={row} t={this.props.t} openEditDialog={this.handleOpenEditDialog} openEditDialogActivate={this.handleOpenEditDialogActivate} />
+              <ActionColumn row={row} t={this.props.t} openEditDialog={this.handleOpenEditDialog} openEditDialogDelete={this.handleOpenEditDialogDelete} />
           )}
       },
     ];
@@ -378,6 +395,14 @@ class DatatableTables extends Component {
               handleClickClose={this.handleClickClose}
               togModal={this.tog_xlarge}
               handleSubmit={this.handleSubmit}
+              loading={this.state.loadingForm}
+              id={this.state.contratacion.id}
+          />
+          <ModalDeleteContratacion
+              isOpen={this.state.modal_delete}
+              handleClickClose={this.handleClickCloseDelete}
+              togModal={this.tog_delete}
+              handleSubmit={this.deleteContratacion}
               loading={this.state.loadingForm}
               id={this.state.contratacion.id}
           />
