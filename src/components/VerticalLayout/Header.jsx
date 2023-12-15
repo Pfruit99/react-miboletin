@@ -85,6 +85,28 @@ class Header extends Component {
               >
                 <i className="fa fa-fw fa-bars"></i>
               </button>
+              <div className="d-flex d-sm-none" style={{ justifyContent: "center", alignItems: "center" }}>
+                <h4 className="ms-2">
+                  {
+                    this.props.user.roles.includes('administrador') ? <b>Admin</b> :
+                    this.props.user.roles.includes('rector') ? <b>Rector</b> :
+                    this.props.user.roles.includes('docente') ? <b>Docente</b> :
+                    this.props.user.roles.includes('estudiante') ? <b>Estudiante</b> :
+                    ''
+                  }
+                </h4>
+              </div>
+              <div className="d-none d-sm-flex" style={{ justifyContent: "center", alignItems: "center" }}>
+                <h4 className="ms-2">
+                  {
+                    this.props.user.roles.includes('administrador') ? <b>Portal Administrador</b> :
+                    this.props.user.roles.includes('rector') ? <b>Portal Rector</b> :
+                    this.props.user.roles.includes('docente') ? <b>Portal Docente</b> :
+                    this.props.user.roles.includes('estudiante') ? <b>Portal Estudiante</b> :
+                    ''
+                  }
+                </h4>
+              </div>
             </div>
             <div className="d-flex">
               <div className="dropdown d-inline-block d-lg-none ms-2">
@@ -150,11 +172,13 @@ Header.propTypes = {
   toggleMenuCallback: PropTypes.any,
   showRightSidebar: PropTypes.any,
   toggleRightSidebar: PropTypes.func,
+  user: PropTypes.any,
 };
 
 const mapStatetoProps = state => {
   const { layoutType, showRightSidebar } = state.Layout;
-  return { layoutType, showRightSidebar };
+  const data = state.Login.user.userData;
+  return { layoutType, showRightSidebar, user:data };
 };
 
 export default connect(mapStatetoProps, { toggleRightSidebar })(

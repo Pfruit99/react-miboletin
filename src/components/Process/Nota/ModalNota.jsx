@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 // Bootstrap components
 import { Modal, Label, Button, Row, Col } from 'reactstrap';
 // Forms
@@ -22,6 +22,8 @@ import useLoadEstudianteByCurso from '../../Hooks/Estudiante/useLoadEstudianteBy
 import useLoadPeriodos from '../../Hooks/Periodos/useLoadPeriodos';
 import EditableTable from '../../Common/EditTable/EditTable';
 import { connect } from 'react-redux';
+import { post } from '../../../helpers/api_helper';
+import Swal from 'sweetalert2';
 const data = [
     {
       periodo: 1,
@@ -71,6 +73,7 @@ const ModalNota = ({
     user,
 }) => {
     const [notasEstudiante, setNotasEstudiante] = useState(data);
+    const [loadingButton, setLoadingButton] = useState(false);
     const [selectedNota, setSelectedNota] = useState(null);
     const [selectedCursos, setSelectedCursos] = useState([]);
     const [selectedInstitu, setSelectedInstitu] = useState(0)
@@ -83,7 +86,57 @@ const ModalNota = ({
     const {cursos} = useLoadCursoByInstitucion(selectedInstitu, user.docente[0]?.id, user.roles);
     const {estudiantes} = useLoadEstudianteByCurso(selectedCurso);
     const {periodosComplete} = useLoadPeriodos()
-    console.log('periodos', periodosComplete);
+    const sendEmailOpeningPeriod = useCallback(async (subject='', teacher='', period='') => {
+        try {
+            await post(`${import.meta.env.VITE_APP_BACKEND_URL}/periodo/send-period-aperture`,{
+                subject,
+                teacher,
+                period,
+            })
+        } catch (error) {
+            throw error;
+        }
+    }, []);
+    const handleSubmitOpenPeriod = (asignaturaId) => {
+        if(!asignaturaId) return showToast({toastType:'error',title:"Error",message:"Por favor seleccione una asignatura"})
+        const asignatura = asignaturas.find(a => +a.value === +asignaturaId);
+        const teacher = `${user.docente[0]?.usuario?.nombre} ${user.docente[0]?.usuario?.apellido}`;
+        const periods = {};
+        periodosComplete.filter(p => !p.activo).forEach(p => {
+            periods[p.nombre] = p.nombre;
+        });
+        Swal.fire({
+            title: 'Apertura de Periodo',
+            input: 'select',
+            inputOptions: periods,
+            inputPlaceholder: 'Seleccione un periodo...',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Enviar',
+            inputValidator: function (value) {
+              return new Promise(function (resolve, reject) {
+                if (value !== '') {
+                  resolve();
+                } else {
+                  resolve('Por favor seleccione un periodo');
+                }
+              });
+            }
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    setLoadingButton(true);
+                    await sendEmailOpeningPeriod(asignatura.label, teacher, result.value);
+                    Swal.fire('Mensaje enviado correctamente', '', 'success');
+                } catch (error) {
+                    console.log('error', error);
+                    Swal.fire('Hubo un error al enviar el mensaje', '', 'error');
+                } finally {
+                    setLoadingButton(false);
+                }
+            }
+        })
+    }
     useEffect(()=>{
         if(instituciones.length > 0){
             setInstitucionId(instituciones[0].value)
@@ -359,7 +412,7 @@ const ModalNota = ({
                     </Row>
 
                     <div className="d-flex flex-wrap gap-2 mt-4">
-                        <CustomButton type="submit" color="primary" loading={loading} disabled={loadingNota || loading}>
+                        <CustomButton type="submit" color="primary" loading={loading} disabled={loadingNota || loading || loadingButton}>
                             {t("Send")}
                         </CustomButton>{" "}
                         <CustomButton type="reset" color="secondary" onClick={() => {
@@ -367,9 +420,17 @@ const ModalNota = ({
                             setSelectedCursos([])
                             setSelectedCurso(0)
                             handleClickClose()
-                        }} disabled={loadingNota || loading}>
+                        }} disabled={loadingNota || loading || loadingButton}>
                             {t("Cancel")}
                         </CustomButton>
+                        {
+                            !user.roles.includes('administrador') && !user.roles.includes('rector') && periodosComplete.some(p => !p.activo) &&
+                            <>
+                                <CustomButton onClick={()=>handleSubmitOpenPeriod(values.asignaturaId)} type="button" color="warning" loading={loadingButton} disabled={loadingNota || loading || loadingButton}>
+                                    {t("Solicitar apertura de periodo")}
+                                </CustomButton>{" "}
+                            </>
+                        }
                     </div>
                 </Form>
                 )}
