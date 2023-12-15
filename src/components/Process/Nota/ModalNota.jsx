@@ -78,8 +78,8 @@ const ModalNota = ({
     const {nota, loading:loadingNota } = useLoadNota(id, notaData);
     const { instituciones } = useLoadInstituciones();
     const { docentes } = useLoadDocentes();
-    const {asignaturas, porcentajesNota} = useLoadAsignaturaByInstitucion(selectedInstitu, selectedCurso, user.docente[0].id, user.roles);
-    const {cursos} = useLoadCursoByInstitucion(selectedInstitu, user.docente[0].id, user.roles);
+    const {asignaturas, porcentajesNota} = useLoadAsignaturaByInstitucion(selectedInstitu, selectedCurso, user.docente[0]?.id, user.roles);
+    const {cursos} = useLoadCursoByInstitucion(selectedInstitu, user.docente[0]?.id, user.roles);
     const {estudiantes} = useLoadEstudianteByCurso(selectedCurso);
     useEffect(()=>{
         if(instituciones.length > 0){
