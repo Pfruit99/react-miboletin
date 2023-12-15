@@ -42,7 +42,7 @@ const ModalBoletin = ({
     const [selectedCurso, setSelectedCurso] = useState(0)
     const {boletin, loading:loadingBoletin, userAvailable} = useLoadBoletin(id, boletinData);
     const { instituciones } = useLoadInstituciones();
-    const {cursos} = useLoadCursoByInstitucion(selectedInstitu, user.docente[0].id, user.roles);
+    const {cursos} = useLoadCursoByInstitucion(selectedInstitu, user.docente[0]?.id, user.roles);
     const {estudiantes} = useLoadEstudianteByCurso(selectedCurso);
     useEffect(() => {
         if(instituciones.length > 0) setSelectedInstitu(instituciones[0].value)
