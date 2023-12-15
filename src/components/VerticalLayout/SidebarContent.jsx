@@ -179,6 +179,14 @@ class SidebarContent extends Component {
                             </Link>
                           </li>
                       }
+                      {
+                        roles.some(r => ["administrador", "rector"].includes(r)) &&
+                          <li>
+                            <Link to="/administration/period">
+                              <span>{"Periodo"}</span>
+                            </Link>
+                          </li>
+                      }
                     </ul>
                   </li>
               }

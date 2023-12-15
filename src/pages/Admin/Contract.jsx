@@ -64,7 +64,7 @@ class DatatableTables extends Component {
     let { sizePerPage, page, sortField, searchText, sortOrder } = state;
     if(!searchText) searchText = '';
     try {
-      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/contratacion/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : ''}`)
+      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/contratacion/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : '%2B'}`)
       this.setState({
         data: result.data,
         totalSize: result.totalItem,
@@ -194,19 +194,19 @@ class DatatableTables extends Component {
       {
         dataField: "nombre",
         text: this.props.t("Institucion"),
-        sort: true,
+        sort: false,
         formatter: (cell, row) => row.institucion?.nombre
       },
       {
         dataField: "direccion",
         text:this.props.t("Rector"),
-        sort: true,
+        sort: false,
         formatter: (cell, row) => `${row.rector.usuario.nombre} ${row.rector.usuario.apellido}`
       },
       {
         dataField: "nit",
         text: this.props.t("Docente"),
-        sort: true,
+        sort: false,
         formatter: (cell, row) => `${row.docente.usuario.nombre} ${row.docente.usuario.apellido}`
       },
       {

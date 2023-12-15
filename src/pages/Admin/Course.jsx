@@ -64,7 +64,7 @@ class DatatableTables extends Component {
     let { sizePerPage, page, sortField, searchText, sortOrder } = state;
     if(!searchText) searchText = '';
     try {
-      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/cursos/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : ''}`)
+      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/cursos/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : '%2B'}`)
       this.setState({
         data: result.data,
         totalSize: result.totalItem,
@@ -220,7 +220,7 @@ class DatatableTables extends Component {
       {
         dataField: "institucion",
         text: this.props.t("Institucion"),
-        sort: true,
+        sort: false,
         formatter: (cell, row) => row.institucion ? row.institucion.nombre: "No Institucion",
       },
       // {

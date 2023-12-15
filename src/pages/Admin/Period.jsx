@@ -20,15 +20,14 @@ import "../../helpers/Styles/datatables.scss";
 
 // Translation
 import { withTranslation } from "react-i18next";
-import ModalRector from "../../components/Admin/Rector/ModalRector";
 
 // Notification
 import { showToast } from "../../components/Common/notifications";
-import { getErrorMessageRector } from "../../components/Common/errorMessage";
-import FormatterColumn from "../../components/Admin/Rector/FormatterColumn";
-import ActionColumn from "../../components/Admin/Rector/ActionColumn";
+import { getErrorMessagePeriodo } from "../../components/Common/errorMessage";
+import FormatterColumn from "../../components/Admin/Periodo/FormatterColumn";
+import ActionColumn from "../../components/Admin/Periodo/ActionColumn";
 import { connect } from "react-redux";
-import ModalDeleteRector from "../../components/Admin/Rector/ModalDeleteRector";
+import ModalActivatePeriodo from "../../components/Admin/Periodo/ModalActivatePeriodo";
 
 class DatatableTables extends Component {
   constructor(props) {
@@ -40,31 +39,33 @@ class DatatableTables extends Component {
       data: [],
       totalSize: 0,
       modal_xlarge: false,
-      modal_delete: false,
+      modal_activate: false,
       loadingForm: false,
       loadTable: false,
-      rector:{
+      sortOrder: 'id',
+      periodo:{
         id: undefined,
       }
     };
     this.tog_xlarge = this.tog_xlarge.bind(this)
-    this.tog_delete = this.tog_delete.bind(this)
+    this.tog_activate = this.tog_activate.bind(this)
     this.handleClickClose = this.handleClickClose.bind(this)
-    this.handleClickCloseDelete = this.handleClickCloseDelete.bind(this)
+    this.handleClickCloseActivate = this.handleClickCloseActivate.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.createRector = this.createRector.bind(this)
-    this.createRector = this.createRector.bind(this)
+    this.createPeriodo = this.createPeriodo.bind(this)
+    this.createPeriodo = this.createPeriodo.bind(this)
     this.handleOpenEditDialog = this.handleOpenEditDialog.bind(this)
-    this.handleOpenEditDialogDelete = this.handleOpenEditDialogDelete.bind(this)
-    this.deleteRector = this.deleteRector.bind(this)
+    this.handleOpenEditDialogActivate = this.handleOpenEditDialogActivate.bind(this)
+    this.updatePeriodo = this.updatePeriodo.bind(this)
   }
   // fetch Api
   async loadData (state) {
     this.setState({loadTable: true})
     let { sizePerPage, page, sortField, searchText, sortOrder } = state;
+    console.log('sortOrder', sortOrder)
     if(!searchText) searchText = '';
     try {
-      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/rectores/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : '%2B'}`)
+      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/periodo/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : '%2B'}`)
       this.setState({
         data: result.data,
         totalSize: result.totalItem,
@@ -77,54 +78,40 @@ class DatatableTables extends Component {
       this.setState({loadTable: false})
     }
   }
-  async createRector (values) {
+  async createPeriodo (values) {
     try {
       delete values.id;
       this.setState({loadingForm:true});
-      await helpAPI.post(`${import.meta.env.VITE_APP_BACKEND_URL}/rectores`, {...values })
+      await helpAPI.post(`${import.meta.env.VITE_APP_BACKEND_URL}/periodo`, {...values })
       console.log("creado correctamente");
-      showToast({message:this.props.t("Rector created successfully")});
+      showToast({message:this.props.t("Periodo creada correctamente")});
       this.tog_xlarge();
       const state = this.tableRef.current.getNewestState();
       this.loadData(state)
     } catch (error) {
       console.log('error', error.response)
-      showToast({toastType:'error',title:"Error",message:error?.response?.data.message ? error?.response?.data.message:getErrorMessageRector(error?.response?.data.error, this.props.t)})
+      console.log('error', error.response.data.message)
+      showToast({toastType:'error',title:"Error",message:error.response?.data?.message})
     } finally {
       this.setState({loadingForm:false});
     }
   }
-  async updateRector (values, id){
+  async updatePeriodo (id, values){
     try {
       delete values.id;
-      await helpAPI.put(`${import.meta.env.VITE_APP_BACKEND_URL}/rectores/${id}`, { ...values })
+      await helpAPI.put(`${import.meta.env.VITE_APP_BACKEND_URL}/periodo/${id}`, { ...values })
       this.setState({loadingForm:true});
-      showToast({message:this.props.t("Rector updated successfully")});
-      this.tog_xlarge();
+      showToast({message:this.props.t("Periodo actualizada correctamente")});
+      this.tog_activate();
       const state = this.tableRef.current.getNewestState();
       this.loadData(state)
     } catch (error) {
-      console.log('error', error.response)
-      showToast({toastType:'error',title:"Error",message:error?.response?.data.message ? error?.response?.data.message:getErrorMessageRector(error?.response?.data.error, this.props.t)})
+      console.log('error', error.response.data)
+      showToast({toastType:'error',title:"Error",message: error.response?.data?.message ?? getErrorMessagePeriodo(error?.response?.data.error, this.props.t)})
     } finally{
       this.setState({loadingForm:false});
     }
   }
-  async deleteRector (id) {
-    try {
-      this.setState({loadingForm:true});
-      await helpAPI.del(`${import.meta.env.VITE_APP_BACKEND_URL}/rectores/${id}`)
-      showToast({message:this.props.t("Rector eliminado correctamente")});
-      this.tog_delete();
-      const state = this.tableRef.current.getNewestState();
-      this.loadData(state)
-    } catch (error) {
-      console.log('error', error)
-    } finally{
-      this.setState({loadingForm:false});
-    }
-  }
-
 
   // other
 
@@ -140,48 +127,48 @@ class DatatableTables extends Component {
   tog_xlarge() {
     this.setState(prevState => ({
       modal_xlarge: !prevState.modal_xlarge,
-      rector: !prevState.modal_xlarge ? prevState.rector : {id:null}
+      periodo: !prevState.modal_xlarge ? prevState.periodo : {id:null}
     }))
     this.removeBodyCss()
   }
 
-  tog_delete() {
+  tog_activate() {
     this.setState(prevState => ({
-      modal_delete: !prevState.modal_delete,
-      rector: !prevState.modal_delete ? prevState.rector : {id:null}
+      modal_activate: !prevState.modal_activate,
+      periodo: !prevState.modal_activate ? prevState.periodo : {id:null}
     }))
     this.removeBodyCss()
   }
 
   handleClickClose(){
-    this.setState({ modal_xlarge: false, rector : {id:null} })
+    this.setState({ modal_xlarge: false, periodo : {id:null} })
   }
-  handleClickCloseDelete(){
-    this.setState({ modal_delete: false, rector : {id:null} })
+  handleClickCloseActivate(){
+    this.setState({ modal_activate: false, periodo : {id:null} })
   }
 
   handleOpenEditDialog(id){
     this.setState({
-      rector:{
-        ...this.state.rector,
+      periodo:{
+        ...this.state.periodo,
         id
       }
     })
     this.tog_xlarge();
   }
-  handleOpenEditDialogDelete(id){
+  handleOpenEditDialogActivate(id){
     this.setState({
-      rector:{
-        ...this.state.rector,
+      periodo:{
+        ...this.state.periodo,
         id
       }
     })
-    this.tog_delete();
+    this.tog_activate();
   }
 
   handleSubmit(value, id){
-    if(!id) return this.createRector(value)
-    return this.updateRector(value,id)
+    if(!id) return this.createPeriodo(value)
+    return this.updatePeriodo(id, value)
   }
 
 
@@ -195,26 +182,16 @@ class DatatableTables extends Component {
       {
         dataField: "nombre",
         text: this.props.t("Profile names"),
-        sort: false,
-        formatter: (cell,row) => `${row.usuario.nombre || ''} ${row.usuario.apellido || ''}`
-      },
-      {
-        dataField: "identificacion",
-        text:this.props.t("Profile document"),
-        sort: false,
-        formatter: (cell, row) => row.usuario.identificacion || this.props.t("Rector does not has email"),
-      },
-      {
-        dataField: "correo",
-        text: this.props.t("Login email"),
-        formatter: (cell, row) => row.usuario.correo || this.props.t("Rector does not has email"),
-        sort: false,
-      },
-      {
-        dataField: "codRector",
-        text: "Codigo Rector",
-        formatter: (cell) => cell || "Sin Usuario",
         sort: true,
+      },
+      {
+        dataField: "activo",
+        text:this.props.t("Activo"),
+        sort: true,
+        formatter: (cell, row, rowIndex) => {
+          return (
+              <FormatterColumn cell={cell} t={this.props.t} />
+          )}
       },
       {
         dataField: "actions",
@@ -222,7 +199,7 @@ class DatatableTables extends Component {
         sort: false,
         formatter: (cell, row, rowIndex) => {
           return (
-              <ActionColumn row={row} t={this.props.t} openEditDialog={this.handleOpenEditDialog} openEditDialogDelete={this.handleOpenEditDialogDelete} />
+              <ActionColumn row={row} t={this.props.t} openEditDialog={this.handleOpenEditDialog} openEditDialogActivate={this.handleOpenEditDialogActivate} />
           )}
       },
     ];
@@ -233,18 +210,7 @@ class DatatableTables extends Component {
         order: "asc",
       },
     ];
-    const MyExportCSV = props => {
-      const handleClick = () => {
-        props.onExport();
-      };
-      return (
-          <div>
-            <button className="btn btn-primary btn-sm" onClick={handleClick}>
-              Exportar
-            </button>
-          </div>
-      );
-    };
+
     const pageOptions = {
       sizePerPage: this.state.sizePerPage,
       page: this.state.page,
@@ -266,7 +232,7 @@ class DatatableTables extends Component {
         <React.Fragment>
           <div className="page-content">
             <div className="container-fluid">
-              <Breadcrumbs title={this.props.t("Administrator")} breadcrumbItem={this.props.t("Rectors")} />
+              <Breadcrumbs title={this.props.t("Administrator")} breadcrumbItem={this.props.t("Periodos")} />
 
               <Row>
                 <Col className="col-12">
@@ -294,7 +260,7 @@ class DatatableTables extends Component {
                               {toolkitProps => (
                                   <React.Fragment>
                                     <Row className="mb-2">
-                                      {/* <Col md="4">
+                                      <Col md="8">
                                         <div className="search-box me-2 mb-2 d-inline-block">
                                           <div className="position-relative">
                                             <SearchBar
@@ -304,11 +270,11 @@ class DatatableTables extends Component {
                                             <i className="bx bx-search-alt search-icon" />
                                           </div>
                                         </div>
-                                      </Col> */}
-                                      {/* <Col md="8">
+                                      </Col>
+                                      {/* <Col md="4">
                                         <MyExportCSV {...toolkitProps.csvProps} />
                                       </Col> */}
-                                      <Col md="12">
+                                      {/* <Col md="4">
                                         <div className="d-flex justify-content-end">
                                           <button
                                               type="button"
@@ -317,10 +283,10 @@ class DatatableTables extends Component {
                                               data-toggle="modal"
                                               data-target=".bs-example-modal-xl"
                                           >
-                                            {"Nuevo Rector"}
+                                            {"Nuevo Periodo"}
                                           </button>
                                         </div>
-                                      </Col>
+                                      </Col> */}
                                     </Row>
 
 
@@ -381,22 +347,13 @@ class DatatableTables extends Component {
               </Row>
             </div>
           </div>
-          <ModalRector
-              rectorData={this.state.data}
-              isOpen={this.state.modal_xlarge}
-              handleClickClose={this.handleClickClose}
-              togModal={this.tog_xlarge}
-              handleSubmit={this.handleSubmit}
+          <ModalActivatePeriodo
+              isOpen={this.state.modal_activate}
+              handleClickClose={this.handleClickCloseActivate}
+              togModal={this.tog_activate}
+              handleSubmit={this.updatePeriodo}
               loading={this.state.loadingForm}
-              id={this.state.rector.id}
-          />
-          <ModalDeleteRector
-            isOpen={this.state.modal_delete}
-            handleClickClose={this.handleClickCloseDelete}
-            togModal={this.tog_delete}
-            handleSubmit={this.deleteRector}
-            loading={this.state.loadingForm}
-            id={this.state.rector.id}
+              id={this.state.periodo.id}
           />
         </React.Fragment>
     );

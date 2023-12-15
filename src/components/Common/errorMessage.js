@@ -117,6 +117,16 @@ export const getErrorMessageInstitucion = (type, t) => {
     }
 }
 
+// Periodo
+export const getErrorMessagePeriodo = (type, t) => {
+    switch (type) {
+        case 'unique violation':
+            return "Usuario duplicado";
+        default:
+            return "Hubo un error al procesar esta petición";
+    }
+}
+
 // contratacion
 export const getErrorMessageContratacion = (type, t) => {
     switch (type) {

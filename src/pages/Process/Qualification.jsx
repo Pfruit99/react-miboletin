@@ -61,8 +61,12 @@ class DatatableTables extends Component {
     this.setState({loadTable: true})
     let { sizePerPage, page, sortField, searchText, sortOrder } = state;
     if(!searchText) searchText = '';
+    const userId = this.props.user.id;
+    const isNotAdmin = !this.props.user.roles.includes('administrador')
     try {
-      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/notas/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : ''}`)
+      const result = await helpAPI.get(`
+        ${import.meta.env.VITE_APP_BACKEND_URL}/notas/findTable?${(isNotAdmin ? `userId=${userId}&`: '')}pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : '%2B'}`
+        )
       this.setState({
         data: result.data,
         totalSize: result.totalItem,
@@ -87,7 +91,7 @@ class DatatableTables extends Component {
       this.loadData(state)
     } catch (error) {
       console.log('error', error.response.data.error)
-      showToast({toastType:'error',title:"Error",message:getErrorMessageNota(error?.response?.data.error, this.props.t)})
+      showToast({toastType:'error',title:"Error",message:error.response?.data?.message ?? getErrorMessageNota(error?.response?.data.error, this.props.t)})
     } finally {
       this.setState({loadingForm:false});
     }
@@ -178,19 +182,19 @@ class DatatableTables extends Component {
       {
         dataField: "estudiante.usuario.nombre",
         text: this.props.t("Estudiante"),
-        sort: true,
+        sort: false,
         formatter: (_, row) => row.estudiante ? `${row.estudiante?.usuario?.nombre} ${row.estudiante?.usuario?.apellido}` : 'Sin estudiante'
       },
       {
         dataField: "curso.nombre",
         text: this.props.t("Curso"),
-        sort: true,
+        sort: false,
         formatter: (_, row) => row.curso ? `${row.curso?.nombre}` : 'Sin curso'
       },
       {
         dataField: "asignatura.nombre.nombre",
         text: this.props.t("Asignatura"),
-        sort: true,
+        sort: false,
       },
       {
         dataField: "notaAsistencia",
@@ -211,6 +215,12 @@ class DatatableTables extends Component {
         dataField: "notaDefinitiva",
         text: this.props.t("Definitiva"),
         sort: true,
+      },
+      {
+        dataField: "createdBy.nombre",
+        text: this.props.t("Creado Por"),
+        sort: false,
+        formatter: (_, row) => row.createdBy ? `${row.createdBy?.nombre} ${row.createdBy?.apellido}` : 'Sin creador'
       },
       {
         dataField: "actions",

@@ -29,6 +29,7 @@ import Course from "../pages/Admin/Course"
 import Subject from "../pages/Admin/Subject"
 import Qualification from "../pages/Process/Qualification"
 import Boletin from "../pages/Reports/Boletin"
+import Period from "../pages/Admin/Period"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -45,6 +46,7 @@ const authProtectedRoutes = [
   { path: "/administration/contracts", component: Contract, actionsRoute:["usuario", "administrador", "rector"] },
   { path: "/administration/course", component: Course, actionsRoute:["usuario", "administrador", "rector", "docente"] },
   { path: "/administration/subject", component: Subject, actionsRoute:["usuario", "administrador", "rector", "docente"] },
+  { path: "/administration/period", component: Period, actionsRoute:["administrador", "rector"] },
 
   // Processes
   { path: "/process/qualification", component: Qualification, actionsRoute:["usuario", "administrador", "docente"] },

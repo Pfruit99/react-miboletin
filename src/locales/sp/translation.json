@@ -349,6 +349,9 @@
   "Role does not has company": "Sin Empresa",
 
   "Subject whish activate": "¿Desea activar esta asignatura?",
-  "Subject whish inactivate": "¿Desea inactivar esta asignatura?"
+  "Subject whish inactivate": "¿Desea inactivar esta asignatura?",
+
+  "Periodo whish activate": "¿Desea activar este periodo?",
+  "Periodo whish inactivate": "¿Desea inactivar este periodo?"
 
 }

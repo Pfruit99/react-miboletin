@@ -20,6 +20,7 @@ import useLoadAsignaturaByInstitucion from '../../Hooks/Asignatura/useLoadAsigna
 import useLoadCursoByInstitucion from '../../Hooks/Curso/useLoadCursoByInstitucion';
 import useLoadEstudianteByCurso from '../../Hooks/Estudiante/useLoadEstudianteByCurso';
 import EditableTable from '../../Common/EditTable/EditTable';
+import { connect } from 'react-redux';
 const data = [
     {
       periodo: 1,
@@ -66,6 +67,7 @@ const ModalNota = ({
     handleSubmit,
     id,
     loading,
+    user,
 }) => {
     const [notasEstudiante, setNotasEstudiante] = useState(data);
     const [selectedNota, setSelectedNota] = useState(null);
@@ -76,8 +78,8 @@ const ModalNota = ({
     const {nota, loading:loadingNota } = useLoadNota(id, notaData);
     const { instituciones } = useLoadInstituciones();
     const { docentes } = useLoadDocentes();
-    const {asignaturas, porcentajesNota} = useLoadAsignaturaByInstitucion(selectedInstitu, selectedCurso);
-    const {cursos} = useLoadCursoByInstitucion(selectedInstitu);
+    const {asignaturas, porcentajesNota} = useLoadAsignaturaByInstitucion(selectedInstitu, selectedCurso, user.docente[0].id, user.roles);
+    const {cursos} = useLoadCursoByInstitucion(selectedInstitu, user.docente[0].id, user.roles);
     const {estudiantes} = useLoadEstudianteByCurso(selectedCurso);
     useEffect(()=>{
         if(instituciones.length > 0){
@@ -184,6 +186,7 @@ const ModalNota = ({
                     values.notaParcial = parcial;
                     values.notaClase = clase;
                     values.notaDefinitiva = definitiva;
+                    values.userId = user.id;
                     handleSubmit({...values },id)
                     setSelectedNota(null)
                     setSelectedCursos([])
@@ -381,6 +384,13 @@ ModalNota.propTypes = {
     handleSubmit: PropTypes.func,
     id: PropTypes.number,
     loading: PropTypes.bool,
+    user: PropTypes.any,
+
 }
 
-export default withTranslation()(ModalNota)
+const mapStateToProps = (state) => {
+    const data = state.Login.user.userData;
+    return { user: data };
+  };
+
+export default withTranslation()(connect(mapStateToProps)(ModalNota))

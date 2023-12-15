@@ -70,7 +70,7 @@ class DatatableTables extends Component {
     let { sizePerPage, page, sortField, searchText, sortOrder } = state;
     if(!searchText) searchText = '';
     try {
-      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/asignaturas/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : ''}`)
+      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/asignaturas/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : '%2B'}`)
       this.setState({
         data: result.data,
         totalSize: result.totalItem,
@@ -238,19 +238,19 @@ class DatatableTables extends Component {
       {
         dataField: "nombre",
         text: this.props.t("Nombre"),
-        sort: true,
+        sort: false,
         formatter: (_, row) => row.nombre ? `${row.nombre.nombre}` : 'Sin nombre'
       },
       {
         dataField: "periodo",
         text:this.props.t("Periodo"),
-        sort: true,
+        sort: false,
         formatter: (_, row) => row.periodo ? `${row.periodo.nombre}` : 'Sin Periodo'
       },
       {
         dataField: "area",
         text: this.props.t("Area"),
-        sort: true,
+        sort: false,
         formatter: (_, row) => row.area ? `${row.area.nombre}` : 'Sin area'
 
       },
@@ -275,7 +275,7 @@ class DatatableTables extends Component {
       {
         dataField: "docente.usuario.nombre",
         text: this.props.t("Docente"),
-        sort: true,
+        sort: false,
         formatter: (_, row) => row.docente ? `${row.docente?.usuario?.nombre} ${row.docente?.usuario?.apellido}` : 'Sin profesor'
       },
       {

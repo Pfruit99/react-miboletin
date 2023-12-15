@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {get, post} from "../../../helpers/api_helper";
 
-const useLoadAsignaturas = (institucionId, cursoId) => {
+const useLoadAsignaturas = (institucionId, cursoId, docenteId, roles) => {
     const [asignaturas, setAsignaturas] = useState([]);
     const [porcentajesNota, setPorcentajesNota] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -14,8 +14,9 @@ const useLoadAsignaturas = (institucionId, cursoId) => {
                       id: institucionId,
                     },
                     cursos: {
-                      id: cursoId,
+                        id: cursoId,
                     },
+                    ...(docenteId && !roles.includes('administrador')) && {docente: {id: docenteId}},
                     esActivo: true,
                   });
                 setAsignaturas(result.map(a => ({
@@ -40,7 +41,7 @@ const useLoadAsignaturas = (institucionId, cursoId) => {
             setAsignaturas([])
             setPorcentajesNota([])
         }
-    },[institucionId, cursoId])
+    },[institucionId, cursoId, docenteId, roles])
 
     return {
         asignaturas,

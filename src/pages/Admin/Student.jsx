@@ -65,7 +65,7 @@ class DatatableTables extends Component {
     let { sizePerPage, page, sortField, searchText, sortOrder } = state;
     if(!searchText) searchText = '';
     try {
-      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/estudiantes/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : ''}`)
+      const result = await helpAPI.get(`${import.meta.env.VITE_APP_BACKEND_URL}/estudiantes/findTable?pageSize=${sizePerPage}&currentPage=${page}&orderBy=${sortField}&search=${searchText && searchText}&orderDirection=${sortOrder === 'desc' ? '-' : '%2B'}`)
       this.setState({
         data: result.data,
         totalSize: result.totalItem,
@@ -197,26 +197,26 @@ class DatatableTables extends Component {
       {
         dataField: "nombre",
         text: this.props.t("Profile names"),
-        sort: true,
+        sort: false,
         formatter: (cell,row) => `${row.usuario.nombre || ''} ${row.usuario.apellido || ''}`
       },
       {
         dataField: "Curso",
         text: "Curso",
-        sort: true,
+        sort: false,
         formatter: (cell,row) => row.curso?.nombre ? row.curso.nombre : "Sin Curso"
       },
       {
         dataField: "identificacion",
         text:this.props.t("Profile document"),
-        sort: true,
+        sort: false,
         formatter: (cell, row) => row.usuario.identificacion || this.props.t("Estudiante no tiene identificacion"),
       },
       {
         dataField: "correo",
         text: this.props.t("Login email"),
         formatter: (cell, row) => row.usuario.correo || this.props.t("Estudiante no tiene correo"),
-        sort: true,
+        sort: false,
       },
       {
         dataField: "codEstudiante",
