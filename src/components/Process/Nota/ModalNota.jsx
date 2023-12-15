@@ -19,6 +19,7 @@ import useLoadDocentes from '../../Hooks/Docente/useLoadDocentes';
 import useLoadAsignaturaByInstitucion from '../../Hooks/Asignatura/useLoadAsignaturaByInstitucion';
 import useLoadCursoByInstitucion from '../../Hooks/Curso/useLoadCursoByInstitucion';
 import useLoadEstudianteByCurso from '../../Hooks/Estudiante/useLoadEstudianteByCurso';
+import useLoadPeriodos from '../../Hooks/Periodos/useLoadPeriodos';
 import EditableTable from '../../Common/EditTable/EditTable';
 import { connect } from 'react-redux';
 const data = [
@@ -81,6 +82,8 @@ const ModalNota = ({
     const {asignaturas, porcentajesNota} = useLoadAsignaturaByInstitucion(selectedInstitu, selectedCurso, user.docente[0]?.id, user.roles);
     const {cursos} = useLoadCursoByInstitucion(selectedInstitu, user.docente[0]?.id, user.roles);
     const {estudiantes} = useLoadEstudianteByCurso(selectedCurso);
+    const {periodosComplete} = useLoadPeriodos()
+    console.log('periodos', periodosComplete);
     useEffect(()=>{
         if(instituciones.length > 0){
             setInstitucionId(instituciones[0].value)
@@ -325,6 +328,7 @@ const ModalNota = ({
                             <div className="mb-3">
                                 <Label className="form-label">{"Notas"}</Label>
                                 <EditableTable
+                                    periodos={periodosComplete}
                                     notaEstudiante={[notasEstudiante, setNotasEstudiante]}
                                     porcentajeNota={porcentajesNota.find(pn => +pn.id === +values.asignaturaId)}
                                 />

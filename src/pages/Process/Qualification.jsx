@@ -236,7 +236,7 @@ class DatatableTables extends Component {
     const defaultSorted = [
       {
         dataField: "id",
-        order: "asc",
+        order: "desc",
       },
     ];
     const MyExportCSV = props => {

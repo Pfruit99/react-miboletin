@@ -3,6 +3,7 @@ import {get, post} from "../../../helpers/api_helper";
 
 const useLoadPeriodos = () => {
     const [periodos, setPeriodos] = useState(null);
+    const [periodosComplete, setPeriodosComplete] = useState(null);
     const [loading, setLoading] = useState(false);
     useEffect(()=>{
         const useLoadPeriodosApi = async () => {
@@ -11,8 +12,9 @@ const useLoadPeriodos = () => {
                 const result = await get(`${import.meta.env.VITE_APP_BACKEND_URL}/periodo`);
                 setPeriodos(result.map(periodo => ({
                     label: periodo.nombre,
-                    value: periodo.id
+                    value: periodo.id,
                 })))
+                setPeriodosComplete(result)
             } catch (error) {
                 console.log('error', error)
             }finally{
@@ -24,6 +26,7 @@ const useLoadPeriodos = () => {
 
     return {
         periodos,
+        periodosComplete,
         loading,
     }
 }

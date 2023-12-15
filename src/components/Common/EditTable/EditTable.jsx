@@ -5,6 +5,7 @@ import style from './editTable.scss';
 const EditableTable = ({
   porcentajeNota,
   notaEstudiante,
+  periodos,
 }) => {
   const [employeeData, setEmployeeData] = notaEstudiante;
 
@@ -46,7 +47,7 @@ const EditableTable = ({
         <tbody>
           {employeeData.map(({ periodo, asistencia, parcial, clase, definitiva }) => (
             <tr key={periodo}>
-              <td className={"bodyTable"}>{periodo}</td>
+              <td className={`bodyTable ${!periodos.find(p => p.id === periodo)?.activo ? 'disabled-td':''}`}>{periodo}</td>
               <td className={"bodyTable"}>
                 <input
                   className={"inputEdit"}
@@ -54,7 +55,7 @@ const EditableTable = ({
                   value={asistencia}
                   type="number"
                   onChange={(e) => onChangeInput(e, periodo)}
-                  disabled={periodo === "total"}
+                  disabled={periodo === "total" || !periodos.find(p => p.id === periodo)?.activo}
                 />
               </td>
               <td className={"bodyTable"}>
@@ -64,7 +65,7 @@ const EditableTable = ({
                   value={parcial}
                   type="number"
                   onChange={(e) => onChangeInput(e, periodo)}
-                  disabled={periodo === "total"}
+                  disabled={periodo === "total" || !periodos.find(p => p.id === periodo)?.activo}
                 />
               </td>
               <td className={"bodyTable"}>
@@ -73,7 +74,7 @@ const EditableTable = ({
                   name="clase"
                   type="number"
                   value={clase}
-                  disabled={periodo === "total"}
+                  disabled={periodo === "total" || !periodos.find(p => p.id === periodo)?.activo}
                   onChange={(e) => onChangeInput(e, periodo)}
                 />
               </td>
@@ -97,5 +98,6 @@ const EditableTable = ({
 EditableTable.propTypes = {
   porcentajeNota: PropTypes.any,
   notaEstudiante: PropTypes.any,
+  periodos: PropTypes.array,
 }
 export default EditableTable
